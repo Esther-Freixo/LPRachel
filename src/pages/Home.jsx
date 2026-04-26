@@ -25,7 +25,9 @@ function StickyTimeline({ items }) {
     const n = timelineItems.length;
     if (!containerRef.current || n === 0) return;
 
-    const WINDOW = 0.28;
+    const WINDOW = 0.35;
+    const isMobile = window.innerWidth < 768;
+    const MOB_WINDOW = 0.18;
     const target = { v: 0 };
     const current = { v: 0 };
     let rafId;
@@ -46,24 +48,28 @@ function StickyTimeline({ items }) {
       if (viewportRef.current)
         viewportRef.current.style.height = p > 0.02 ? 'calc(100vh - 5rem)' : '60vh';
 
+      const win = isMobile ? MOB_WINDOW : WINDOW;
+
       for (let i = 0; i < n; i++) {
         const r = itemRefs.current[i];
         if (!r) continue;
         const sd = p - i / Math.max(1, n - 1);
         const ad = Math.abs(sd);
-        const isActive = ad < 0.11;
-        const opacity = ad < WINDOW ? Math.pow(1 - ad / WINDOW, 1.8) : 0;
+        const isActive = ad < (isMobile ? 0.06 : 0.14);
+        const opacity = ad < win ? Math.pow(1 - ad / win, isMobile ? 2.5 : 1.2) : 0;
         const scale = isActive ? 1 : Math.max(0.92, 1 - ad * 0.35);
-        const slideY = sd > 0 ? -Math.min(20, (ad / WINDOW) * 20) : Math.min(20, (ad / WINDOW) * 20);
 
-        if (r.wrap) { r.wrap.style.opacity = opacity; r.wrap.style.transform = `scale(${scale}) translateY(${slideY}px)`; }
+        if (r.wrap) { r.wrap.style.opacity = opacity; r.wrap.style.transform = `scale(${scale})`; }
         if (r.conn) {
           r.conn.style.opacity = opacity;
           r.conn.style.transform = `scaleX(${scale})`;
           const c = isActive ? 'rgba(150,42,32,0.6)' : 'rgba(150,42,32,0.2)';
           r.conn.style.backgroundImage = `repeating-linear-gradient(to ${r.connDir}, ${c} 0px, ${c} 4px, transparent 4px, transparent 8px)`;
         }
-        if (r.card) { r.card.style.borderColor = isActive ? '#E5E5E5' : 'transparent'; r.card.style.boxShadow = isActive ? '0 20px 25px -5px rgba(0,0,0,0.1),0 8px 10px -6px rgba(0,0,0,0.04)' : 'none'; }
+        // Card border/shadow only on desktop
+        if (r.card && !isMobile) { r.card.style.borderColor = isActive ? '#E5E5E5' : 'transparent'; r.card.style.boxShadow = isActive ? '0 20px 25px -5px rgba(0,0,0,0.1),0 8px 10px -6px rgba(0,0,0,0.04)' : 'none'; }
+        // Mobile: add left accent bar on active
+        if (r.card && isMobile) { r.card.style.borderLeft = isActive ? '3px solid #962A20' : '3px solid transparent'; r.card.style.paddingLeft = '12px'; }
         if (r.tag) { r.tag.style.backgroundColor = isActive ? 'rgba(150,42,32,0.1)' : 'rgba(28,28,28,0.04)'; r.tag.style.color = isActive ? '#962A20' : 'rgba(143,143,143,0.4)'; }
         if (r.title) r.title.style.color = isActive ? '#1C1C1C' : 'rgba(28,28,28,0.5)';
         if (r.year)  r.year.style.color  = isActive ? '#962A20' : 'rgba(143,143,143,0.35)';
@@ -137,22 +143,22 @@ function StickyTimeline({ items }) {
           className="w-full max-w-6xl mx-auto relative z-20 overflow-hidden px-4"
           style={{ height: '60vh', marginTop: '5rem', transition: 'height 1s cubic-bezier(0.16,1,0.3,1)', WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)' }}
         >
-          {/* Center Glowing Orb */}
-          <div className="absolute top-1/2 left-[24px] md:left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
+          {/* Center Glowing Orb — desktop only */}
+          <div className="absolute top-1/2 hidden md:block md:left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
             <div className="w-3.5 h-3.5 rounded-full bg-brand-red shadow-[0_0_10px_rgba(150,42,32,0.4),0_0_25px_rgba(150,42,32,0.15)]"></div>
           </div>
 
-          {/* Comet Tail */}
+          {/* Comet Tail — desktop only */}
           <div ref={cometRef}
-            className="absolute bottom-1/2 left-[24px] md:left-1/2 w-[1.5px] h-[25vh] bg-gradient-to-t from-brand-red via-brand-red/30 to-transparent -translate-x-1/2 z-10"
+            className="absolute bottom-1/2 hidden md:block md:left-1/2 w-[1.5px] h-[25vh] bg-gradient-to-t from-brand-red via-brand-red/30 to-transparent -translate-x-1/2 z-10"
             style={{ opacity: 0 }}
           ></div>
 
           {/* Moving Content */}
           <div ref={movingRef} className="absolute top-1/2 left-0 w-full will-change-transform" style={{ transform: 'translateY(0%)' }}>
             <div className="relative w-full" style={{ height: `${Math.max(800, timelineItems.length * 136)}px` }}>
-              {/* Track Line */}
-              <div className="absolute left-[24px] md:left-1/2 top-0 bottom-0 w-[2px] bg-brand-red/15 -translate-x-1/2"></div>
+              {/* Track Line — desktop only */}
+              <div className="absolute hidden md:block md:left-1/2 top-0 bottom-0 w-[2px] bg-brand-red/15 -translate-x-1/2"></div>
 
               {timelineItems.map((item, i) => {
                 const pos = timelineItems.length > 1 ? (i / (timelineItems.length - 1)) * 100 : 50;
@@ -162,7 +168,7 @@ function StickyTimeline({ items }) {
                   <div key={item.id || i} className="absolute w-full flex items-center md:justify-center"
                     style={{ top: `${pos}%`, transform: 'translateY(-50%)' }}>
 
-                    {/* Connector */}
+                    {/* Connector — desktop only */}
                     <div ref={setRef(i, 'conn', { connDir })}
                       className={`hidden md:block absolute top-1/2 -translate-y-1/2 h-[1px] z-10 ${isEven ? 'right-1/2 mr-[7px] w-[40px]' : 'left-1/2 ml-[7px] w-[40px]'}`}
                       style={{ backgroundImage: `repeating-linear-gradient(to ${connDir}, rgba(150,42,32,0.2) 0px, rgba(150,42,32,0.2) 4px, transparent 4px, transparent 8px)`, transformOrigin: isEven ? 'right' : 'left', opacity: 0 }}
@@ -170,14 +176,14 @@ function StickyTimeline({ items }) {
 
                     {/* Card Wrapper */}
                     <div ref={setRef(i, 'wrap')}
-                      className={`w-full md:w-[calc(50%-55px)] absolute pl-[55px] pr-3 md:px-0 will-change-transform flex ${isEven ? 'md:right-[calc(50%+55px)] md:justify-end' : 'md:left-[calc(50%+55px)] md:justify-start'}`}
+                      className={`w-full md:w-[calc(50%-55px)] absolute px-6 md:px-0 will-change-transform flex ${isEven ? 'md:right-[calc(50%+55px)] md:justify-end' : 'md:left-[calc(50%+55px)] md:justify-start'}`}
                       style={{ opacity: 0 }}
                     >
                       <div ref={setRef(i, 'card')}
-                        className="rounded-none md:rounded-xl overflow-hidden relative w-full md:max-w-sm z-10 bg-transparent md:bg-white md:border"
+                        className="overflow-hidden relative w-full md:max-w-sm z-10 bg-transparent md:bg-white md:rounded-xl md:border"
                         style={{ borderColor: 'transparent' }}
                       >
-                        <div className={`py-4 md:px-6 md:py-6 ${isEven ? 'md:text-right' : 'md:text-left'}`}>
+                        <div className={`py-3 md:px-6 md:py-6 text-left ${isEven ? 'md:text-right' : 'md:text-left'}`}>
                           <div ref={setRef(i, 'tag')}
                             className="inline-block text-[10px] font-bold tracking-[0.15em] mb-2 uppercase px-2 py-0.5 rounded"
                             style={{ backgroundColor: 'rgba(28,28,28,0.04)', color: 'rgba(143,143,143,0.4)' }}
