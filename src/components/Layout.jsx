@@ -1,0 +1,74 @@
+import { Link, NavLink, Outlet } from 'react-router-dom'
+
+function Navbar() {
+  const links = [
+    { to: '/', label: 'Início' },
+    { to: '/especialidades', label: 'Especialidades' },
+    { to: '/agenda', label: 'Agenda' }
+  ]
+
+  return (
+    <header className="fixed top-0 left-0 w-full z-50 bg-brand-bg/90 backdrop-blur-sm border-b border-[#E5E5E5]">
+      <nav className="max-w-7xl mx-auto px-8 lg:px-24 h-20 flex items-center justify-between">
+        <Link to="/" className="font-serif italic text-xl tracking-wider">Rachel Freixo</Link>
+        <ul className="hidden md:flex gap-8 text-xs uppercase tracking-widest font-bold">
+          {links.map(l => (
+            <li key={l.to}>
+              <NavLink to={l.to} end={l.to === '/'} className={({isActive}) => isActive ? "text-brand-red border-b border-brand-red pb-1" : "hover:text-brand-red transition-colors"}>
+                {l.label}
+              </NavLink>
+            </li>
+          ))}
+          <li>
+            <NavLink to="/contato" className="bg-brand-dark text-white px-6 py-2 hover:bg-black transition-colors">Contato</NavLink>
+          </li>
+        </ul>
+      </nav>
+    </header>
+  )
+}
+
+function Footer() {
+  return (
+    <footer className="bg-brand-dark text-white pt-20 pb-10 px-8 lg:px-24">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-12 mb-16">
+        <div className="md:w-1/3">
+          <p className="font-serif italic text-2xl mb-4">Rachel Freixo</p>
+          <p className="text-xs text-[#8F8F8F] uppercase tracking-widest mb-4">Conselheira CARF · Tributarista</p>
+          <p className="text-sm text-[#8F8F8F] leading-relaxed">Direito Tributário, Governança e Políticas Públicas com rigor técnico e compromisso institucional.</p>
+        </div>
+        <div className="flex gap-16">
+          <div>
+            <strong className="block mb-4 text-xs uppercase tracking-widest">Navegação</strong>
+            <ul className="space-y-2 text-sm text-[#8F8F8F]">
+              {[['/', 'Início'], ['/especialidades', 'Especialidades'], ['/agenda', 'Agenda'], ['/contato', 'Contato']].map(([to, label]) => (
+                <li key={to}><Link to={to} className="hover:text-white transition-colors">{label}</Link></li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <strong className="block mb-4 text-xs uppercase tracking-widest">Institucional</strong>
+            <ul className="space-y-2 text-sm text-[#8F8F8F]">
+              <li><Link to="/contato" className="hover:text-white transition-colors">Fale Conosco</Link></li>
+              <li><Link to="/login" className="hover:text-white transition-colors">Área Restrita</Link></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div className="max-w-7xl mx-auto border-t border-gray-800 pt-8 flex justify-between text-xs text-gray-500">
+        <p>© {new Date().getFullYear()} Rachel Freixo. Todos os direitos reservados.</p>
+        <p>Vitória, Espírito Santo</p>
+      </div>
+    </footer>
+  )
+}
+
+export default function Layout() {
+  return (
+    <div className="pt-20"> {/* Add padding top to account for fixed navbar */}
+      <Navbar />
+      <Outlet />
+      <Footer />
+    </div>
+  )
+}
