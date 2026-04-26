@@ -34,7 +34,7 @@ export default function Agenda() {
     <main className="font-sans text-brand-dark bg-brand-bg w-full min-h-screen">
 
       {/* HERO */}
-      <section className="relative pt-40 pb-32 px-8 md:px-16 lg:px-24 overflow-hidden">
+      <section className="relative pt-28 pb-16 md:pt-40 md:pb-32 px-6 md:px-16 lg:px-24 overflow-hidden">
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-red/5 rounded-full blur-3xl translate-x-1/3 -translate-y-1/3 pointer-events-none animate-float"></div>
         <div className="max-w-7xl mx-auto relative z-10 flex flex-col lg:flex-row items-center gap-16">
 
@@ -55,8 +55,8 @@ export default function Agenda() {
           </R>
 
           {/* Right: Editorial Photo */}
-          <R delay="reveal-delay-2" className="lg:w-1/2 relative group">
-            <div className="relative w-full h-[550px] lg:h-[600px] rounded-2xl overflow-hidden shadow-2xl bg-[#EFECE8]">
+          <R delay="reveal-delay-2" className="lg:w-1/2 relative group w-full">
+            <div className="relative w-full h-[350px] md:h-[450px] lg:h-[600px] rounded-2xl overflow-hidden shadow-2xl bg-[#EFECE8]">
               <img
                 src="/agenda_hero.jpg"
                 alt="Rachel Freixo"
