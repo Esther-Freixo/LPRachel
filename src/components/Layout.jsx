@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, NavLink, Outlet } from 'react-router-dom'
 
 function Navbar() {
@@ -10,59 +10,78 @@ function Navbar() {
     { to: '/agenda', label: 'Agenda' }
   ]
 
+  // Block body scroll when menu is open
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => { document.body.style.overflow = '' }
+  }, [menuOpen])
+
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-brand-bg/90 backdrop-blur-sm border-b border-[#E5E5E5]">
-      <nav className="max-w-7xl mx-auto px-6 lg:px-24 h-20 flex items-center justify-between">
-        <Link to="/" className="font-serif italic text-xl tracking-wider" onClick={() => setMenuOpen(false)}>Rachel Freixo</Link>
-        
-        {/* Desktop Menu */}
-        <ul className="hidden md:flex gap-8 text-xs uppercase tracking-widest font-bold">
-          {links.map(l => (
-            <li key={l.to}>
-              <NavLink to={l.to} end={l.to === '/'} className={({isActive}) => isActive ? "text-brand-red border-b border-brand-red pb-1" : "hover:text-brand-red transition-colors"}>
-                {l.label}
-              </NavLink>
+    <>
+      {/* Navbar bar */}
+      <header style={{ zIndex: 100 }} className="fixed top-0 left-0 w-full bg-brand-bg/90 backdrop-blur-sm border-b border-[#E5E5E5]">
+        <nav className="max-w-7xl mx-auto px-6 lg:px-24 h-20 flex items-center justify-between">
+          <Link to="/" className="font-serif italic text-xl tracking-wider" onClick={() => setMenuOpen(false)}>Rachel Freixo</Link>
+          
+          {/* Desktop Menu */}
+          <ul className="hidden md:flex gap-8 text-xs uppercase tracking-widest font-bold">
+            {links.map(l => (
+              <li key={l.to}>
+                <NavLink to={l.to} end={l.to === '/'} className={({isActive}) => isActive ? "text-brand-red border-b border-brand-red pb-1" : "hover:text-brand-red transition-colors"}>
+                  {l.label}
+                </NavLink>
+              </li>
+            ))}
+            <li>
+              <NavLink to="/contato" className="bg-brand-dark text-white px-6 py-2 hover:bg-black transition-colors">Contato</NavLink>
             </li>
-          ))}
-          <li>
-            <NavLink to="/contato" className="bg-brand-dark text-white px-6 py-2 hover:bg-black transition-colors">Contato</NavLink>
-          </li>
-        </ul>
+          </ul>
 
-        {/* Hamburger Button (Mobile) */}
-        <button 
-          className="md:hidden relative w-8 h-8 flex flex-col items-center justify-center gap-1.5 z-50"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Menu"
-        >
-          <span className={`block w-6 h-[2px] bg-brand-dark transition-all duration-300 ${menuOpen ? 'rotate-45 translate-y-[5px]' : ''}`}></span>
-          <span className={`block w-6 h-[2px] bg-brand-dark transition-all duration-300 ${menuOpen ? 'opacity-0' : ''}`}></span>
-          <span className={`block w-6 h-[2px] bg-brand-dark transition-all duration-300 ${menuOpen ? '-rotate-45 -translate-y-[5px]' : ''}`}></span>
-        </button>
-      </nav>
-
-      {/* Mobile Menu Overlay */}
-      <div className={`md:hidden fixed inset-0 bg-brand-bg z-40 flex flex-col items-center justify-center gap-8 transition-all duration-500 ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
-        {links.map(l => (
-          <NavLink 
-            key={l.to} 
-            to={l.to} 
-            end={l.to === '/'} 
-            onClick={() => setMenuOpen(false)}
-            className={({isActive}) => `font-serif text-3xl tracking-wide transition-colors ${isActive ? 'text-brand-red' : 'text-brand-dark hover:text-brand-red'}`}
+          {/* Hamburger Button (Mobile) */}
+          <button 
+            className="md:hidden relative w-10 h-10 flex flex-col items-center justify-center gap-1.5"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Menu"
           >
-            {l.label}
-          </NavLink>
-        ))}
-        <NavLink 
-          to="/contato" 
-          onClick={() => setMenuOpen(false)}
-          className="bg-brand-dark text-white text-xs uppercase tracking-widest font-bold px-10 py-4 hover:bg-brand-red transition-colors mt-4"
+            <span className={`block w-6 h-[2px] bg-brand-dark transition-all duration-300 origin-center ${menuOpen ? 'rotate-45 translate-y-[5px]' : ''}`}></span>
+            <span className={`block w-6 h-[2px] bg-brand-dark transition-all duration-300 ${menuOpen ? 'opacity-0' : ''}`}></span>
+            <span className={`block w-6 h-[2px] bg-brand-dark transition-all duration-300 origin-center ${menuOpen ? '-rotate-45 -translate-y-[5px]' : ''}`}></span>
+          </button>
+        </nav>
+      </header>
+
+      {/* Mobile Menu - Full screen overlay */}
+      {menuOpen && (
+        <div 
+          style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 99, backgroundColor: '#F5F2ED' }}
+          className="md:hidden flex flex-col items-center justify-center gap-10"
         >
-          Contato
-        </NavLink>
-      </div>
-    </header>
+          {links.map(l => (
+            <NavLink 
+              key={l.to} 
+              to={l.to} 
+              end={l.to === '/'} 
+              onClick={() => setMenuOpen(false)}
+              className={({isActive}) => `font-serif text-4xl tracking-wide ${isActive ? 'text-brand-red' : 'text-brand-dark'}`}
+            >
+              {l.label}
+            </NavLink>
+          ))}
+          <div className="w-12 h-[1px] bg-brand-dark/20"></div>
+          <NavLink 
+            to="/contato" 
+            onClick={() => setMenuOpen(false)}
+            className="bg-brand-dark text-white text-xs uppercase tracking-widest font-bold px-10 py-4"
+          >
+            Contato
+          </NavLink>
+        </div>
+      )}
+    </>
   )
 }
 

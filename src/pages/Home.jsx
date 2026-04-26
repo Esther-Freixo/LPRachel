@@ -123,13 +123,13 @@ function StickyTimeline({ items }) {
                            style={{ opacity, transform: `scale(${scale})` }}
                          >
                             <div className={`bg-white border ${isActive ? 'border-brand-red/30 shadow-2xl shadow-brand-dark/5' : 'border-[#E5E5E5] shadow-sm'} p-6 md:p-10 rounded-2xl transition-all duration-500 overflow-hidden relative group w-full md:max-w-lg ${isEven ? 'md:text-right' : 'md:text-left'} z-10`}>
-                               <div className={`absolute top-0 ${isEven ? 'right-0 translate-x-1/3' : 'left-0 -translate-x-1/3'} w-48 h-48 bg-brand-red/5 rounded-full blur-[40px] -translate-y-1/2 group-hover:bg-brand-red/15 transition-colors duration-700 -z-10`}></div>
+                               <div className={`absolute top-0 ${isEven ? 'right-0 translate-x-1/3' : 'left-0 -translate-x-1/3'} w-48 h-48 bg-brand-red/5 rounded-full blur-[40px] -translate-y-1/2 -z-10`}></div>
                                
                                <div className={`text-brand-red text-xs md:text-sm font-bold tracking-widest mb-4 uppercase flex items-center gap-3 justify-start ${isEven ? 'md:justify-end md:flex-row-reverse' : 'md:justify-start'} relative z-10`}>
                                   {isActive && <div className="w-8 h-[1px] bg-brand-red"></div>}
                                   <span>FASE {(i + 1).toString().padStart(2, '0')}</span>
                                </div>
-                               <h4 className="font-serif font-bold text-brand-dark text-2xl md:text-3xl mb-3 leading-tight group-hover:text-brand-red transition-colors duration-300 relative z-10">{item.titulo}</h4>
+                               <h4 className="font-serif font-bold text-brand-dark text-2xl md:text-3xl mb-3 leading-tight relative z-10">{item.titulo}</h4>
                                <div className="text-brand-gray text-xs md:text-sm font-bold tracking-widest mb-4 uppercase relative z-10">{item.ano}</div>
                                <p className="text-brand-dark/80 text-sm md:text-base leading-relaxed relative z-10">{item.descricao}</p>
                             </div>
@@ -248,6 +248,8 @@ export default function Home() {
           <img 
             src="/hero.jpg" 
             alt="Rachel Freixo" 
+            loading="eager"
+            fetchPriority="high"
             className="absolute inset-0 w-full h-full object-cover object-[center_top]"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-transparent to-transparent z-10"></div>
@@ -339,7 +341,7 @@ export default function Home() {
           {/* Left Col - Overlapping Image and Card */}
           <R className="lg:w-1/3 relative flex flex-col">
             <div className="relative w-full aspect-[3/4] md:aspect-auto md:h-full">
-              <img src="/about.jpg" alt="Rachel Freixo" className="absolute inset-0 w-full h-full object-cover rounded-xl shadow-2xl" />
+              <img src="/about.jpg" alt="Rachel Freixo" loading="lazy" className="absolute inset-0 w-full h-full object-cover rounded-xl shadow-2xl" />
             </div>
             {/* Redesigned Mission Card - positioned below the photo */}
             <div className="relative md:absolute md:-bottom-16 md:-right-16 mt-[-30px] md:mt-0 z-20 bg-brand-dark/70 backdrop-blur-2xl border border-white/10 p-6 md:p-8 rounded-2xl shadow-2xl w-[90%] mx-auto md:w-[360px]">
@@ -435,13 +437,14 @@ export default function Home() {
                 <img 
                   src="/agenda.jpg" 
                   alt="Rachel Freixo em evento" 
+                  loading="lazy"
                   className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-brand-dark/20 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-8 md:p-10">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-8 h-[1px] bg-brand-red"></div>
-                    <span className="text-brand-red text-xs uppercase tracking-widest font-bold">Próximos Eventos</span>
+                    <div className="w-8 h-[1px] bg-white/60"></div>
+                    <span className="text-white/90 text-xs uppercase tracking-widest font-bold">Próximos Eventos</span>
                   </div>
                   <p className="text-white font-serif text-2xl md:text-3xl leading-tight">Conectando conhecimento acadêmico à prática executiva.</p>
                 </div>
