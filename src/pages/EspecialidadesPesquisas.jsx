@@ -6,35 +6,12 @@ import useScrollReveal from '../hooks/useScrollReveal'
 
 const LABELS = { livro: 'Livro', artigo: 'Artigo Acadêmico', opiniao: 'Coluna', imprensa: 'Imprensa' }
 
-const QUOTE_CARDS = [
-  {
-    text: "O rigor científico é a bússola que orienta a excelência na estratégia tributária.",
-    bg: "bg-white/60",
-    textCol: "text-brand-dark",
-    border: "border-brand-red",
-    quoteMark: "text-brand-dark/10"
-  },
-  {
-    text: "A governança não é apenas um selo, é o alicerce para negócios duradouros.",
-    bg: "bg-brand-dark/90",
-    textCol: "text-white",
-    border: "border-[#E5E5E5]",
-    quoteMark: "text-white/10"
-  },
-  {
-    text: "Desenvolver soluções exige integrar eficiência fiscal e responsabilidade sustentável.",
-    bg: "bg-brand-red/90",
-    textCol: "text-white",
-    border: "border-brand-dark",
-    quoteMark: "text-brand-dark/20"
-  },
-  {
-    text: "O debate acadêmico oxigena e impulsiona as transformações do setor produtivo.",
-    bg: "bg-[#EFECE8]/90",
-    textCol: "text-brand-dark",
-    border: "border-brand-dark",
-    quoteMark: "text-brand-dark/10"
-  }
+// Auto-generated styles that cycle through for each citation
+const CARD_STYLES = [
+  { bg: 'bg-white/60', textCol: 'text-brand-dark', border: 'border-brand-red', quoteMark: 'text-brand-dark/10', lineCol: 'bg-brand-dark/20', nameCol: 'text-brand-dark/60' },
+  { bg: 'bg-brand-dark/90', textCol: 'text-white', border: 'border-[#E5E5E5]', quoteMark: 'text-white/10', lineCol: 'bg-white/30', nameCol: 'text-white/80' },
+  { bg: 'bg-brand-red/90', textCol: 'text-white', border: 'border-brand-dark', quoteMark: 'text-brand-dark/20', lineCol: 'bg-white/30', nameCol: 'text-white/80' },
+  { bg: 'bg-[#EFECE8]/90', textCol: 'text-brand-dark', border: 'border-brand-dark', quoteMark: 'text-brand-dark/10', lineCol: 'bg-brand-dark/20', nameCol: 'text-brand-dark/60' },
 ]
 
 function R({ children, className, style, delay = '' }) {
@@ -51,9 +28,10 @@ export default function EspecialidadesPesquisas() {
   const filteredPubs = filterPub === 'todos' ? pubsSeguras : pubsSeguras.filter(p => (p.tipo || '').toLowerCase().trim() === filterPub.toLowerCase().trim())
 
   const { data: dbCitacoes } = useData(getCitacoes)
-  const activeQuotes = dbCitacoes && dbCitacoes.length > 0 ? dbCitacoes : QUOTE_CARDS;
+  const activeQuotes = dbCitacoes || [];
 
   useEffect(() => {
+    if (activeQuotes.length === 0) return;
     const interval = setInterval(() => {
       setQuoteIdx(prev => (prev + 1) % activeQuotes.length);
     }, 3500);
@@ -79,26 +57,27 @@ export default function EspecialidadesPesquisas() {
           {/* Right Side Composition - Editorial & Elegant */}
           <div className="hidden md:flex w-full md:w-1/2 relative h-[450px] items-center justify-end">
              
-             {/* Delicate Geometric Background (The "Pearl/Slate" minimalism) */}
+             {/* Delicate Geometric Background */}
              <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[350px] h-[350px] border-[0.5px] border-brand-dark/5 rounded-full z-0"></div>
              <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[200px] h-[200px] border-[0.5px] border-brand-red/10 rounded-full z-0"></div>
              
-             {/* The Elegant Quote Cards - Stacked and Crossfading */}
+             {/* The Elegant Quote Cards - Auto-styled */}
              <div className="relative z-10 w-full max-w-sm mr-8 h-[380px]">
                {activeQuotes.map((card, i) => {
                  const isActive = quoteIdx === i;
+                 const style = CARD_STYLES[i % CARD_STYLES.length];
                  return (
                    <div 
                      key={card.id || i}
-                     className={`absolute inset-0 backdrop-blur-lg p-10 lg:p-12 border-l-[3px] ${card.border || 'border-brand-red'} ${card.bg || 'bg-white/60'} shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col ${isActive ? 'opacity-100 translate-y-0 scale-100 z-20 pointer-events-auto' : 'opacity-0 translate-y-8 scale-95 z-0 pointer-events-none'}`}
+                     className={`absolute inset-0 backdrop-blur-lg p-10 lg:p-12 border-l-[3px] ${style.border} ${style.bg} shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col ${isActive ? 'opacity-100 translate-y-0 scale-100 z-20 pointer-events-auto' : 'opacity-0 translate-y-8 scale-95 z-0 pointer-events-none'}`}
                    >
-                     <div className={`font-serif text-6xl ${card.quote_mark || card.quoteMark || 'text-brand-dark/10'} leading-none h-6 mb-6`}>"</div>
-                     <p className={`font-serif text-2xl lg:text-3xl ${card.text_col || card.textCol || 'text-brand-dark'} leading-tight italic flex-grow flex items-center`}>
-                       <span>{card.texto || card.text}</span>
+                     <div className={`font-serif text-6xl ${style.quoteMark} leading-none h-6 mb-6`}>"</div>
+                     <p className={`font-serif text-2xl lg:text-3xl ${style.textCol} leading-tight italic flex-grow flex items-center`}>
+                       <span>{card.texto}</span>
                      </p>
                      <div className="flex items-center gap-4 mt-6">
-                       <div className={`w-8 h-[1px] ${(card.text_col || card.textCol) === 'text-white' ? 'bg-white/30' : 'bg-brand-dark/20'}`}></div>
-                       <span className={`text-xs font-bold tracking-widest uppercase ${(card.text_col || card.textCol) === 'text-white' ? 'text-white/80' : 'text-brand-dark/60'}`}>Rachel Freixo</span>
+                       <div className={`w-8 h-[1px] ${style.lineCol}`}></div>
+                       <span className={`text-xs font-bold tracking-widest uppercase ${style.nameCol}`}>Rachel Freixo</span>
                      </div>
                    </div>
                  )
@@ -226,7 +205,7 @@ export default function EspecialidadesPesquisas() {
           
           <div className="space-y-8 mt-12">
             {filteredPubs.length > 0 ? filteredPubs.map((p, idx) => (
-              <R delay={`reveal-delay-${(idx % 4) + 1}`} key={p.id} className="group relative bg-white p-10 rounded-2xl shadow-sm border border-transparent hover:border-[#E5E5E5] hover:shadow-xl transition-all duration-500 flex flex-col md:flex-row gap-8 items-start overflow-hidden z-10">
+              <R delay={`reveal-delay-${(idx % 4) + 1}`} key={`${filterPub}-${p.id || idx}`} className="group relative bg-white p-10 rounded-2xl shadow-sm border border-transparent hover:border-[#E5E5E5] hover:shadow-xl transition-all duration-500 flex flex-col md:flex-row gap-8 items-start overflow-hidden z-10">
                 <div className="absolute top-1/2 right-0 w-64 h-64 bg-brand-red/5 rounded-full blur-[60px] -translate-y-1/2 translate-x-1/2 group-hover:bg-brand-red/10 transition-colors duration-700 -z-10"></div>
                 <div className="text-xs uppercase tracking-widest font-bold bg-brand-dark text-white px-4 py-2 rounded-full flex-shrink-0 group-hover:bg-brand-red transition-colors relative z-10">{LABELS[p.tipo] || p.tipo}</div>
                 <div className="flex-grow">

@@ -246,7 +246,7 @@ export default function Home() {
         <div className="w-full md:w-5/12 relative h-[50vh] md:h-auto ml-auto overflow-hidden">
           <div className="absolute inset-0 bg-brand-dark/10 z-10 mix-blend-multiply"></div>
           <img 
-            src="/rachel_photo.png" 
+            src="/hero.jpg" 
             alt="Rachel Freixo" 
             className="absolute inset-0 w-full h-full object-cover object-[center_top]"
           />
@@ -339,15 +339,15 @@ export default function Home() {
           {/* Left Col - Overlapping Image and Card */}
           <R className="lg:w-1/3 relative flex flex-col">
             <div className="relative w-full aspect-[3/4] md:aspect-auto md:h-full">
-              <img src="/rachel_photo.png" alt="Rachel Freixo" className="absolute inset-0 w-full h-full object-cover rounded-xl shadow-2xl grayscale opacity-80" />
+              <img src="/about.jpg" alt="Rachel Freixo" className="absolute inset-0 w-full h-full object-cover rounded-xl shadow-2xl" />
             </div>
-            {/* Redesigned Mission Card - wider and floating */}
-            <div className="relative md:absolute md:-bottom-10 md:-right-20 mt-[-50px] md:mt-0 z-20 bg-brand-dark/60 backdrop-blur-2xl border border-white/10 p-8 md:p-10 rounded-2xl shadow-2xl w-[90%] mx-auto md:w-[400px]">
-              <div className="flex items-center gap-3 mb-4">
+            {/* Redesigned Mission Card - positioned below the photo */}
+            <div className="relative md:absolute md:-bottom-16 md:-right-16 mt-[-30px] md:mt-0 z-20 bg-brand-dark/70 backdrop-blur-2xl border border-white/10 p-6 md:p-8 rounded-2xl shadow-2xl w-[90%] mx-auto md:w-[360px]">
+              <div className="flex items-center gap-3 mb-3">
                 <div className="w-8 h-[1px] bg-brand-red"></div>
                 <p className="text-brand-red text-xs uppercase tracking-widest font-bold">Minha Missão</p>
               </div>
-              <p className="text-white text-base md:text-lg leading-relaxed font-serif">Elevar o rigor técnico do Direito Tributário e promover uma governança corporativa que gere impacto real na sociedade e no setor produtivo.</p>
+              <p className="text-white text-sm md:text-base leading-relaxed font-serif">Elevar o rigor técnico do Direito Tributário e promover uma governança corporativa que gere impacto real na sociedade e no setor produtivo.</p>
             </div>
           </R>
 
@@ -410,7 +410,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 6. AGENDA GRID */}
+      {/* 6. AGENDA SECTION - Editorial Split Layout */}
       <section className="bg-white px-8 py-32 md:px-16 lg:px-24">
         <div className="max-w-7xl mx-auto">
           
@@ -427,42 +427,63 @@ export default function Home() {
             </Link>
           </R>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
             
-            {eventosHome.length > 0 ? eventosHome.map((evt, idx) => {
-              const isPast = evt.computedStatus === 'realizado';
-              return (
-                <R delay="" key={evt.id} className={`group p-8 rounded-2xl border transition-all duration-300 flex flex-col justify-between h-[280px] hover:-translate-y-2 ${isPast ? 'bg-[#EFECE8] border-[#D1D1D1] grayscale hover:grayscale-0 opacity-80 hover:opacity-100 shadow-none' : 'bg-white border-[#E5E5E5] hover:border-brand-red hover:shadow-2xl shadow-sm'}`}>
-                  
-                  <div>
-                    {/* Badge */}
-                    <div className="flex items-center gap-2 mb-6">
-                      <span className={`text-[10px] uppercase tracking-widest font-bold px-3 py-1 rounded-full ${isPast ? 'bg-brand-gray text-white' : 'bg-brand-dark text-white'}`}>
-                        {evt.tipo || 'Evento'}
-                      </span>
-                      <span className={`text-[10px] uppercase tracking-widest font-bold px-3 py-1 rounded-full border ${isPast ? 'border-brand-gray text-brand-gray' : 'border-brand-red bg-red-50 text-brand-red'}`}>
-                        {isPast ? 'Realizado' : 'Próximo'}
-                      </span>
-                    </div>
-
-                    <h4 className={`font-bold text-3xl font-serif mb-3 ${isPast ? 'text-brand-gray' : 'text-brand-dark group-hover:text-brand-red'} transition-colors`}>
-                      {evt.dia} <span className="text-lg uppercase tracking-widest font-sans">{evt.mes}</span>
-                    </h4>
-                    <p className={`text-base leading-snug line-clamp-3 ${isPast ? 'text-brand-gray' : 'text-brand-dark'}`}>
-                      {evt.titulo}
-                    </p>
+            {/* Left: Editorial Photo */}
+            <R className="lg:w-5/12 relative group">
+              <div className="relative w-full h-[500px] lg:h-full min-h-[500px] rounded-2xl overflow-hidden shadow-2xl">
+                <img 
+                  src="/agenda.jpg" 
+                  alt="Rachel Freixo em evento" 
+                  className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-brand-dark/20 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 right-0 p-8 md:p-10">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-8 h-[1px] bg-brand-red"></div>
+                    <span className="text-brand-red text-xs uppercase tracking-widest font-bold">Próximos Eventos</span>
                   </div>
-                  
-                  <p className="text-xs text-brand-gray uppercase tracking-widest font-bold mt-4 pt-4 border-t border-brand-gray/20">
-                    {evt.local}
-                  </p>
-                </R>
-              );
-            }) : (
-              <div className="p-12 bg-white rounded-2xl border border-[#E5E5E5] col-span-4 text-center">
-                <p className="text-lg text-brand-gray font-medium">Nenhum evento agendado no momento.</p>
+                  <p className="text-white font-serif text-2xl md:text-3xl leading-tight">Conectando conhecimento acadêmico à prática executiva.</p>
+                </div>
               </div>
-            )}
+            </R>
+
+            {/* Right: Event Cards */}
+            <div className="lg:w-7/12 grid grid-cols-1 md:grid-cols-2 gap-6">
+              {eventosHome.length > 0 ? eventosHome.map((evt, idx) => {
+                const isPast = evt.computedStatus === 'realizado';
+                return (
+                  <R delay={`reveal-delay-${(idx % 4) + 1}`} key={evt.id} className={`group p-8 rounded-2xl border transition-all duration-300 flex flex-col justify-between h-[260px] hover:-translate-y-2 ${isPast ? 'bg-[#EFECE8] border-[#D1D1D1] opacity-80 hover:opacity-100 shadow-none' : 'bg-brand-bg border-[#E5E5E5] hover:border-brand-red hover:shadow-2xl shadow-sm'}`}>
+                    
+                    <div>
+                      <div className="flex items-center gap-2 mb-6">
+                        <span className={`text-[10px] uppercase tracking-widest font-bold px-3 py-1 rounded-full ${isPast ? 'bg-brand-gray text-white' : 'bg-brand-dark text-white'}`}>
+                          {evt.tipo || 'Evento'}
+                        </span>
+                        <span className={`text-[10px] uppercase tracking-widest font-bold px-3 py-1 rounded-full border ${isPast ? 'border-brand-gray text-brand-gray' : 'border-brand-red bg-red-50 text-brand-red'}`}>
+                          {isPast ? 'Realizado' : 'Próximo'}
+                        </span>
+                      </div>
+
+                      <h4 className={`font-bold text-3xl font-serif mb-3 ${isPast ? 'text-brand-gray' : 'text-brand-dark group-hover:text-brand-red'} transition-colors`}>
+                        {evt.dia} <span className="text-lg uppercase tracking-widest font-sans">{evt.mes}</span>
+                      </h4>
+                      <p className={`text-base leading-snug line-clamp-3 ${isPast ? 'text-brand-gray' : 'text-brand-dark'}`}>
+                        {evt.titulo}
+                      </p>
+                    </div>
+                    
+                    <p className="text-xs text-brand-gray uppercase tracking-widest font-bold mt-4 pt-4 border-t border-brand-gray/20">
+                      {evt.local}
+                    </p>
+                  </R>
+                );
+              }) : (
+                <div className="p-12 bg-brand-bg rounded-2xl border border-[#E5E5E5] col-span-2 text-center">
+                  <p className="text-lg text-brand-gray font-medium">Nenhum evento agendado no momento.</p>
+                </div>
+              )}
+            </div>
 
           </div>
         </div>
