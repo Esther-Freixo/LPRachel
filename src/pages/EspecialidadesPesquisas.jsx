@@ -22,7 +22,7 @@ function R({ children, className, style, delay = '' }) {
 export default function EspecialidadesPesquisas() {
   const [filterPub, setFilterPub] = useState('todos')
   const [quoteIdx, setQuoteIdx] = useState(0)
-  
+
   const { data: pubs, loading } = useData(getPublicacoes)
   const pubsSeguras = pubs || []
   const filteredPubs = filterPub === 'todos' ? pubsSeguras : pubsSeguras.filter(p => (p.tipo || '').toLowerCase().trim() === filterPub.toLowerCase().trim())
@@ -40,7 +40,7 @@ export default function EspecialidadesPesquisas() {
 
   return (
     <main className="font-sans text-brand-dark bg-brand-bg w-full min-h-screen">
-      
+
       {/* HERO */}
       <section className="relative pt-40 pb-32 px-8 md:px-16 lg:px-24 overflow-hidden">
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-red/5 rounded-full blur-3xl translate-x-1/3 -translate-y-1/3 pointer-events-none"></div>
@@ -50,45 +50,45 @@ export default function EspecialidadesPesquisas() {
               <div className="w-12 h-[1px] bg-brand-red"></div>
               <span className="text-sm uppercase tracking-widest font-bold text-brand-red">Conhecimento Aplicado</span>
             </div>
-            <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl mb-8 tracking-tight text-brand-dark">Especialidades <br/><span className="text-brand-gray">&</span> Pesquisa</h1>
+            <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl mb-8 tracking-tight text-brand-dark">Especialidades <br /><span className="text-brand-gray">&</span> Pesquisa</h1>
             <p className="text-brand-gray text-lg md:text-xl max-w-2xl leading-relaxed font-medium">A intersecção entre o rigor acadêmico, a inteligência estratégica tributária e as demandas de governança do setor produtivo.</p>
           </R>
 
           {/* Right Side Composition - Editorial & Elegant */}
           <div className="hidden md:flex w-full md:w-1/2 relative h-[450px] items-center justify-end">
-             
-             {/* Delicate Geometric Background */}
-             <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[350px] h-[350px] border-[0.5px] border-brand-dark/5 rounded-full z-0"></div>
-             <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[200px] h-[200px] border-[0.5px] border-brand-red/10 rounded-full z-0"></div>
-             
-             {/* The Elegant Quote Cards - Auto-styled */}
-             <div className="relative z-10 w-full max-w-sm mr-8 h-[380px]">
-               {activeQuotes.map((card, i) => {
-                 const isActive = quoteIdx === i;
-                 const style = CARD_STYLES[i % CARD_STYLES.length];
-                 return (
-                   <div 
-                     key={card.id || i}
-                     className={`absolute inset-0 backdrop-blur-lg p-10 lg:p-12 border-l-[3px] ${style.border} ${style.bg} shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col ${isActive ? 'opacity-100 translate-y-0 scale-100 z-20 pointer-events-auto' : 'opacity-0 translate-y-8 scale-95 z-0 pointer-events-none'}`}
-                   >
-                     <div className={`font-serif text-6xl ${style.quoteMark} leading-none h-6 mb-6`}>"</div>
-                     <p className={`font-serif text-2xl lg:text-3xl ${style.textCol} leading-tight italic flex-grow flex items-center`}>
-                       <span>{card.texto}</span>
-                     </p>
-                     <div className="flex items-center gap-4 mt-6">
-                       <div className={`w-8 h-[1px] ${style.lineCol}`}></div>
-                       <span className={`text-xs font-bold tracking-widest uppercase ${style.nameCol}`}>Rachel Freixo</span>
-                     </div>
-                   </div>
-                 )
-               })}
-             </div>
 
-             {/* Marginalia (Editorial side text) */}
-             <div className="absolute right-0 top-20 flex items-center gap-4 rotate-90 origin-right translate-x-4 opacity-40">
-               <span className="text-[10px] tracking-[0.3em] uppercase text-brand-dark">Tax · ESG · Governança</span>
-               <div className="w-16 h-[1px] bg-brand-red"></div>
-             </div>
+            {/* Delicate Geometric Background */}
+            <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[350px] h-[350px] border-[0.5px] border-brand-dark/5 rounded-full z-0"></div>
+            <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[200px] h-[200px] border-[0.5px] border-brand-red/10 rounded-full z-0"></div>
+
+            {/* The Elegant Quote Cards - Auto-styled */}
+            <div className="relative z-10 w-full max-w-sm mr-8 h-[380px]">
+              {activeQuotes.map((card, i) => {
+                const isActive = quoteIdx === i;
+                const style = CARD_STYLES[i % CARD_STYLES.length];
+                return (
+                  <div
+                    key={card.id || i}
+                    className={`absolute inset-0 backdrop-blur-lg p-10 lg:p-12 border-l-[3px] ${style.border} ${style.bg} shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col ${isActive ? 'opacity-100 translate-y-0 scale-100 z-20 pointer-events-auto' : 'opacity-0 translate-y-8 scale-95 z-0 pointer-events-none'}`}
+                  >
+                    <div className={`font-serif text-6xl ${style.quoteMark} leading-none h-6 mb-6`}>"</div>
+                    <p className={`font-serif text-2xl lg:text-3xl ${style.textCol} leading-tight italic flex-grow flex items-center`}>
+                      <span>{card.texto}</span>
+                    </p>
+                    <div className="flex items-center gap-4 mt-6">
+                      <div className={`w-8 h-[1px] ${style.lineCol}`}></div>
+                      <span className={`text-xs font-bold tracking-widest uppercase ${style.nameCol}`}>Rachel Freixo</span>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+
+            {/* Marginalia (Editorial side text) */}
+            <div className="absolute right-0 top-20 flex items-center gap-4 rotate-90 origin-right translate-x-4 opacity-40">
+              <span className="text-[10px] tracking-[0.3em] uppercase text-brand-dark">Conhecimento Aplicado</span>
+              <div className="w-16 h-[1px] bg-brand-red"></div>
+            </div>
 
           </div>
         </div>
@@ -193,7 +193,7 @@ export default function EspecialidadesPesquisas() {
               </div>
               <h2 className="font-serif text-4xl md:text-6xl text-brand-dark">Produção Intelectual</h2>
             </div>
-            
+
             <div className="flex flex-wrap gap-6 border-b border-[#E5E5E5] pb-2">
               {['todos', 'livro', 'artigo', 'opiniao'].map(f => (
                 <button key={f} className={`text-sm uppercase tracking-widest font-bold pb-4 border-b-2 transition-colors ${filterPub === f ? 'border-brand-red text-brand-dark' : 'border-transparent text-brand-gray hover:text-brand-dark'}`} onClick={() => setFilterPub(f)}>
@@ -202,7 +202,7 @@ export default function EspecialidadesPesquisas() {
               ))}
             </div>
           </R>
-          
+
           <div className="space-y-8 mt-12">
             {filteredPubs.length > 0 ? filteredPubs.map((p, idx) => (
               <R delay={`reveal-delay-${(idx % 4) + 1}`} key={`${filterPub}-${p.id || idx}`} className="group relative bg-white p-10 rounded-2xl shadow-sm border border-transparent hover:border-[#E5E5E5] hover:shadow-xl transition-all duration-500 flex flex-col md:flex-row gap-8 items-start overflow-hidden z-10">

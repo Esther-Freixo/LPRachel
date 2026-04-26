@@ -12,6 +12,7 @@ export default function AdminLayout() {
     { to: '/admin/timeline', label: 'Trajetória' },
     { to: '/admin/publicacoes', label: 'Publicações' },
     { to: '/admin/agenda', label: 'Agenda' },
+    { to: '/admin/midias', label: 'Mídia' },
     { to: '/admin/insights', label: 'LinkedIn Insights' },
     { to: '/admin/citacoes', label: 'Citações Animadas' },
   ]

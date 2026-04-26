@@ -7,6 +7,7 @@ function Navbar() {
   const links = [
     { to: '/', label: 'Início' },
     { to: '/especialidades', label: 'Especialidades' },
+    { to: '/midia', label: 'Mídia' },
     { to: '/agenda', label: 'Agenda' }
   ]
 
@@ -25,13 +26,13 @@ function Navbar() {
       {/* Navbar bar */}
       <header style={{ zIndex: 100 }} className="fixed top-0 left-0 w-full bg-brand-bg/90 backdrop-blur-sm border-b border-[#E5E5E5]">
         <nav className="max-w-7xl mx-auto px-6 lg:px-24 h-20 flex items-center justify-between">
-          <Link to="/" className="font-serif italic text-xl tracking-wider" onClick={() => setMenuOpen(false)}>Rachel Freixo</Link>
+          <Link to="/" className="font-serif italic text-xl tracking-wider" onClick={() => { setMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }) }}>Rachel Freixo</Link>
           
           {/* Desktop Menu */}
           <ul className="hidden md:flex gap-8 text-xs uppercase tracking-widest font-bold">
             {links.map(l => (
               <li key={l.to}>
-                <NavLink to={l.to} end={l.to === '/'} className={({isActive}) => isActive ? "text-brand-red border-b border-brand-red pb-1" : "hover:text-brand-red transition-colors"}>
+                <NavLink to={l.to} end={l.to === '/'} onClick={() => { if (l.to === '/') window.scrollTo({ top: 0, behavior: 'smooth' }) }} className={({isActive}) => isActive ? "text-brand-red border-b border-brand-red pb-1" : "hover:text-brand-red transition-colors"}>
                   {l.label}
                 </NavLink>
               </li>
@@ -65,7 +66,7 @@ function Navbar() {
               key={l.to} 
               to={l.to} 
               end={l.to === '/'} 
-              onClick={() => setMenuOpen(false)}
+              onClick={() => { setMenuOpen(false); if (l.to === '/') window.scrollTo({ top: 0, behavior: 'smooth' }) }}
               className={({isActive}) => `font-serif text-4xl tracking-wide ${isActive ? 'text-brand-red' : 'text-brand-dark'}`}
             >
               {l.label}

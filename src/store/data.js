@@ -64,6 +64,21 @@ export async function addCitacao(obj) { return await insertSupabase('citacoes', 
 export async function updateCitacao(id, obj) { return await updateSupabase('citacoes', id, obj) }
 export async function deleteCitacao(id) { await deleteSupabase('citacoes', id) }
 
+// Midias
+export async function getMidias() {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/midias?order=ordem.asc`, { headers })
+    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
+    return await res.json()
+  } catch (err) {
+    console.error('Fetch error:', err)
+    return []
+  }
+}
+export async function addMidia(obj) { return await insertSupabase('midias', obj) }
+export async function updateMidia(id, obj) { return await updateSupabase('midias', id, obj) }
+export async function deleteMidia(id) { await deleteSupabase('midias', id) }
+
 export const AUTH = { user: 'admrachel', pass: 'space123' }
 export async function login(user, pass) { 
   if (user === AUTH.user && pass === AUTH.pass) { 

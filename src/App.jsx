@@ -14,6 +14,8 @@ import AdminAgenda from './pages/admin/Agenda'
 import AdminTimeline from './pages/admin/Timeline'
 import AdminInsights from './pages/admin/Insights'
 import AdminCitacoes from './pages/admin/Citacoes'
+import Midia from './pages/Midia'
+import AdminMidias from './pages/admin/Midias'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -34,6 +36,7 @@ export default function App() {
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
         <Route path="/especialidades" element={<EspecialidadesPesquisas />} />
+        <Route path="/midia" element={<Midia />} />
         <Route path="/agenda" element={<Agenda />} />
         <Route path="/contato" element={<Contato />} />
         <Route path="/insight/:id" element={<InsightPost />} />
@@ -50,6 +53,7 @@ export default function App() {
         <Route path="timeline" element={<AdminTimeline />} />
         <Route path="insights" element={<AdminInsights />} />
         <Route path="citacoes" element={<AdminCitacoes />} />
+        <Route path="midias" element={<AdminMidias />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

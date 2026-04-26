@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { getPublicacoes, getAgenda, getTimeline } from '../store/data'
 import useData from '../hooks/useData'
 import useScrollReveal from '../hooks/useScrollReveal'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 
 // Reveal Wrapper Component
 function R({ children, className, delay = '' }) {
@@ -10,159 +10,221 @@ function R({ children, className, delay = '' }) {
   return <div ref={ref} className={`reveal ${delay} ${className || ''}`}>{children}</div>
 }
 
-// Custom Interactive Timeline (Film Reel Sticky Style)
+// Custom Interactive Timeline — DOM-driven (no React re-renders per frame)
 function StickyTimeline({ items }) {
   const containerRef = useRef(null)
-  const [progress, setProgress] = useState(0)
-
-  useEffect(() => {
-    let animationFrameId;
-    const handleScroll = () => {
-      if (!containerRef.current) return;
-      const updateProgress = () => {
-        const rect = containerRef.current.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
-        let scrollPx = -rect.top;
-        let totalScrollable = rect.height - windowHeight;
-        if (totalScrollable <= 0) totalScrollable = 1;
-        let p = scrollPx / totalScrollable;
-        if (p < 0) p = 0;
-        if (p > 1) p = 1;
-        setProgress(p);
-      };
-      animationFrameId = requestAnimationFrame(updateProgress);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, []);
+  const movingRef = useRef(null)
+  const cometRef = useRef(null)
+  const titleRef = useRef(null)
+  const viewportRef = useRef(null)
+  const itemRefs = useRef([])
 
   const timelineItems = items || [];
+
+  useEffect(() => {
+    const n = timelineItems.length;
+    if (!containerRef.current || n === 0) return;
+
+    const WINDOW = 0.28;
+    const target = { v: 0 };
+    const current = { v: 0 };
+    let rafId;
+
+    const applyProgress = (p) => {
+      if (movingRef.current)
+        movingRef.current.style.transform = `translateY(-${p * 100}%)`;
+
+      if (cometRef.current)
+        cometRef.current.style.opacity = Math.min(1, p * 15);
+
+      if (titleRef.current) {
+        const sc = p > 0.02;
+        titleRef.current.style.opacity = sc ? '0' : '1';
+        titleRef.current.style.transform = sc ? 'translateY(-20px)' : 'translateY(0)';
+        titleRef.current.style.pointerEvents = sc ? 'none' : 'auto';
+      }
+      if (viewportRef.current)
+        viewportRef.current.style.height = p > 0.02 ? 'calc(100vh - 5rem)' : '60vh';
+
+      for (let i = 0; i < n; i++) {
+        const r = itemRefs.current[i];
+        if (!r) continue;
+        const sd = p - i / Math.max(1, n - 1);
+        const ad = Math.abs(sd);
+        const isActive = ad < 0.11;
+        const opacity = ad < WINDOW ? Math.pow(1 - ad / WINDOW, 1.8) : 0;
+        const scale = isActive ? 1 : Math.max(0.92, 1 - ad * 0.35);
+        const slideY = sd > 0 ? -Math.min(20, (ad / WINDOW) * 20) : Math.min(20, (ad / WINDOW) * 20);
+
+        if (r.wrap) { r.wrap.style.opacity = opacity; r.wrap.style.transform = `scale(${scale}) translateY(${slideY}px)`; }
+        if (r.conn) {
+          r.conn.style.opacity = opacity;
+          r.conn.style.transform = `scaleX(${scale})`;
+          const c = isActive ? 'rgba(150,42,32,0.6)' : 'rgba(150,42,32,0.2)';
+          r.conn.style.backgroundImage = `repeating-linear-gradient(to ${r.connDir}, ${c} 0px, ${c} 4px, transparent 4px, transparent 8px)`;
+        }
+        if (r.card) { r.card.style.borderColor = isActive ? '#E5E5E5' : 'transparent'; r.card.style.boxShadow = isActive ? '0 20px 25px -5px rgba(0,0,0,0.1),0 8px 10px -6px rgba(0,0,0,0.04)' : 'none'; }
+        if (r.tag) { r.tag.style.backgroundColor = isActive ? 'rgba(150,42,32,0.1)' : 'rgba(28,28,28,0.04)'; r.tag.style.color = isActive ? '#962A20' : 'rgba(143,143,143,0.4)'; }
+        if (r.title) r.title.style.color = isActive ? '#1C1C1C' : 'rgba(28,28,28,0.5)';
+        if (r.year)  r.year.style.color  = isActive ? '#962A20' : 'rgba(143,143,143,0.35)';
+        if (r.desc)  r.desc.style.color  = isActive ? 'rgba(28,28,28,0.6)' : 'rgba(143,143,143,0.4)';
+      }
+    };
+
+    const animate = () => {
+      const diff = target.v - current.v;
+      if (Math.abs(diff) > 0.0001) { current.v += diff * 0.08; applyProgress(current.v); }
+      rafId = requestAnimationFrame(animate);
+    };
+
+    const onScroll = () => {
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      target.v = Math.max(0, Math.min(1, -rect.top / Math.max(1, rect.height - window.innerHeight)));
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    rafId = requestAnimationFrame(animate);
+    return () => { window.removeEventListener('scroll', onScroll); cancelAnimationFrame(rafId); };
+  }, [timelineItems.length]);
+
   if (timelineItems.length === 0) return null;
 
-  // Title visibility and Fullscreen expansion logic
-  const isScrolling = progress > 0.02;
+  const setRef = (i, key, extra) => el => {
+    if (!itemRefs.current[i]) itemRefs.current[i] = {};
+    itemRefs.current[i][key] = el;
+    if (extra && el) Object.assign(itemRefs.current[i], extra);
+  };
 
   return (
-    // z-[100] ensures the navbar is completely hidden behind this section while it's active
-    <div ref={containerRef} style={{ height: `${timelineItems.length * 100}vh` }} className="relative w-full bg-brand-bg z-[100] font-sans">
-      <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden">
-        
-        {/* Title (Fades out when scrolling) */}
-        <div 
-          className="absolute top-16 md:top-24 w-full text-center z-30 transition-all duration-700"
-          style={{ opacity: isScrolling ? 0 : 1, transform: `translateY(${isScrolling ? '-20px' : '0'})`, pointerEvents: isScrolling ? 'none' : 'auto' }}
-        >
-          <div className="flex items-center justify-center gap-4 mb-4">
-             <div className="w-8 h-[1px] bg-brand-red"></div>
-             <span className="text-brand-red uppercase tracking-widest text-xs font-bold">Experiência</span>
-             <div className="w-8 h-[1px] bg-brand-red"></div>
+    <div ref={containerRef} style={{ height: `${timelineItems.length * 36}vh` }} className="relative w-full z-10 font-sans">
+      <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-brand-bg"
+        style={{ background: 'radial-gradient(ellipse 70% 55% at 10% 35%, rgba(150,42,32,0.09) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 85% 65%, rgba(150,42,32,0.06) 0%, transparent 55%), radial-gradient(ellipse 80% 70% at 50% 50%, rgba(150,42,32,0.03) 0%, transparent 70%), #F5F0EB' }}
+      >
+        {/* Red ambient glow orbs */}
+        <div className="absolute top-[10%] left-[2%] w-[520px] h-[520px] bg-brand-red/[0.09] rounded-full blur-[140px] animate-float pointer-events-none"></div>
+        <div className="absolute bottom-[8%] right-[4%] w-[420px] h-[420px] bg-brand-red/[0.07] rounded-full blur-[120px] animate-float-delayed pointer-events-none"></div>
+        <div className="absolute top-[40%] left-[50%] w-[300px] h-[300px] bg-brand-red/[0.05] rounded-full blur-[100px] animate-float pointer-events-none"></div>
+
+        {/* Subtle noise grain for depth */}
+        <div className="absolute inset-0 opacity-[0.025] pointer-events-none" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E")`, backgroundSize: '160px 160px' }}></div>
+
+        {/* Corner accents */}
+        <div className="absolute top-0 left-0 pointer-events-none">
+          <div className="absolute top-10 left-6 w-12 h-[1px] bg-gradient-to-r from-brand-red/20 to-transparent"></div>
+          <div className="absolute top-10 left-6 w-[1px] h-12 bg-gradient-to-b from-brand-red/20 to-transparent"></div>
+        </div>
+        <div className="absolute bottom-0 right-0 pointer-events-none">
+          <div className="absolute bottom-10 right-6 w-12 h-[1px] bg-gradient-to-l from-brand-red/20 to-transparent"></div>
+          <div className="absolute bottom-10 right-6 w-[1px] h-12 bg-gradient-to-t from-brand-red/20 to-transparent"></div>
+        </div>
+
+        {/* Title */}
+        <div ref={titleRef} className="absolute top-20 md:top-28 w-full text-center z-30"
+          style={{ transition: 'opacity 0.7s, transform 0.7s' }}>
+          <div className="flex items-center justify-center gap-4 mb-3">
+            <div className="w-8 h-[1px] bg-brand-red"></div>
+            <span className="text-brand-red uppercase tracking-widest text-xs font-bold">Experiência</span>
+            <div className="w-8 h-[1px] bg-brand-red"></div>
           </div>
-          <h2 className="font-serif text-4xl md:text-6xl font-bold text-brand-dark mb-4 tracking-tight">Trajetória e Impacto</h2>
-          <p className="text-brand-gray text-sm md:text-lg px-8 max-w-2xl mx-auto">Os marcos que consolidam minha experiência executiva.</p>
+          <h2 className="font-serif text-3xl md:text-5xl font-bold text-brand-dark mb-2 tracking-tight">Trajetória e Impacto</h2>
+          <p className="text-brand-gray text-sm px-8 max-w-2xl mx-auto">Os marcos que consolidam minha experiência executiva.</p>
         </div>
 
-        {/* Viewport for Timeline - EXPANDED to full screen when scrolling */}
-        <div 
-          className="w-full max-w-7xl mx-auto relative z-20 overflow-hidden px-6 transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]" 
-          style={{ 
-             height: isScrolling ? '100vh' : '65vh', 
-             marginTop: isScrolling ? '0' : '4rem',
-             WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)' 
-          }}
+        {/* Viewport */}
+        <div ref={viewportRef}
+          className="w-full max-w-6xl mx-auto relative z-20 overflow-hidden px-4"
+          style={{ height: '60vh', marginTop: '5rem', transition: 'height 1s cubic-bezier(0.16,1,0.3,1)', WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)' }}
         >
-           
-           {/* Center Glowing Orb (Fixed in center of viewport) */}
-           <div className="absolute top-1/2 left-[30px] md:left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-brand-red border-[3px] border-white shadow-[0_0_10px_rgba(150,42,32,0.3)] z-30"></div>
-           
-           {/* "Comet Tail" line that gives the navigation feel (fades in as you scroll) */}
-           <div 
-             className="absolute bottom-1/2 left-[30px] md:left-1/2 w-[2px] h-[40vh] bg-gradient-to-t from-brand-red via-brand-red/60 to-transparent -translate-x-1/2 z-10 transition-opacity duration-300"
-             style={{ opacity: Math.min(1, progress * 15) }}
-           ></div>
+          {/* Center Glowing Orb */}
+          <div className="absolute top-1/2 left-[24px] md:left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
+            <div className="w-3.5 h-3.5 rounded-full bg-brand-red shadow-[0_0_10px_rgba(150,42,32,0.4),0_0_25px_rgba(150,42,32,0.15)]"></div>
+          </div>
 
-           {/* Moving Content Container */}
-           <div 
-             className="absolute top-1/2 left-0 w-full will-change-transform"
-             style={{ transform: `translateY(-${progress * 100}%)` }} 
-           >
-              {/* Inner track that has the absolute height */}
-              <div className="relative w-full" style={{ height: `${Math.max(1500, timelineItems.length * 400)}px` }}>
-                 
-                 {/* The Track Line Background */}
-                 <div className="absolute left-[30px] md:left-1/2 top-0 bottom-0 w-[1px] bg-brand-red/20 -translate-x-1/2"></div>
-                 
-                 {/* The Items */}
-                 {timelineItems.map((item, i) => {
-                    const pos = timelineItems.length > 1 ? (i / (timelineItems.length - 1)) * 100 : 50;
-                    const distance = Math.abs(progress - (i / Math.max(1, timelineItems.length - 1)));
-                    
-                    const isActive = distance < 0.15; // Rough active window
-                    const opacity = Math.max(0.1, 1 - (distance * 3));
-                    const scale = Math.max(0.85, 1 - (distance * 0.5));
-                    
-                    const isEven = i % 2 === 0;
+          {/* Comet Tail */}
+          <div ref={cometRef}
+            className="absolute bottom-1/2 left-[24px] md:left-1/2 w-[1.5px] h-[25vh] bg-gradient-to-t from-brand-red via-brand-red/30 to-transparent -translate-x-1/2 z-10"
+            style={{ opacity: 0 }}
+          ></div>
 
-                    return (
-                      <div 
-                        key={item.id || i}
-                        className="absolute w-full flex items-center md:justify-center"
-                        style={{ top: `${pos}%`, transform: `translateY(-50%)` }}
+          {/* Moving Content */}
+          <div ref={movingRef} className="absolute top-1/2 left-0 w-full will-change-transform" style={{ transform: 'translateY(0%)' }}>
+            <div className="relative w-full" style={{ height: `${Math.max(800, timelineItems.length * 136)}px` }}>
+              {/* Track Line */}
+              <div className="absolute left-[24px] md:left-1/2 top-0 bottom-0 w-[2px] bg-brand-red/15 -translate-x-1/2"></div>
+
+              {timelineItems.map((item, i) => {
+                const pos = timelineItems.length > 1 ? (i / (timelineItems.length - 1)) * 100 : 50;
+                const isEven = i % 2 === 0;
+                const connDir = isEven ? 'left' : 'right';
+                return (
+                  <div key={item.id || i} className="absolute w-full flex items-center md:justify-center"
+                    style={{ top: `${pos}%`, transform: 'translateY(-50%)' }}>
+
+                    {/* Connector */}
+                    <div ref={setRef(i, 'conn', { connDir })}
+                      className={`hidden md:block absolute top-1/2 -translate-y-1/2 h-[1px] z-10 ${isEven ? 'right-1/2 mr-[7px] w-[40px]' : 'left-1/2 ml-[7px] w-[40px]'}`}
+                      style={{ backgroundImage: `repeating-linear-gradient(to ${connDir}, rgba(150,42,32,0.2) 0px, rgba(150,42,32,0.2) 4px, transparent 4px, transparent 8px)`, transformOrigin: isEven ? 'right' : 'left', opacity: 0 }}
+                    ></div>
+
+                    {/* Card Wrapper */}
+                    <div ref={setRef(i, 'wrap')}
+                      className={`w-full md:w-[calc(50%-55px)] absolute pl-[55px] pr-3 md:px-0 will-change-transform flex ${isEven ? 'md:right-[calc(50%+55px)] md:justify-end' : 'md:left-[calc(50%+55px)] md:justify-start'}`}
+                      style={{ opacity: 0 }}
+                    >
+                      <div ref={setRef(i, 'card')}
+                        className="rounded-none md:rounded-xl overflow-hidden relative w-full md:max-w-sm z-10 bg-transparent md:bg-white md:border"
+                        style={{ borderColor: 'transparent' }}
                       >
-                         {/* Marker Dot */}
-                         <div 
-                            className={`absolute left-[30px] md:left-1/2 w-3 h-3 rounded-full border-2 transition-all duration-300 z-10 -translate-x-1/2 ${isActive ? 'bg-brand-red border-white shadow-sm scale-150 opacity-0' : 'bg-brand-bg border-brand-red/30'}`}
-                         ></div>
-
-                         {/* Card Container - Alternating on Desktop */}
-                         <div 
-                           className={`w-full md:w-1/2 absolute pl-[80px] pr-6 md:px-0 will-change-transform flex ${isEven ? 'md:left-0 md:justify-end md:pr-16' : 'md:right-0 md:justify-start md:pl-16'}`} 
-                           style={{ opacity, transform: `scale(${scale})` }}
-                         >
-                            <div className={`bg-white border ${isActive ? 'border-brand-red/30 shadow-2xl shadow-brand-dark/5' : 'border-[#E5E5E5] shadow-sm'} p-6 md:p-10 rounded-2xl transition-all duration-500 overflow-hidden relative group w-full md:max-w-lg ${isEven ? 'md:text-right' : 'md:text-left'} z-10`}>
-                               <div className={`absolute top-0 ${isEven ? 'right-0 translate-x-1/3' : 'left-0 -translate-x-1/3'} w-48 h-48 bg-brand-red/5 rounded-full blur-[40px] -translate-y-1/2 -z-10`}></div>
-                               
-                               <div className={`text-brand-red text-xs md:text-sm font-bold tracking-widest mb-4 uppercase flex items-center gap-3 justify-start ${isEven ? 'md:justify-end md:flex-row-reverse' : 'md:justify-start'} relative z-10`}>
-                                  {isActive && <div className="w-8 h-[1px] bg-brand-red"></div>}
-                                  <span>FASE {(i + 1).toString().padStart(2, '0')}</span>
-                               </div>
-                               <h4 className="font-serif font-bold text-brand-dark text-2xl md:text-3xl mb-3 leading-tight relative z-10">{item.titulo}</h4>
-                               <div className="text-brand-gray text-xs md:text-sm font-bold tracking-widest mb-4 uppercase relative z-10">{item.ano}</div>
-                               <p className="text-brand-dark/80 text-sm md:text-base leading-relaxed relative z-10">{item.descricao}</p>
-                            </div>
-                         </div>
+                        <div className={`py-4 md:px-6 md:py-6 ${isEven ? 'md:text-right' : 'md:text-left'}`}>
+                          <div ref={setRef(i, 'tag')}
+                            className="inline-block text-[10px] font-bold tracking-[0.15em] mb-2 uppercase px-2 py-0.5 rounded"
+                            style={{ backgroundColor: 'rgba(28,28,28,0.04)', color: 'rgba(143,143,143,0.4)' }}
+                          >{item.titulo?.split(' ')[0]?.toUpperCase() || `FASE ${(i + 1).toString().padStart(2, '0')}`}</div>
+                          <h4 ref={setRef(i, 'title')}
+                            className="font-serif font-bold text-base md:text-lg mb-0.5 leading-snug"
+                            style={{ color: 'rgba(28,28,28,0.5)' }}
+                          >{item.titulo}</h4>
+                          <div ref={setRef(i, 'year')}
+                            className="text-[11px] font-bold tracking-widest mb-1.5 uppercase"
+                            style={{ color: 'rgba(143,143,143,0.35)' }}
+                          >{item.ano}</div>
+                          <p ref={setRef(i, 'desc')}
+                            className="text-xs md:text-sm leading-relaxed line-clamp-2"
+                            style={{ color: 'rgba(143,143,143,0.4)' }}
+                          >{item.descricao}</p>
+                        </div>
                       </div>
-                    )
-                 })}
-              </div>
-           </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
-
       </div>
     </div>
-  )
+  );
 }
 
 // Helpers
 const RedSquare = () => <div className="w-2 h-2 bg-brand-red flex-shrink-0 mt-2 shadow-[0_0_8px_rgba(150,42,32,0.6)]"></div>
 const SmallRedIcon = () => (
   <div className="w-10 h-10 rounded-full border border-brand-red/30 bg-brand-red/5 text-brand-red flex items-center justify-center text-sm mb-6 group-hover:scale-110 transition-transform duration-300">
-    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/><path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd"/></svg>
+    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z" /><path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" /></svg>
   </div>
 )
 
 function getEventStatus(evt) {
   if (!evt.dia || !evt.mes) return evt.status || 'proximo';
-  
-  const meses = { JAN:0, FEV:1, MAR:2, ABR:3, MAI:4, JUN:5, JUL:6, AGO:7, SET:8, OUT:9, NOV:10, DEZ:11 };
-  const evtMonth = meses[evt.mes.substring(0,3).toUpperCase()] ?? -1;
+
+  const meses = { JAN: 0, FEV: 1, MAR: 2, ABR: 3, MAI: 4, JUN: 5, JUL: 6, AGO: 7, SET: 8, OUT: 9, NOV: 10, DEZ: 11 };
+  const evtMonth = meses[evt.mes.substring(0, 3).toUpperCase()] ?? -1;
   if (evtMonth === -1) return evt.status || 'proximo';
 
   const evtDay = parseInt(evt.dia, 10) || 1;
-  const nowSP = new Date(new Date().toLocaleString("en-US", {timeZone: "America/Sao_Paulo"}));
+  const nowSP = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Sao_Paulo" }));
   const currentYear = nowSP.getFullYear();
   const evtYear = evt.ano ? parseInt(evt.ano, 10) : currentYear;
 
@@ -173,9 +235,9 @@ function getEventStatus(evt) {
 export default function Home() {
   const { data: timeline } = useData(getTimeline)
   const { data: agenda } = useData(getAgenda)
-  
+
   const agendaList = (agenda || []).map(e => ({ ...e, computedStatus: getEventStatus(e) }))
-  
+
   // Mix up to 4 events (prioritizing upcoming, but showing past if needed)
   const proximos = agendaList.filter(e => e.computedStatus !== 'realizado')
   const realizados = agendaList.filter(e => e.computedStatus === 'realizado')
@@ -183,7 +245,7 @@ export default function Home() {
 
   return (
     <main className="font-sans text-brand-dark bg-brand-bg w-full overflow-clip">
-      
+
       {/* 1. HERO SECTION */}
       <section className="relative flex flex-col md:flex-row min-h-[75vh] overflow-hidden bg-brand-bg">
         {/* Background Decorative Elements */}
@@ -192,14 +254,14 @@ export default function Home() {
 
         {/* Left Content */}
         <div className="w-full md:w-1/2 px-8 py-16 md:px-16 lg:px-24 flex flex-col justify-center relative z-10 pt-24 md:pt-32">
-          
+
           <R className="mb-12">
             <div className="w-12 h-12 border border-brand-dark/20 rounded-full flex items-center justify-center mb-6 bg-white/50 backdrop-blur-sm shadow-sm">
               <span className="font-serif italic text-lg">RF</span>
             </div>
-            
+
             <h1 className="font-serif text-5xl md:text-7xl tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-brand-dark to-gray-600">
-              Rachel<br/>Freixo
+              Rachel<br />Freixo
             </h1>
             <div className="flex flex-wrap gap-2 mb-6 max-w-lg">
               <span className="text-[10px] sm:text-xs uppercase tracking-widest bg-brand-dark text-white px-3 py-1 rounded-full">Mãe</span>
@@ -222,7 +284,7 @@ export default function Home() {
                 <p className="text-xs md:text-sm text-brand-gray mt-1 leading-relaxed">Experiência na análise de litígios tributários complexos.</p>
               </div>
             </R>
-            
+
             <R delay="reveal-delay-2" className="flex gap-4 items-start group">
               <div className="w-10 h-10 rounded-full bg-white border border-[#E5E5E5] text-brand-dark flex items-center justify-center text-xs font-bold shadow-sm group-hover:border-brand-red transition-colors duration-300 flex-shrink-0">T</div>
               <div>
@@ -239,21 +301,21 @@ export default function Home() {
               </div>
             </R>
           </div>
-          
+
         </div>
 
         {/* Right Image */}
         <div className="w-full md:w-5/12 relative h-[50vh] md:h-auto ml-auto overflow-hidden">
           <div className="absolute inset-0 bg-brand-dark/10 z-10 mix-blend-multiply"></div>
-          <img 
-            src="/hero.jpg" 
-            alt="Rachel Freixo" 
+          <img
+            src="/hero.jpg"
+            alt="Rachel Freixo"
             loading="eager"
             fetchPriority="high"
             className="absolute inset-0 w-full h-full object-cover object-[center_top]"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-transparent to-transparent z-10"></div>
-          
+
           <div className="absolute bottom-8 left-8 right-8 z-20 flex flex-col sm:flex-row gap-4">
             <Link to="/especialidades" className="flex-1 text-center bg-white/10 backdrop-blur-md border border-white/20 text-white uppercase text-xs tracking-widest font-bold py-4 hover:bg-white/20 transition-all duration-300">Conheça o Perfil</Link>
             <Link to="/agenda" className="flex-1 text-center bg-brand-red border border-brand-red text-white uppercase text-xs tracking-widest font-bold py-4 hover:bg-red-800 shadow-[0_0_20px_rgba(150,42,32,0.4)] transition-all duration-300">Eventos e Palestras</Link>
@@ -265,20 +327,20 @@ export default function Home() {
       {/* 2. SERVICES GRID (Pilares) */}
       <section className="bg-white px-8 py-32 md:px-16 lg:px-24">
         <div className="max-w-7xl mx-auto">
-          
+
           <R className="mb-20 flex flex-col md:flex-row md:items-end justify-between gap-8">
             <div>
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-12 h-[1px] bg-brand-red"></div>
                 <span className="text-brand-red uppercase tracking-widest text-sm font-bold">Expertise</span>
               </div>
-              <h2 className="font-serif text-4xl md:text-6xl text-brand-dark">Pilares de<br/>Atuação Estratégica</h2>
+              <h2 className="font-serif text-4xl md:text-6xl text-brand-dark">Pilares de<br />Atuação Estratégica</h2>
             </div>
             <p className="text-base md:text-lg text-brand-gray max-w-md leading-relaxed">Soluções multidisciplinares em direito público, contencioso tributário e gestão corporativa, desenhadas exclusivamente para empresas, conselhos e instituições que buscam segurança, inovação e excelência técnica.</p>
           </R>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-            
+
             <R delay="reveal-delay-1" className="group bg-brand-bg rounded-2xl p-10 hover:shadow-2xl hover:shadow-brand-dark/5 transition-all duration-300 border border-transparent hover:border-[#E5E5E5] flex flex-col h-full hover:-translate-y-2">
               <div className="flex justify-between items-start mb-8">
                 <h3 className="font-serif text-3xl max-w-[250px] group-hover:text-brand-red transition-colors duration-300">Contencioso Administrativo</h3>
@@ -331,19 +393,63 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 3. ABOUT / PHILOSOPHY - Glassmorphism Edition */}
+      {/* 3. PREMIUM CENTRAL TIMELINE STICKY */}
+      <StickyTimeline items={timeline || []} />
+
+      {/* 4. RESULTS / ACCORDION STYLE */}
+      <section className="bg-brand-bg px-8 py-32 md:px-16 lg:px-24">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-20 items-center">
+
+          {/* Left Title */}
+          <R className="lg:w-1/3">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-12 h-[1px] bg-brand-red"></div>
+              <span className="text-brand-red uppercase tracking-widest text-sm font-bold">Atuação</span>
+            </div>
+            <h2 className="font-serif text-5xl md:text-7xl text-brand-dark leading-tight mb-12">
+              Resultados com segurança.
+            </h2>
+            <div className="bg-gradient-to-br from-brand-dark to-gray-800 text-white p-10 rounded-2xl shadow-2xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-brand-red/20 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2"></div>
+              <div className="text-7xl font-serif mb-4 relative z-10">20+</div>
+              <p className="text-sm text-[#8F8F8F] uppercase tracking-widest font-bold relative z-10">Anos de experiência focada em excelência, docência e julgamentos colegiados.</p>
+            </div>
+          </R>
+
+          {/* Right List */}
+          <div className="lg:w-2/3 w-full space-y-4">
+            {[
+              'Atuação contínua como Conselheira Titular julgando litígios complexos no CARF',
+              'Reconhecido trabalho como Subsecretária de Competitividade e Projetos no ES',
+              'Conselheira de Administração com sólida formação pela FDC/IBGC',
+              'Liderança atuante na formulação de painéis de ESG e Sustentabilidade Integrada',
+              'Forte atuação acadêmica, docência de pós-graduação e publicações pelo IBET e Fucape'
+            ].map((text, i) => (
+              <R delay="" key={i} className="group bg-brand-bg rounded-xl px-8 py-6 flex justify-between items-center cursor-pointer hover:bg-brand-dark hover:text-white transition-all duration-300 shadow-sm border border-transparent hover:border-brand-dark hover:-translate-y-1">
+                <span className="text-lg font-medium pr-6">{text}</span>
+                <span className="w-10 h-10 rounded-full bg-white group-hover:bg-brand-red flex items-center justify-center text-brand-dark group-hover:text-white transition-colors duration-300 flex-shrink-0 group-hover:rotate-45">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
+                </span>
+              </R>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* 5. ABOUT / PHILOSOPHY - Glassmorphism Edition */}
       <section className="bg-brand-dark px-8 py-32 md:px-16 lg:px-24 relative overflow-hidden">
         {/* Glow effect */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-red/10 rounded-full blur-[100px] pointer-events-none animate-float"></div>
 
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-20 relative z-10">
-          
+
           {/* Left Col - Overlapping Image and Card */}
           <R className="lg:w-1/3 relative flex flex-col">
             <div className="relative w-full aspect-[3/4] md:aspect-auto md:h-full">
               <img src="/about.jpg" alt="Rachel Freixo" loading="lazy" className="absolute inset-0 w-full h-full object-cover rounded-xl shadow-2xl" />
             </div>
-            {/* Redesigned Mission Card - positioned below the photo */}
+            {/* Mission Card */}
             <div className="relative md:absolute md:-bottom-16 md:-right-16 mt-[-30px] md:mt-0 z-20 bg-brand-dark/70 backdrop-blur-2xl border border-white/10 p-6 md:p-8 rounded-2xl shadow-2xl w-[90%] mx-auto md:w-[360px]">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-8 h-[1px] bg-brand-red"></div>
@@ -368,54 +474,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. PREMIUM CENTRAL TIMELINE STICKY */}
-      <StickyTimeline items={timeline || []} />
-
-      {/* 5. RESULTS / ACCORDION STYLE */}
-      <section className="bg-brand-bg px-8 py-32 md:px-16 lg:px-24">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-20 items-center">
-          
-          {/* Left Title */}
-          <R className="lg:w-1/3">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-[1px] bg-brand-red"></div>
-              <span className="text-brand-red uppercase tracking-widest text-sm font-bold">Atuação</span>
-            </div>
-            <h2 className="font-serif text-5xl md:text-7xl text-brand-dark leading-tight mb-12">
-              Resultados com segurança.
-            </h2>
-            <div className="bg-gradient-to-br from-brand-dark to-gray-800 text-white p-10 rounded-2xl shadow-2xl relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-brand-red/20 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2"></div>
-              <div className="text-7xl font-serif mb-4 relative z-10">20+</div>
-              <p className="text-sm text-[#8F8F8F] uppercase tracking-widest font-bold relative z-10">Anos de experiência focada em excelência, docência e julgamentos colegiados.</p>
-            </div>
-          </R>
-
-          {/* Right List */}
-          <div className="lg:w-2/3 w-full space-y-4">
-            {[
-              'Atuação contínua como Conselheira Titular julgando litígios complexos no CARF', 
-              'Reconhecido trabalho como Subsecretária de Competitividade e Projetos no ES', 
-              'Conselheira de Administração com sólida formação pela FDC/IBGC', 
-              'Liderança atuante na formulação de painéis de ESG e Sustentabilidade Integrada', 
-              'Forte atuação acadêmica, docência de pós-graduação e publicações pelo IBET e Fucape'
-            ].map((text, i) => (
-              <R delay="" key={i} className="group bg-brand-bg rounded-xl px-8 py-6 flex justify-between items-center cursor-pointer hover:bg-brand-dark hover:text-white transition-all duration-300 shadow-sm border border-transparent hover:border-brand-dark hover:-translate-y-1">
-                <span className="text-lg font-medium pr-6">{text}</span>
-                <span className="w-10 h-10 rounded-full bg-white group-hover:bg-brand-red flex items-center justify-center text-brand-dark group-hover:text-white transition-colors duration-300 flex-shrink-0 group-hover:rotate-45">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
-                </span>
-              </R>
-            ))}
-          </div>
-
-        </div>
-      </section>
-
       {/* 6. AGENDA SECTION - Editorial Split Layout */}
       <section className="bg-white px-8 py-32 md:px-16 lg:px-24">
         <div className="max-w-7xl mx-auto">
-          
+
           <R className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-8">
             <div>
               <div className="flex items-center gap-4 mb-6">
@@ -430,13 +492,13 @@ export default function Home() {
           </R>
 
           <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
-            
+
             {/* Left: Editorial Photo */}
             <R className="lg:w-5/12 relative group">
               <div className="relative w-full h-[500px] lg:h-full min-h-[500px] rounded-2xl overflow-hidden shadow-2xl">
-                <img 
-                  src="/agenda.jpg" 
-                  alt="Rachel Freixo em evento" 
+                <img
+                  src="/agenda.jpg"
+                  alt="Rachel Freixo em evento"
                   loading="lazy"
                   className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
                 />
@@ -457,7 +519,7 @@ export default function Home() {
                 const isPast = evt.computedStatus === 'realizado';
                 return (
                   <R delay={`reveal-delay-${(idx % 4) + 1}`} key={evt.id} className={`group p-8 rounded-2xl border transition-all duration-300 flex flex-col justify-between h-[260px] hover:-translate-y-2 ${isPast ? 'bg-[#EFECE8] border-[#D1D1D1] opacity-80 hover:opacity-100 shadow-none' : 'bg-brand-bg border-[#E5E5E5] hover:border-brand-red hover:shadow-2xl shadow-sm'}`}>
-                    
+
                     <div>
                       <div className="flex items-center gap-2 mb-6">
                         <span className={`text-[10px] uppercase tracking-widest font-bold px-3 py-1 rounded-full ${isPast ? 'bg-brand-gray text-white' : 'bg-brand-dark text-white'}`}>
@@ -475,7 +537,7 @@ export default function Home() {
                         {evt.titulo}
                       </p>
                     </div>
-                    
+
                     <p className="text-xs text-brand-gray uppercase tracking-widest font-bold mt-4 pt-4 border-t border-brand-gray/20">
                       {evt.local}
                     </p>
