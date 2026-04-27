@@ -43,8 +43,8 @@ export default function Contato() {
             <div className="w-12 h-[1px] bg-brand-red"></div>
             <span className="text-sm uppercase tracking-widest font-bold text-brand-red">Contato</span>
           </div>
-          <h1 className="font-serif text-5xl md:text-8xl mb-8 tracking-tight text-brand-dark">Fale com <br/><span className="text-brand-gray">Rachel</span></h1>
-          <p className="text-brand-gray text-lg md:text-xl max-w-2xl leading-relaxed font-medium">Para palestras, consultorias, imprensa ou parcerias acadêmicas.</p>
+          <h1 className="font-serif text-5xl md:text-8xl mb-8 tracking-tight text-brand-dark">Fale com <br/><span className="text-brand-gray">Esther</span></h1>
+          <p className="text-brand-gray text-lg md:text-xl max-w-2xl leading-relaxed font-medium">Para palestras, cursos, imprensa ou parcerias acadêmicas.</p>
         </div>
       </section>
 
@@ -70,9 +70,9 @@ export default function Contato() {
                 Redes Profissionais
               </strong>
               <div className="flex flex-col gap-3 text-base pl-5 border-l border-brand-red/20">
-                <a href="https://www.linkedin.com/in/rachelfreixo/" target="_blank" rel="noopener noreferrer" className="text-brand-gray hover:text-brand-red font-medium transition-colors w-fit flex items-center gap-2">LinkedIn <span className="text-xs">↗</span></a>
-                <a href="https://www.instagram.com/rachelfreixo/" target="_blank" rel="noopener noreferrer" className="text-brand-gray hover:text-brand-red font-medium transition-colors w-fit flex items-center gap-2">Instagram <span className="text-xs">↗</span></a>
-                <a href="https://linktr.ee/rachelfreixo" target="_blank" rel="noopener noreferrer" className="text-brand-gray hover:text-brand-red font-medium transition-colors w-fit flex items-center gap-2">Linktree <span className="text-xs">↗</span></a>
+                <a href="https://www.linkedin.com/in/esther/" target="_blank" rel="noopener noreferrer" className="text-brand-gray hover:text-brand-red font-medium transition-colors w-fit flex items-center gap-2">LinkedIn <span className="text-xs">↗</span></a>
+                <a href="https://www.instagram.com/esther/" target="_blank" rel="noopener noreferrer" className="text-brand-gray hover:text-brand-red font-medium transition-colors w-fit flex items-center gap-2">Instagram <span className="text-xs">↗</span></a>
+                <a href="https://linktr.ee/esther" target="_blank" rel="noopener noreferrer" className="text-brand-gray hover:text-brand-red font-medium transition-colors w-fit flex items-center gap-2">Linktree <span className="text-xs">↗</span></a>
               </div>
             </R>
 
@@ -110,7 +110,7 @@ export default function Contato() {
                   <select id="assunto" name="assunto" required className="w-full bg-[#F7F6F3]/50 border border-[#E5E5E5] rounded-xl p-4 text-base focus:bg-white focus:border-brand-red focus:ring-4 focus:ring-brand-red/10 outline-none transition-all appearance-none cursor-pointer">
                     <option value="" disabled selected>Selecione a área de interesse</option>
                     <option value="palestra">Palestra / Evento</option>
-                    <option value="consultoria">Consultoria Especializada</option>
+                    <option value="curso">Curso / Formação</option>
                     <option value="imprensa">Imprensa / Mídia</option>
                     <option value="academia">Academia / Pesquisa</option>
                     <option value="outros">Outros</option>
@@ -123,7 +123,7 @@ export default function Contato() {
                 </div>
                 
                 <div className="pt-4">
-                  <button type="submit" disabled={sending} className="w-full sm:w-auto bg-brand-red text-white px-12 py-4 rounded-xl text-sm uppercase tracking-widest font-bold hover:bg-red-800 hover:shadow-lg hover:shadow-brand-red/30 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                  <button type="submit" disabled={sending} className="w-full sm:w-auto bg-brand-red text-white px-12 py-4 rounded-xl text-sm uppercase tracking-widest font-bold hover:bg-teal-700 hover:shadow-lg hover:shadow-brand-red/30 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
                     {sending ? 'Enviando...' : 'Enviar Mensagem'}
                   </button>
                 </div>
@@ -131,7 +131,7 @@ export default function Contato() {
                 {sent && (
                   <div className="p-4 bg-green-50 border border-green-200 rounded-xl text-green-700 font-medium text-center text-sm flex items-center justify-center gap-3">
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
-                    Mensagem enviada! Rachel retornará o contato em breve.
+                    Mensagem enviada! Esther retornará o contato em breve.
                   </div>
                 )}
                 {error && (

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { getPublicacoes, getCitacoes } from '../store/data'
 import useData from '../hooks/useData'
@@ -77,7 +77,7 @@ export default function EspecialidadesPesquisas() {
                     </p>
                     <div className="flex items-center gap-4 mt-6">
                       <div className={`w-8 h-[1px] ${style.lineCol}`}></div>
-                      <span className={`text-xs font-bold tracking-widest uppercase ${style.nameCol}`}>Rachel Freixo</span>
+                      <span className={`text-xs font-bold tracking-widest uppercase ${style.nameCol}`}>Esther</span>
                     </div>
                   </div>
                 )

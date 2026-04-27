@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { getMidias, addMidia, updateMidia, deleteMidia } from '../../store/data'
 
 const EMPTY = { titulo: '', tipo: 'podcast', url: '', descricao: '', thumbnail_url: '' }
@@ -95,7 +95,7 @@ export default function AdminMidias() {
           <h2 className="font-serif text-3xl text-brand-dark mb-2">Mídia</h2>
           <p className="text-sm text-brand-gray">Gerencie os podcasts, vídeos e entrevistas. Cole um link do YouTube para preencher automaticamente.</p>
         </div>
-        <button className="bg-brand-red text-white text-xs uppercase tracking-widest font-bold px-6 py-3 hover:bg-red-800 transition-colors" onClick={openNew}>+ Nova Mídia</button>
+        <button className="bg-brand-red text-white text-xs uppercase tracking-widest font-bold px-6 py-3 hover:bg-teal-700 transition-colors" onClick={openNew}>+ Nova Mídia</button>
       </div>
 
       <div className="space-y-4">
@@ -195,7 +195,7 @@ export default function AdminMidias() {
               </div>
               
               <div className="flex gap-4 pt-4 border-t border-[#E5E5E5]">
-                <button type="submit" className="bg-brand-red text-white text-xs uppercase tracking-widest font-bold px-8 py-3 hover:bg-red-800 transition-colors">Salvar</button>
+                <button type="submit" className="bg-brand-red text-white text-xs uppercase tracking-widest font-bold px-8 py-3 hover:bg-teal-700 transition-colors">Salvar</button>
                 <button type="button" className="border border-[#E5E5E5] text-brand-dark text-xs uppercase tracking-widest font-bold px-8 py-3 hover:border-brand-dark transition-colors" onClick={() => setModal(false)}>Cancelar</button>
               </div>
             </form>

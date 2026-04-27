@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { login } from '../store/data'
 
@@ -33,7 +33,7 @@ export default function Login() {
           <div className="w-16 h-16 border border-brand-dark/20 rounded-full flex items-center justify-center mx-auto mb-6 bg-white shadow-sm">
             <span className="font-serif italic text-2xl">RF</span>
           </div>
-          <p className="font-serif italic text-4xl mb-3 text-brand-dark">Rachel Freixo</p>
+          <p className="font-serif italic text-4xl mb-3 text-brand-dark">Esther</p>
           <p className="text-sm uppercase tracking-widest font-bold text-brand-red">Área Administrativa</p>
         </div>
         
@@ -54,7 +54,7 @@ export default function Login() {
             <input id="pass" name="pass" type="password" placeholder="Digite sua senha" required className="w-full bg-[#F7F6F3]/50 border border-[#E5E5E5] rounded-xl p-4 text-base focus:bg-white focus:border-brand-red focus:ring-4 focus:ring-brand-red/10 outline-none transition-all" />
           </div>
           <div className="pt-4">
-            <button type="submit" disabled={loading} className="w-full bg-brand-red text-white py-4 rounded-xl text-sm uppercase tracking-widest font-bold hover:bg-red-800 hover:shadow-lg hover:shadow-brand-red/30 transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed">
+            <button type="submit" disabled={loading} className="w-full bg-brand-red text-white py-4 rounded-xl text-sm uppercase tracking-widest font-bold hover:bg-teal-700 hover:shadow-lg hover:shadow-brand-red/30 transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed">
               {loading ? 'Autenticando...' : 'Acessar Painel'}
             </button>
           </div>

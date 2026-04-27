@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+﻿import { Link } from 'react-router-dom'
 import { getAgenda, getInsights } from '../store/data'
 import useData from '../hooks/useData'
 import useScrollReveal from '../hooks/useScrollReveal'
@@ -47,7 +47,7 @@ export default function Agenda() {
             <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl mb-8 tracking-tight text-brand-dark">Eventos <br /><span className="text-brand-gray">&</span> Palestras</h1>
             <p className="text-brand-gray text-lg md:text-xl max-w-xl leading-relaxed font-medium mb-10">Confira os próximos compromissos, painéis e participações em eventos nacionais e internacionais. Acompanhe também os artigos e reflexões publicados no LinkedIn.</p>
             <div className="flex flex-wrap gap-4">
-              <a href="https://www.linkedin.com/in/rachelfreixo/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 bg-brand-dark text-white text-xs uppercase tracking-widest font-bold px-8 py-4 hover:bg-brand-red transition-colors duration-300 rounded-full shadow-lg">
+              <a href="https://www.linkedin.com/in/esther/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 bg-brand-dark text-white text-xs uppercase tracking-widest font-bold px-8 py-4 hover:bg-brand-red transition-colors duration-300 rounded-full shadow-lg">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
                 Conecte-se
               </a>
@@ -59,7 +59,7 @@ export default function Agenda() {
             <div className="relative w-full h-[350px] md:h-[450px] lg:h-[600px] rounded-2xl overflow-hidden shadow-2xl bg-[#EFECE8]">
               <img
                 src="/agenda_hero.jpg"
-                alt="Rachel Freixo"
+                alt="Esther"
                 className="absolute inset-0 w-full h-full object-cover object-[50%_20%] group-hover:scale-105 transition-transform duration-700"
               />
             </div>

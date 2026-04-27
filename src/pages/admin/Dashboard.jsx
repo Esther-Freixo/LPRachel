@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+﻿import { Link } from 'react-router-dom'
 import { getPublicacoes, getAgenda } from '../../store/data'
 import useData from '../../hooks/useData'
 
@@ -15,7 +15,7 @@ export default function Dashboard() {
   return (
     <div>
       <div className="mb-12">
-        <h1 className="font-serif text-3xl md:text-4xl text-brand-dark mb-2">Bem-vinda, Rachel!</h1>
+        <h1 className="font-serif text-3xl md:text-4xl text-brand-dark mb-2">Bem-vinda, Esther!</h1>
         <p className="text-sm text-brand-gray">Aqui você gerencia as publicações e a agenda do seu site.</p>
       </div>
       

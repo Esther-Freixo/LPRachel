@@ -80,7 +80,7 @@ function Navbar() {
 
       <header style={{ zIndex: 100 }} className="fixed top-0 left-0 w-full bg-brand-bg/90 backdrop-blur-sm border-b border-[#E5E5E5]">
         <nav className="max-w-7xl mx-auto px-6 lg:px-24 h-20 flex items-center justify-between">
-          <Link to="/" className="font-serif italic text-xl tracking-wider notranslate" onClick={() => { setMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }) }}>Rachel Freixo</Link>
+          <Link to="/" className="font-serif italic text-xl tracking-wider notranslate" onClick={() => { setMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }) }}>Esther</Link>
           
           {/* Desktop Menu */}
           <ul className="hidden md:flex items-center gap-8 text-xs uppercase tracking-widest font-bold">
@@ -149,9 +149,9 @@ function Footer() {
     <footer className="bg-brand-dark text-white pt-20 pb-10 px-6 lg:px-24">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-12 mb-16">
         <div className="md:w-1/3">
-          <p className="font-serif italic text-2xl mb-4 notranslate">Rachel Freixo</p>
-          <p className="text-xs text-[#8F8F8F] uppercase tracking-widest mb-4">Conselheira CARF · Tributarista</p>
-          <p className="text-sm text-[#8F8F8F] leading-relaxed">Direito Tributário, Governança e Políticas Públicas com rigor técnico e compromisso institucional.</p>
+          <p className="font-serif italic text-2xl mb-4 notranslate">Esther</p>
+          <p className="text-xs text-[#8F8F8F] uppercase tracking-widest mb-4">Professora · Tributarista</p>
+          <p className="text-sm text-[#8F8F8F] leading-relaxed">Educação, pesquisa e formação profissional em Direito Tributário, ESG e Governança Corporativa.</p>
         </div>
         <div className="flex gap-12 md:gap-16">
           <div>
@@ -172,7 +172,7 @@ function Footer() {
         </div>
       </div>
       <div className="max-w-7xl mx-auto border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between text-xs text-gray-500 gap-2">
-        <p>© {new Date().getFullYear()} Rachel Freixo. Todos os direitos reservados.</p>
+        <p>© {new Date().getFullYear()} Esther. Todos os direitos reservados.</p>
         <p>Vitória, Espírito Santo</p>
       </div>
     </footer>

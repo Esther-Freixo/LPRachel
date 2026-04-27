@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom'
+﻿import { useParams, Link } from 'react-router-dom'
 import { getInsights } from '../store/data'
 import useData from '../hooks/useData'
 
@@ -70,7 +70,7 @@ export default function InsightPost() {
           </div>
 
           <div className="pt-8 border-t border-[#E5E5E5] flex flex-col sm:flex-row gap-4">
-            <a href={post.linkOriginal} target="_blank" rel="noopener noreferrer" className="bg-brand-red text-white text-xs uppercase tracking-widest font-bold px-8 py-4 text-center hover:bg-red-800 transition-colors">
+            <a href={post.linkOriginal} target="_blank" rel="noopener noreferrer" className="bg-brand-red text-white text-xs uppercase tracking-widest font-bold px-8 py-4 text-center hover:bg-teal-700 transition-colors">
               Ver post original no LinkedIn ↗
             </a>
             <Link to="/agenda" className="border border-[#E5E5E5] bg-white text-brand-dark text-xs uppercase tracking-widest font-bold px-8 py-4 text-center hover:border-brand-red transition-colors">

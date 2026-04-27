@@ -63,16 +63,16 @@ function StickyTimeline({ items }) {
         if (r.conn) {
           r.conn.style.opacity = opacity;
           r.conn.style.transform = `scaleX(${scale})`;
-          const c = isActive ? 'rgba(150,42,32,0.6)' : 'rgba(150,42,32,0.2)';
+          const c = isActive ? 'rgba(0,180,166,0.6)' : 'rgba(0,180,166,0.2)';
           r.conn.style.backgroundImage = `repeating-linear-gradient(to ${r.connDir}, ${c} 0px, ${c} 4px, transparent 4px, transparent 8px)`;
         }
         // Card border/shadow only on desktop
         if (r.card && !isMobile) { r.card.style.borderColor = isActive ? '#E5E5E5' : 'transparent'; r.card.style.boxShadow = isActive ? '0 20px 25px -5px rgba(0,0,0,0.1),0 8px 10px -6px rgba(0,0,0,0.04)' : 'none'; }
         // Mobile: add left accent bar on active
-        if (r.card && isMobile) { r.card.style.borderLeft = isActive ? '3px solid #962A20' : '3px solid transparent'; r.card.style.paddingLeft = '12px'; }
-        if (r.tag) { r.tag.style.backgroundColor = isActive ? 'rgba(150,42,32,0.1)' : 'rgba(28,28,28,0.04)'; r.tag.style.color = isActive ? '#962A20' : 'rgba(143,143,143,0.4)'; }
+        if (r.card && isMobile) { r.card.style.borderLeft = isActive ? '3px solid #00B4A6' : '3px solid transparent'; r.card.style.paddingLeft = '12px'; }
+        if (r.tag) { r.tag.style.backgroundColor = isActive ? 'rgba(0,180,166,0.1)' : 'rgba(28,28,28,0.04)'; r.tag.style.color = isActive ? '#00B4A6' : 'rgba(143,143,143,0.4)'; }
         if (r.title) r.title.style.color = isActive ? '#1C1C1C' : 'rgba(28,28,28,0.5)';
-        if (r.year)  r.year.style.color  = isActive ? '#962A20' : 'rgba(143,143,143,0.35)';
+        if (r.year)  r.year.style.color  = isActive ? '#00B4A6' : 'rgba(143,143,143,0.35)';
         if (r.desc)  r.desc.style.color  = isActive ? 'rgba(28,28,28,0.6)' : 'rgba(143,143,143,0.4)';
       }
     };
@@ -106,7 +106,7 @@ function StickyTimeline({ items }) {
   return (
     <div ref={containerRef} style={{ height: `${timelineItems.length * 36}vh` }} className="relative w-full z-10 font-sans">
       <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-brand-bg"
-        style={{ background: 'radial-gradient(ellipse 70% 55% at 10% 35%, rgba(150,42,32,0.09) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 85% 65%, rgba(150,42,32,0.06) 0%, transparent 55%), radial-gradient(ellipse 80% 70% at 50% 50%, rgba(150,42,32,0.03) 0%, transparent 70%), #F5F0EB' }}
+        style={{ background: 'radial-gradient(ellipse 70% 55% at 10% 35%, rgba(0,180,166,0.09) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 85% 65%, rgba(0,180,166,0.06) 0%, transparent 55%), radial-gradient(ellipse 80% 70% at 50% 50%, rgba(0,180,166,0.03) 0%, transparent 70%), #F5F0EB' }}
       >
         {/* Red ambient glow orbs */}
         <div className="absolute top-[10%] left-[2%] w-[520px] h-[520px] bg-brand-red/[0.09] rounded-full blur-[140px] animate-float pointer-events-none"></div>
@@ -145,7 +145,7 @@ function StickyTimeline({ items }) {
         >
           {/* Center Glowing Orb — desktop only */}
           <div className="absolute top-1/2 hidden md:block md:left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
-            <div className="w-3.5 h-3.5 rounded-full bg-brand-red shadow-[0_0_10px_rgba(150,42,32,0.4),0_0_25px_rgba(150,42,32,0.15)]"></div>
+            <div className="w-3.5 h-3.5 rounded-full bg-brand-red shadow-[0_0_10px_rgba(0,180,166,0.4),0_0_25px_rgba(0,180,166,0.15)]"></div>
           </div>
 
           {/* Comet Tail — desktop only */}
@@ -171,7 +171,7 @@ function StickyTimeline({ items }) {
                     {/* Connector — desktop only */}
                     <div ref={setRef(i, 'conn', { connDir })}
                       className={`hidden md:block absolute top-1/2 -translate-y-1/2 h-[1px] z-10 ${isEven ? 'right-1/2 mr-[7px] w-[40px]' : 'left-1/2 ml-[7px] w-[40px]'}`}
-                      style={{ backgroundImage: `repeating-linear-gradient(to ${connDir}, rgba(150,42,32,0.2) 0px, rgba(150,42,32,0.2) 4px, transparent 4px, transparent 8px)`, transformOrigin: isEven ? 'right' : 'left', opacity: 0 }}
+                      style={{ backgroundImage: `repeating-linear-gradient(to ${connDir}, rgba(0,180,166,0.2) 0px, rgba(0,180,166,0.2) 4px, transparent 4px, transparent 8px)`, transformOrigin: isEven ? 'right' : 'left', opacity: 0 }}
                     ></div>
 
                     {/* Card Wrapper */}
@@ -215,7 +215,7 @@ function StickyTimeline({ items }) {
 }
 
 // Helpers
-const RedSquare = () => <div className="w-2 h-2 bg-brand-red flex-shrink-0 mt-2 shadow-[0_0_8px_rgba(150,42,32,0.6)]"></div>
+const RedSquare = () => <div className="w-2 h-2 bg-brand-red flex-shrink-0 mt-2 shadow-[0_0_8px_rgba(0,180,166,0.6)]"></div>
 const SmallRedIcon = () => (
   <div className="w-10 h-10 rounded-full border border-brand-red/30 bg-brand-red/5 text-brand-red flex items-center justify-center text-sm mb-6 group-hover:scale-110 transition-transform duration-300">
     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z" /><path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" /></svg>
@@ -263,44 +263,44 @@ export default function Home() {
 
           <R className="mb-12">
             <div className="w-12 h-12 border border-brand-dark/20 rounded-full flex items-center justify-center mb-6 bg-white/50 backdrop-blur-sm shadow-sm">
-              <span className="font-serif italic text-lg">RF</span>
+              <span className="font-serif italic text-lg">E</span>
             </div>
 
             <h1 className="font-serif text-5xl md:text-7xl tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-brand-dark to-gray-600">
-              Rachel<br />Freixo
+              Professora<br />Esther
             </h1>
             <div className="flex flex-wrap gap-2 mb-6 max-w-lg">
               <span className="text-[10px] sm:text-xs uppercase tracking-widest bg-brand-dark text-white px-3 py-1 rounded-full">Mãe</span>
-              <span className="text-[10px] sm:text-xs uppercase tracking-widest bg-brand-red text-white px-3 py-1 rounded-full">Conselheira CARF</span>
-              <span className="text-[10px] sm:text-xs uppercase tracking-widest border border-brand-dark/20 text-brand-dark px-3 py-1 rounded-full">Vogal JUCEES</span>
-              <span className="text-[10px] sm:text-xs uppercase tracking-widest border border-brand-dark/20 text-brand-dark px-3 py-1 rounded-full">Ex-Subsecretária ES</span>
-              <span className="text-[10px] sm:text-xs uppercase tracking-widest border border-brand-dark/20 text-brand-dark px-3 py-1 rounded-full">Profa Palestrante</span>
+              <span className="text-[10px] sm:text-xs uppercase tracking-widest bg-brand-red text-white px-3 py-1 rounded-full">Professora</span>
+              <span className="text-[10px] sm:text-xs uppercase tracking-widest border border-brand-dark/20 text-brand-dark px-3 py-1 rounded-full">Palestrante</span>
+              <span className="text-[10px] sm:text-xs uppercase tracking-widest border border-brand-dark/20 text-brand-dark px-3 py-1 rounded-full">Tributarista</span>
+              <span className="text-[10px] sm:text-xs uppercase tracking-widest border border-brand-dark/20 text-brand-dark px-3 py-1 rounded-full">Pesquisadora ESG</span>
             </div>
             <p className="text-brand-dark text-base md:text-lg max-w-lg leading-relaxed font-medium mb-10">
-              Liderança executiva, rigor acadêmico e inteligência estratégica. Mestre e Doutoranda em Ciências Contábeis e Administração, atuando com forte foco em <strong>ESG</strong> e <strong>TAX</strong>.
+              Educadora, pesquisadora e palestrante. Mestre e Doutoranda em Ciências Contábeis e Administração, com forte atuação em <strong>ESG</strong>, <strong>Tributação</strong> e <strong>Governança</strong>.
             </p>
           </R>
 
           {/* 3 List Items */}
           <div className="space-y-6">
             <R delay="reveal-delay-1" className="flex gap-4 items-start group">
-              <div className="w-10 h-10 rounded-full bg-brand-dark text-white flex items-center justify-center text-xs font-bold shadow-lg group-hover:scale-110 transition-transform duration-300 flex-shrink-0">C</div>
+              <div className="w-10 h-10 rounded-full bg-brand-dark text-white flex items-center justify-center text-xs font-bold shadow-lg group-hover:scale-110 transition-transform duration-300 flex-shrink-0">D</div>
               <div>
-                <h3 className="font-bold text-sm md:text-base uppercase tracking-wide">Conselho Administrativo (CARF)</h3>
-                <p className="text-xs md:text-sm text-brand-gray mt-1 leading-relaxed">Experiência na análise de litígios tributários complexos.</p>
+                <h3 className="font-bold text-sm md:text-base uppercase tracking-wide">Docência & Formação</h3>
+                <p className="text-xs md:text-sm text-brand-gray mt-1 leading-relaxed">Professora de pós-graduação em Direito Tributário e Contabilidade.</p>
               </div>
             </R>
 
             <R delay="reveal-delay-2" className="flex gap-4 items-start group">
               <div className="w-10 h-10 rounded-full bg-white border border-[#E5E5E5] text-brand-dark flex items-center justify-center text-xs font-bold shadow-sm group-hover:border-brand-red transition-colors duration-300 flex-shrink-0">T</div>
               <div>
-                <h3 className="font-bold text-sm md:text-base uppercase tracking-wide group-hover:text-brand-red transition-colors duration-300">Inteligência Tributária</h3>
-                <p className="text-xs md:text-sm text-brand-gray mt-1 leading-relaxed">Consultoria focada no planejamento fiscal estruturado.</p>
+                <h3 className="font-bold text-sm md:text-base uppercase tracking-wide group-hover:text-brand-red transition-colors duration-300">Pesquisa Tributária</h3>
+                <p className="text-xs md:text-sm text-brand-gray mt-1 leading-relaxed">Pesquisa acadêmica em planejamento fiscal e políticas tributárias.</p>
               </div>
             </R>
 
             <R delay="reveal-delay-3" className="flex gap-4 items-start group">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-brand-red to-red-800 text-white flex items-center justify-center text-xs font-bold shadow-lg shadow-brand-red/30 group-hover:scale-110 transition-transform duration-300 flex-shrink-0">E</div>
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-brand-red to-teal-700 text-white flex items-center justify-center text-xs font-bold shadow-lg shadow-brand-red/30 group-hover:scale-110 transition-transform duration-300 flex-shrink-0">E</div>
               <div>
                 <h3 className="font-bold text-sm md:text-base uppercase tracking-wide">Sustentabilidade & ESG</h3>
                 <p className="text-xs md:text-sm text-brand-gray mt-1 leading-relaxed">Desenvolvimento de governança corporativa moderna.</p>
@@ -315,7 +315,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-brand-dark/10 z-10 mix-blend-multiply"></div>
           <img
             src="/hero.jpg"
-            alt="Rachel Freixo"
+            alt="Esther"
             loading="eager"
             fetchPriority="high"
             className="absolute inset-0 w-full h-full object-cover object-[center_top]"
@@ -324,7 +324,7 @@ export default function Home() {
 
           <div className="absolute bottom-8 left-8 right-8 z-20 flex flex-col sm:flex-row gap-4">
             <Link to="/especialidades" className="flex-1 text-center bg-white/10 backdrop-blur-md border border-white/20 text-white uppercase text-xs tracking-widest font-bold py-4 hover:bg-white/20 transition-all duration-300">Conheça o Perfil</Link>
-            <Link to="/agenda" className="flex-1 text-center bg-brand-red border border-brand-red text-white uppercase text-xs tracking-widest font-bold py-4 hover:bg-red-800 shadow-[0_0_20px_rgba(150,42,32,0.4)] transition-all duration-300">Eventos e Palestras</Link>
+            <Link to="/agenda" className="flex-1 text-center bg-brand-red border border-brand-red text-white uppercase text-xs tracking-widest font-bold py-4 hover:bg-teal-700 shadow-[0_0_20px_rgba(0,180,166,0.4)] transition-all duration-300">Eventos e Palestras</Link>
           </div>
         </div>
 
@@ -425,11 +425,11 @@ export default function Home() {
           {/* Right List */}
           <div className="lg:w-2/3 w-full space-y-4">
             {[
-              'Atuação contínua como Conselheira Titular julgando litígios complexos no CARF',
-              'Reconhecido trabalho como Subsecretária de Competitividade e Projetos no ES',
-              'Conselheira de Administração com sólida formação pela FDC/IBGC',
-              'Liderança atuante na formulação de painéis de ESG e Sustentabilidade Integrada',
-              'Forte atuação acadêmica, docência de pós-graduação e publicações pelo IBET e Fucape'
+              'Professora de pós-graduação com ampla experiência em Direito Tributário',
+              'Palestrante em eventos nacionais e internacionais sobre ESG e Governança',
+              'Pesquisadora ativa com publicações pelo IBET e Fucape',
+              'Formadora de profissionais em Sustentabilidade e Governança Corporativa',
+              'Mestre e Doutoranda em Ciências Contábeis e Administração'
             ].map((text, i) => (
               <R delay="" key={i} className="group bg-brand-bg rounded-xl px-8 py-6 flex justify-between items-center cursor-pointer hover:bg-brand-dark hover:text-white transition-all duration-300 shadow-sm border border-transparent hover:border-brand-dark hover:-translate-y-1">
                 <span className="text-lg font-medium pr-6">{text}</span>
@@ -453,7 +453,7 @@ export default function Home() {
           {/* Left Col - Overlapping Image and Card */}
           <R className="lg:w-1/3 relative flex flex-col">
             <div className="relative w-full aspect-[3/4] md:aspect-auto md:h-full">
-              <img src="/about.jpg" alt="Rachel Freixo" loading="lazy" className="absolute inset-0 w-full h-full object-cover rounded-xl shadow-2xl" />
+              <img src="/about.jpg" alt="Esther" loading="lazy" className="absolute inset-0 w-full h-full object-cover rounded-xl shadow-2xl" />
             </div>
             {/* Mission Card */}
             <div className="relative md:absolute md:-bottom-16 md:-right-16 mt-[-30px] md:mt-0 z-20 bg-brand-dark/70 backdrop-blur-2xl border border-white/10 p-6 md:p-8 rounded-2xl shadow-2xl w-[90%] mx-auto md:w-[360px]">
@@ -504,7 +504,7 @@ export default function Home() {
               <div className="relative w-full h-[500px] lg:h-full min-h-[500px] rounded-2xl overflow-hidden shadow-2xl">
                 <img
                   src="/agenda.jpg"
-                  alt="Rachel Freixo em evento"
+                  alt="Esther em evento"
                   loading="lazy"
                   className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
                 />

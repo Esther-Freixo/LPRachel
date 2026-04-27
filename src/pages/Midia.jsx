@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { getMidias } from '../store/data'
 import useData from '../hooks/useData'
 import useScrollReveal from '../hooks/useScrollReveal'
@@ -111,7 +111,7 @@ export default function Midia() {
               <span className="text-brand-gray">&</span> Entrevistas
             </h1>
             <p className="text-brand-gray text-lg md:text-xl max-w-2xl leading-relaxed font-medium">
-              Podcasts, vídeos e webinários onde Rachel compartilha sua visão sobre tributação, ESG e governança.
+              Podcasts, vídeos e webinários onde Esther compartilha sua visão sobre tributação, ESG e governança.
             </p>
           </R>
         </div>
@@ -203,7 +203,7 @@ export default function Midia() {
                             {item.descricao}
                           </p>
                         )}
-                        <div className="mt-auto pt-2 flex items-center gap-2 text-xs uppercase tracking-widest font-bold text-brand-red group-hover:text-red-800 transition-colors duration-300">
+                        <div className="mt-auto pt-2 flex items-center gap-2 text-xs uppercase tracking-widest font-bold text-brand-red group-hover:text-teal-700 transition-colors duration-300">
                           <span>{platform.cta}</span>
                           <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>

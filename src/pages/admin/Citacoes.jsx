@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { getCitacoes, addCitacao, updateCitacao, deleteCitacao } from '../../store/data'
 
 const EMPTY = { texto: '' }
@@ -36,7 +36,7 @@ export default function AdminCitacoes() {
           <h2 className="font-serif text-3xl text-brand-dark mb-2">Citações</h2>
           <p className="text-sm text-brand-gray">Gerencie as frases que aparecem em destaque na tela Especialidades. O estilo visual é aplicado automaticamente.</p>
         </div>
-        <button className="bg-brand-red text-white text-xs uppercase tracking-widest font-bold px-6 py-3 hover:bg-red-800 transition-colors" onClick={openNew}>+ Nova citação</button>
+        <button className="bg-brand-red text-white text-xs uppercase tracking-widest font-bold px-6 py-3 hover:bg-teal-700 transition-colors" onClick={openNew}>+ Nova citação</button>
       </div>
 
       <div className="space-y-4">
@@ -75,7 +75,7 @@ export default function AdminCitacoes() {
               </div>
               
               <div className="flex gap-4 pt-4 border-t border-[#E5E5E5]">
-                <button type="submit" className="bg-brand-red text-white text-xs uppercase tracking-widest font-bold px-8 py-3 hover:bg-red-800 transition-colors">Salvar</button>
+                <button type="submit" className="bg-brand-red text-white text-xs uppercase tracking-widest font-bold px-8 py-3 hover:bg-teal-700 transition-colors">Salvar</button>
                 <button type="button" className="border border-[#E5E5E5] text-brand-dark text-xs uppercase tracking-widest font-bold px-8 py-3 hover:border-brand-dark transition-colors" onClick={() => setModal(false)}>Cancelar</button>
               </div>
             </form>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { getInsights, addInsight, updateInsight, deleteInsight } from '../../store/data'
 
 export default function AdminInsights() {
@@ -47,7 +47,7 @@ export default function AdminInsights() {
           <h2 className="font-serif text-3xl text-brand-dark mb-2">Gerenciar LinkedIn Insights</h2>
           <p className="text-sm text-brand-gray">Publique suas reflexões rápidas do LinkedIn no site.</p>
         </div>
-        {!edit && <button className="bg-brand-red text-white text-xs uppercase tracking-widest font-bold px-6 py-3 hover:bg-red-800 transition-colors" onClick={() => setEdit({})}>+ Novo Insight</button>}
+        {!edit && <button className="bg-brand-red text-white text-xs uppercase tracking-widest font-bold px-6 py-3 hover:bg-teal-700 transition-colors" onClick={() => setEdit({})}>+ Novo Insight</button>}
       </div>
 
       {edit ? (
@@ -81,7 +81,7 @@ export default function AdminInsights() {
           </div>
 
           <div className="flex gap-4 pt-4 border-t border-[#E5E5E5]">
-            <button type="submit" className="bg-brand-red text-white text-xs uppercase tracking-widest font-bold px-8 py-3 hover:bg-red-800 transition-colors">Salvar</button>
+            <button type="submit" className="bg-brand-red text-white text-xs uppercase tracking-widest font-bold px-8 py-3 hover:bg-teal-700 transition-colors">Salvar</button>
             <button type="button" className="border border-[#E5E5E5] text-brand-dark text-xs uppercase tracking-widest font-bold px-8 py-3 hover:border-brand-dark transition-colors" onClick={() => setEdit(null)}>Cancelar</button>
           </div>
         </form>

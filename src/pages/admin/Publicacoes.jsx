@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { getPublicacoes, addPublicacao, updatePublicacao, deletePublicacao } from '../../store/data'
 
 const TIPOS = ['livro','artigo','opiniao','imprensa']
@@ -39,7 +39,7 @@ export default function AdminPublicacoes() {
           <h2 className="font-serif text-3xl text-brand-dark mb-2">Publicações</h2>
           <p className="text-sm text-brand-gray">Gerencie o acervo literário e produção intelectual.</p>
         </div>
-        <button className="bg-brand-red text-white text-xs uppercase tracking-widest font-bold px-6 py-3 hover:bg-red-800 transition-colors" onClick={openNew}>+ Nova publicação</button>
+        <button className="bg-brand-red text-white text-xs uppercase tracking-widest font-bold px-6 py-3 hover:bg-teal-700 transition-colors" onClick={openNew}>+ Nova publicação</button>
       </div>
 
       <div className="bg-white border border-[#E5E5E5] overflow-x-auto">
@@ -114,7 +114,7 @@ export default function AdminPublicacoes() {
               </div>
               
               <div className="flex gap-4 pt-4 border-t border-[#E5E5E5]">
-                <button type="submit" className="bg-brand-red text-white text-xs uppercase tracking-widest font-bold px-8 py-3 hover:bg-red-800 transition-colors">Salvar</button>
+                <button type="submit" className="bg-brand-red text-white text-xs uppercase tracking-widest font-bold px-8 py-3 hover:bg-teal-700 transition-colors">Salvar</button>
                 <button type="button" className="border border-[#E5E5E5] text-brand-dark text-xs uppercase tracking-widest font-bold px-8 py-3 hover:border-brand-dark transition-colors" onClick={() => setModal(false)}>Cancelar</button>
               </div>
             </form>

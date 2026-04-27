@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { logout } from '../store/data'
 
@@ -51,7 +51,7 @@ export default function AdminLayout() {
         transition-transform duration-300
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
       `}>
-        <p className="font-serif italic text-2xl text-white mb-2">Rachel Freixo</p>
+        <p className="font-serif italic text-2xl text-white mb-2">Esther</p>
         <p className="text-[10px] uppercase tracking-widest text-[#8F8F8F] mb-12">Painel Administrativo</p>
         <nav className="flex flex-col gap-2 flex-grow overflow-y-auto">
           {links.map(l => (
