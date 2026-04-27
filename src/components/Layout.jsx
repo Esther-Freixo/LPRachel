@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Link, NavLink, Outlet } from 'react-router-dom'
 
-// ── Google Translate – cookie + masked reload ──
+// ── Google Translate – cookie switch ──
 function LangToggle() {
   const [isEn, setIsEn] = useState(() => document.cookie.includes('googtrans=/pt/en'))
 
@@ -19,21 +19,6 @@ function LangToggle() {
     script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'
     script.async = true
     document.body.appendChild(script)
-
-    // On load: if we just switched languages, fade in from overlay
-    if (sessionStorage.getItem('lang_switch')) {
-      sessionStorage.removeItem('lang_switch')
-      const overlay = document.getElementById('lang-overlay')
-      if (overlay) {
-        overlay.style.opacity = '1'
-        overlay.style.display = 'block'
-        requestAnimationFrame(() => {
-          overlay.style.transition = 'opacity 0.4s ease-out'
-          overlay.style.opacity = '0'
-          setTimeout(() => { overlay.style.display = 'none' }, 400)
-        })
-      }
-    }
   }, [])
 
   const toggleLanguage = useCallback(() => {
@@ -49,42 +34,22 @@ function LangToggle() {
       document.cookie = `googtrans=; path=/; domain=.${host}; expires=Thu, 01 Jan 1970 00:00:00 UTC`
     }
     setIsEn(goingToEn)
-    sessionStorage.setItem('lang_switch', '1')
-
-    // Fade out, then reload
-    const overlay = document.getElementById('lang-overlay')
-    if (overlay) {
-      overlay.style.display = 'block'
-      overlay.style.transition = 'opacity 0.3s ease-in'
-      overlay.style.opacity = '0'
-      requestAnimationFrame(() => {
-        overlay.style.opacity = '1'
-        setTimeout(() => {
-          window.location.assign(window.location.pathname + window.location.search)
-        }, 300)
-      })
-    } else {
-      window.location.assign(window.location.pathname + window.location.search)
-    }
+    window.location.assign(window.location.pathname + window.location.search)
   }, [isEn])
 
   return (
-    <>
-      {/* Full-screen overlay for smooth language switch */}
-      <div id="lang-overlay" style={{ display: 'none', opacity: 0, position: 'fixed', inset: 0, zIndex: 9999, backgroundColor: '#F5F2ED', pointerEvents: 'none' }}></div>
-      <button
-        onClick={toggleLanguage}
-        className="relative flex items-center gap-1.5 text-[10px] uppercase tracking-widest font-bold text-brand-gray hover:text-brand-dark transition-colors select-none notranslate cursor-pointer px-1 py-1"
-        title={isEn ? 'Mudar para Português' : 'Switch to English'}
-        aria-label="Toggle language"
-      >
-        <span className={!isEn ? 'text-brand-dark' : 'text-brand-gray/40'}>PT</span>
-        <span className="relative inline-block w-9 h-[20px] rounded-full bg-brand-dark/10">
-          <span className={`absolute top-[4px] w-3 h-3 rounded-full bg-brand-red shadow-sm transition-all duration-300 ${isEn ? 'left-[19px]' : 'left-[4px]'}`}></span>
-        </span>
-        <span className={isEn ? 'text-brand-dark' : 'text-brand-gray/40'}>EN</span>
-      </button>
-    </>
+    <button
+      onClick={toggleLanguage}
+      className="relative flex items-center gap-1.5 text-[10px] uppercase tracking-widest font-bold text-brand-gray hover:text-brand-dark transition-colors select-none notranslate cursor-pointer px-1 py-1"
+      title={isEn ? 'Mudar para Português' : 'Switch to English'}
+      aria-label="Toggle language"
+    >
+      <span className={!isEn ? 'text-brand-dark' : 'text-brand-gray/40'}>PT</span>
+      <span className="relative inline-block w-9 h-[20px] rounded-full bg-brand-dark/10">
+        <span className={`absolute top-[4px] w-3 h-3 rounded-full bg-brand-red shadow-sm transition-all duration-300 ${isEn ? 'left-[19px]' : 'left-[4px]'}`}></span>
+      </span>
+      <span className={isEn ? 'text-brand-dark' : 'text-brand-gray/40'}>EN</span>
+    </button>
   )
 }
 

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import useScrollReveal from '../hooks/useScrollReveal'
+import { sendContato } from '../store/data'
 
 function R({ children, className }) {
   const ref = useScrollReveal()
@@ -8,16 +9,27 @@ function R({ children, className }) {
 
 export default function Contato() {
   const [sent, setSent] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [error, setError] = useState(null)
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
-    const n = e.target.nome.value
-    const email = e.target.email.value
-    const a = e.target.assunto.value
-    const t = e.target.msg.value
-    window.location.href = `mailto:rachelfreixo@gmail.com?subject=${encodeURIComponent(a)}&body=${encodeURIComponent(`Nome: ${n}\nEmail: ${email}\n\nMensagem:\n${t}`)}`
-    setSent(true)
-    e.target.reset()
+    setSending(true)
+    setError(null)
+    try {
+      await sendContato({
+        nome: e.target.nome.value,
+        email: e.target.email.value,
+        assunto: e.target.assunto.value,
+        mensagem: e.target.msg.value
+      })
+      setSent(true)
+      e.target.reset()
+    } catch (err) {
+      setError('Erro ao enviar mensagem. Tente novamente.')
+    } finally {
+      setSending(false)
+    }
   }
 
   return (
@@ -111,15 +123,20 @@ export default function Contato() {
                 </div>
                 
                 <div className="pt-4">
-                  <button type="submit" className="w-full sm:w-auto bg-brand-red text-white px-12 py-4 rounded-xl text-sm uppercase tracking-widest font-bold hover:bg-red-800 hover:shadow-lg hover:shadow-brand-red/30 transition-all duration-300">
-                    Enviar Mensagem
+                  <button type="submit" disabled={sending} className="w-full sm:w-auto bg-brand-red text-white px-12 py-4 rounded-xl text-sm uppercase tracking-widest font-bold hover:bg-red-800 hover:shadow-lg hover:shadow-brand-red/30 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                    {sending ? 'Enviando...' : 'Enviar Mensagem'}
                   </button>
                 </div>
                 
                 {sent && (
-                  <div className="p-4 bg-green-50 border border-green-200 rounded-xl text-green-700 font-medium text-center text-sm flex items-center justify-center gap-3 animate-pulse">
+                  <div className="p-4 bg-green-50 border border-green-200 rounded-xl text-green-700 font-medium text-center text-sm flex items-center justify-center gap-3">
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
-                    Mensagem processada! Rachel retornará o contato em breve.
+                    Mensagem enviada! Rachel retornará o contato em breve.
+                  </div>
+                )}
+                {error && (
+                  <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 font-medium text-center text-sm">
+                    {error}
                   </div>
                 )}
               </form>

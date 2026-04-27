@@ -79,6 +79,9 @@ export async function addMidia(obj) { return await insertSupabase('midias', obj)
 export async function updateMidia(id, obj) { return await updateSupabase('midias', id, obj) }
 export async function deleteMidia(id) { await deleteSupabase('midias', id) }
 
+// Contato
+export async function sendContato(obj) { return await insertSupabase('contatos', obj) }
+
 export const AUTH = { user: 'admrachel', pass: 'space123' }
 export async function login(user, pass) { 
   if (user === AUTH.user && pass === AUTH.pass) { 
