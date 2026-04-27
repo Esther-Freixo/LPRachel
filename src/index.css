@@ -72,6 +72,6 @@ body {
 /* ── Hide Google Translate UI artifacts ── */
 .goog-te-banner-frame { display: none !important; }
 body { top: 0 !important; position: static !important; }
-.skiptranslate { height: 0 !important; overflow: hidden !important; visibility: hidden !important; }
-#goog-gt-tt { display: none !important; }
-.goog-te-balloon-frame { display: none !important; }
+.skiptranslate { position: absolute !important; top: -9999px !important; left: -9999px !important; }
+#goog-gt-tt, .goog-te-balloon-frame { display: none !important; }
+.goog-text-highlight { background: none !important; box-shadow: none !important; }

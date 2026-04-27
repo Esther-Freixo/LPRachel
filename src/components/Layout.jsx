@@ -1,15 +1,12 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Link, NavLink, Outlet } from 'react-router-dom'
 
-// ── Google Translate – cookie-based approach ──
+// ── Google Translate – cookie + masked reload ──
 function LangToggle() {
-  const [isEn, setIsEn] = useState(() => {
-    return document.cookie.includes('googtrans=/pt/en')
-  })
+  const [isEn, setIsEn] = useState(() => document.cookie.includes('googtrans=/pt/en'))
 
   useEffect(() => {
     if (document.getElementById('gtranslate-script')) return
-
     window.googleTranslateElementInit = () => {
       new window.google.translate.TranslateElement({
         pageLanguage: 'pt',
@@ -17,43 +14,80 @@ function LangToggle() {
         autoDisplay: false
       }, 'google_translate_element')
     }
-
     const script = document.createElement('script')
     script.id = 'gtranslate-script'
     script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'
     script.async = true
     document.body.appendChild(script)
+
+    // On load: if we just switched languages, fade in from overlay
+    if (sessionStorage.getItem('lang_switch')) {
+      sessionStorage.removeItem('lang_switch')
+      const overlay = document.getElementById('lang-overlay')
+      if (overlay) {
+        overlay.style.opacity = '1'
+        overlay.style.display = 'block'
+        requestAnimationFrame(() => {
+          overlay.style.transition = 'opacity 0.4s ease-out'
+          overlay.style.opacity = '0'
+          setTimeout(() => { overlay.style.display = 'none' }, 400)
+        })
+      }
+    }
   }, [])
 
   const toggleLanguage = useCallback(() => {
-    if (!isEn) {
-      // Switch to English
+    const goingToEn = !isEn
+    const host = window.location.hostname
+    if (goingToEn) {
       document.cookie = 'googtrans=/pt/en; path=/'
-      document.cookie = `googtrans=/pt/en; path=/; domain=${window.location.hostname}`
-      document.cookie = `googtrans=/pt/en; path=/; domain=.${window.location.hostname}`
+      document.cookie = `googtrans=/pt/en; path=/; domain=${host}`
+      document.cookie = `googtrans=/pt/en; path=/; domain=.${host}`
     } else {
-      // Switch back to Portuguese
       document.cookie = 'googtrans=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC'
-      document.cookie = `googtrans=; path=/; domain=${window.location.hostname}; expires=Thu, 01 Jan 1970 00:00:00 UTC`
-      document.cookie = `googtrans=; path=/; domain=.${window.location.hostname}; expires=Thu, 01 Jan 1970 00:00:00 UTC`
+      document.cookie = `googtrans=; path=/; domain=${host}; expires=Thu, 01 Jan 1970 00:00:00 UTC`
+      document.cookie = `googtrans=; path=/; domain=.${host}; expires=Thu, 01 Jan 1970 00:00:00 UTC`
     }
-    window.location.reload()
+    setIsEn(goingToEn)
+    sessionStorage.setItem('lang_switch', '1')
+
+    // Fade out, then reload
+    const overlay = document.getElementById('lang-overlay')
+    if (overlay) {
+      overlay.style.display = 'block'
+      overlay.style.transition = 'opacity 0.3s ease-in'
+      overlay.style.opacity = '0'
+      requestAnimationFrame(() => {
+        overlay.style.opacity = '1'
+        setTimeout(() => {
+          window.location.assign(window.location.pathname + window.location.search)
+        }, 300)
+      })
+    } else {
+      window.location.assign(window.location.pathname + window.location.search)
+    }
   }, [isEn])
 
   return (
-    <button
-      onClick={toggleLanguage}
-      className="relative flex items-center gap-1 text-[10px] uppercase tracking-widest font-bold text-brand-gray hover:text-brand-dark transition-colors select-none notranslate"
-      title={isEn ? 'Mudar para Português' : 'Switch to English'}
-    >
-      <span className={!isEn ? 'text-brand-dark' : 'text-brand-gray/40'}>PT</span>
-      <div className="relative w-8 h-[18px] rounded-full bg-brand-dark/10 mx-0.5">
-        <div className={`absolute top-[3px] w-3 h-3 rounded-full bg-brand-red shadow-sm transition-all duration-300 ${isEn ? 'left-[17px]' : 'left-[3px]'}`}></div>
-      </div>
-      <span className={isEn ? 'text-brand-dark' : 'text-brand-gray/40'}>EN</span>
-    </button>
+    <>
+      {/* Full-screen overlay for smooth language switch */}
+      <div id="lang-overlay" style={{ display: 'none', opacity: 0, position: 'fixed', inset: 0, zIndex: 9999, backgroundColor: '#F5F2ED', pointerEvents: 'none' }}></div>
+      <button
+        onClick={toggleLanguage}
+        className="relative flex items-center gap-1.5 text-[10px] uppercase tracking-widest font-bold text-brand-gray hover:text-brand-dark transition-colors select-none notranslate cursor-pointer px-1 py-1"
+        title={isEn ? 'Mudar para Português' : 'Switch to English'}
+        aria-label="Toggle language"
+      >
+        <span className={!isEn ? 'text-brand-dark' : 'text-brand-gray/40'}>PT</span>
+        <span className="relative inline-block w-9 h-[20px] rounded-full bg-brand-dark/10">
+          <span className={`absolute top-[4px] w-3 h-3 rounded-full bg-brand-red shadow-sm transition-all duration-300 ${isEn ? 'left-[19px]' : 'left-[4px]'}`}></span>
+        </span>
+        <span className={isEn ? 'text-brand-dark' : 'text-brand-gray/40'}>EN</span>
+      </button>
+    </>
   )
 }
+
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
