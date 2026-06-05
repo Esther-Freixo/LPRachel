@@ -9,5 +9,8 @@
     "build": "pnpm --filter @rf/shared build && pnpm --filter @rf/api build && pnpm --filter web build",
     "typecheck": "pnpm -r typecheck",
     "test": "pnpm -r test"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["@prisma/client", "prisma", "esbuild", "sharp"]
   }
 }
