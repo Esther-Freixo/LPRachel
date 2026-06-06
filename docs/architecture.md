@@ -39,5 +39,9 @@ recuperados, API de pé com a fatia `timeline`.
 /api/auth/login` (JWT + argon2), `requireAuth` para rotas admin, e usuário admin no seed
 (substitui o `admrachel/space123` hardcoded).
 
-Próximos: **Plano 3** (escrita/CRUD admin protegido + upload MinIO + oembed),
-**Plano 4** (frontend → TS + camada de serviço + login real), **Plano 5** (deploy Railway).
+**Plano 3 (escrita):** CRUD admin protegido — `POST/PUT/DELETE` em todas as entidades de
+conteúdo, com `preHandler: requireAuth`; módulo de contato (`POST /api/contatos` público +
+`GET`/`DELETE` admin).
+
+Próximos: **Plano 4** (upload MinIO + oembed do YouTube), **Plano 5** (frontend → TS +
+camada de serviço + login real), **Plano 6** (deploy Railway).
