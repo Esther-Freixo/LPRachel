@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import argon2 from "argon2";
 
 const prisma = new PrismaClient();
 
@@ -62,6 +63,18 @@ async function main() {
   await prisma.evento.createMany({ data: agenda });
   await prisma.insight.createMany({ data: insights });
   await prisma.citacao.createMany({ data: citacoes });
+
+  // Usuário admin (idempotente) — substitui o login hardcoded do código antigo.
+  const email = process.env.ADMIN_EMAIL ?? "rachel@exemplo.com";
+  const senha = process.env.ADMIN_SENHA ?? "trocar-no-deploy";
+  const senhaHash = await argon2.hash(senha);
+  await prisma.usuario.upsert({
+    where: { email },
+    update: { senhaHash },
+    create: { email, senhaHash, papel: "admin" },
+  });
+  console.log(`[seed] admin garantido: ${email}`);
+
   console.log("[seed] dados recuperados inseridos.");
 }
 
