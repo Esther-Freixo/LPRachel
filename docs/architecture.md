@@ -47,4 +47,9 @@ conteúdo, com `preHandler: requireAuth`; módulo de contato (`POST /api/contato
 com URL pública (bucket público, garantido no boot); `GET /api/midias/oembed` (autofill de
 título/autor via noembed). **Backend feature-completo.**
 
-Próximos: **Plano 5** (frontend → TS + camada de serviço + login real), **Plano 6** (deploy Railway).
+**Plano 5 (frontend):** site religado à API — `store/data.ts` (camada de serviço tipada via
+`@rf/shared`) substitui o Supabase morto; proxy `/api` no dev; login admin por e-mail (JWT).
+Site funcionando ponta a ponta (browser → proxy → API → Postgres com os dados recuperados).
+Conversão total `.jsx → .tsx` fica como polish incremental.
+
+Próximo: **Plano 6** (deploy no Railway).

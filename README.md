@@ -26,6 +26,9 @@ pnpm --filter @rf/api prisma:seed
 
 # 5. Sobe a API (http://localhost:3333)
 pnpm dev:api
+
+# 6. Em outro terminal: sobe o site (http://localhost:5174, proxy /api -> 3333)
+pnpm dev:web
 ```
 
 Smoke test: `curl http://localhost:3333/api/timeline` deve retornar 14 itens.
