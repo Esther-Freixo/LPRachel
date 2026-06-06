@@ -150,8 +150,8 @@ function Footer() {
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-12 mb-16">
         <div className="md:w-1/3">
           <p className="font-serif italic text-2xl mb-4 notranslate">Esther</p>
-          <p className="text-xs text-[#8F8F8F] uppercase tracking-widest mb-4">Professora · Tributarista</p>
-          <p className="text-sm text-[#8F8F8F] leading-relaxed">Educação, pesquisa e formação profissional em Direito Tributário, ESG e Governança Corporativa.</p>
+          <p className="text-xs text-[#8F8F8F] uppercase tracking-widest mb-4">Professora · Pesquisadora · Palestrante</p>
+          <p className="text-sm text-[#8F8F8F] leading-relaxed">Conhecimento compartilhado, decisões qualificadas e instituições mais fortes — pesquisa e docência em tributação, governança, competitividade e políticas públicas.</p>
         </div>
         <div className="flex gap-12 md:gap-16">
           <div>
@@ -170,6 +170,10 @@ function Footer() {
             </ul>
           </div>
         </div>
+      </div>
+      <div className="max-w-7xl mx-auto border-t border-gray-800 pt-8 mb-8">
+        <p className="text-[11px] uppercase tracking-widest text-[#8F8F8F] font-bold mb-3">Aviso Institucional</p>
+        <p className="text-xs text-gray-500 leading-relaxed max-w-4xl">Este site possui finalidade exclusivamente acadêmica, educacional e institucional, destinando-se à divulgação de atividades de pesquisa, ensino, produção intelectual e participação em eventos técnicos, científicos e acadêmicos. As opiniões e conteúdos aqui apresentados possuem caráter estritamente acadêmico e não representam posicionamentos institucionais de órgãos ou entidades aos quais a autora esteja vinculada.</p>
       </div>
       <div className="max-w-7xl mx-auto border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between text-xs text-gray-500 gap-2">
         <p>© {new Date().getFullYear()} Esther. Todos os direitos reservados.</p>
