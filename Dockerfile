@@ -13,7 +13,8 @@ RUN pnpm install --frozen-lockfile
 
 # código + build (shared -> api -> web)
 COPY . .
-RUN pnpm --filter @rf/shared build \
+RUN pnpm --filter @rf/api exec prisma generate \
+ && pnpm --filter @rf/shared build \
  && pnpm --filter @rf/api build \
  && pnpm --filter web build
 
