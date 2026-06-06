@@ -9,7 +9,7 @@ const erroResp = z.object({ erro: z.string() });
 export const uploadsRoutes: FastifyPluginAsyncZod = async (app) => {
   app.post(
     "/api/uploads",
-    { preHandler: [app.requireAuth], schema: { response: { 201: okResp, 400: erroResp } } },
+    { onRequest: [app.requireAuth], schema: { response: { 201: okResp, 400: erroResp } } },
     async (req, reply) => {
       const file = await req.file();
       if (!file) return reply.status(400).send({ erro: "Nenhum arquivo enviado." });
