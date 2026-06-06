@@ -17,6 +17,9 @@ import { authRoutes } from "./modules/auth/auth.routes.js";
 import { contatosRoutes } from "./modules/contatos/contatos.routes.js";
 import fastifyMultipart from "@fastify/multipart";
 import { uploadsRoutes } from "./modules/uploads/uploads.routes.js";
+import fastifyStatic from "@fastify/static";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
 
 export async function buildApp(): Promise<FastifyInstance> {
   const app = Fastify({ logger: false }).withTypeProvider<ZodTypeProvider>();
@@ -51,6 +54,19 @@ export async function buildApp(): Promise<FastifyInstance> {
   await app.register(authRoutes);
   await app.register(contatosRoutes);
   await app.register(uploadsRoutes);
+
+  // Produção: o próprio Fastify serve o site (build do Vite) + fallback SPA.
+  if (process.env.SERVE_WEB === "true") {
+    const webDir =
+      process.env.WEB_DIR ?? join(dirname(fileURLToPath(import.meta.url)), "..", "..", "web", "dist");
+    await app.register(fastifyStatic, { root: webDir, wildcard: false });
+    app.setNotFoundHandler((req, reply) => {
+      if (req.method === "GET" && !req.url.startsWith("/api")) {
+        return reply.sendFile("index.html");
+      }
+      return reply.status(404).send({ erro: "Não encontrado." });
+    });
+  }
 
   return app;
 }
