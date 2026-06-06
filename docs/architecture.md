@@ -52,4 +52,7 @@ título/autor via noembed). **Backend feature-completo.**
 Site funcionando ponta a ponta (browser → proxy → API → Postgres com os dados recuperados).
 Conversão total `.jsx → .tsx` fica como polish incremental.
 
-Próximo: **Plano 6** (deploy no Railway).
+**Plano 6 (deploy):** **no ar** no Railway (projeto `lucky-tenderness`, serviço `LPRachel`) como
+serviço único — **https://lprachel-production.up.railway.app** (Fastify serve o build do `web`
++ `/api`; Postgres gerenciado com migrate no release e seed dos dados recuperados). MinIO ainda
+não provisionado → uploads degradam gracioso (storage em try/catch). **Fundação completa.**
