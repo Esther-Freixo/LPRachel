@@ -11,10 +11,10 @@ export default function Login() {
     e.preventDefault()
     setError('')
     setLoading(true)
-    const user = e.target.user.value
+    const email = e.target.email.value
     const pass = e.target.pass.value
-    
-    const ok = await login(user, pass)
+
+    const ok = await login(email, pass)
     setLoading(false)
     if (ok) navigate('/admin')
     else setError('Credenciais incorretas ou acesso negado.')
@@ -46,8 +46,8 @@ export default function Login() {
         
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="user" className="block text-xs uppercase tracking-widest font-bold mb-3 text-brand-dark">Usuário</label>
-            <input id="user" name="user" type="text" placeholder="Digite seu usuário" required className="w-full bg-[#F7F6F3]/50 border border-[#E5E5E5] rounded-xl p-4 text-base focus:bg-white focus:border-brand-red focus:ring-4 focus:ring-brand-red/10 outline-none transition-all" />
+            <label htmlFor="email" className="block text-xs uppercase tracking-widest font-bold mb-3 text-brand-dark">E-mail</label>
+            <input id="email" name="email" type="email" placeholder="Digite seu e-mail" required className="w-full bg-[#F7F6F3]/50 border border-[#E5E5E5] rounded-xl p-4 text-base focus:bg-white focus:border-brand-red focus:ring-4 focus:ring-brand-red/10 outline-none transition-all" />
           </div>
           <div>
             <label htmlFor="pass" className="block text-xs uppercase tracking-widest font-bold mb-3 text-brand-dark">Senha</label>

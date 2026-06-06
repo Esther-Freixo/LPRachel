@@ -1,7 +1,7 @@
 ﻿import { useState, useEffect } from 'react'
-import { getMidias, addMidia, updateMidia, deleteMidia } from '../../store/data'
+import { getMidias, addMidia, updateMidia, deleteMidia, getMidiaOembed } from '../../store/data'
 
-const EMPTY = { titulo: '', tipo: 'podcast', url: '', descricao: '', thumbnail_url: '' }
+const EMPTY = { titulo: '', tipo: 'podcast', url: '', descricao: '', thumbnailUrl: '' }
 
 function detectPlatforma(url) {
   if (!url) return ''
@@ -36,7 +36,7 @@ export default function AdminMidias() {
 
   function openNew() { setForm(EMPTY); setEditId(null); setModal(true) }
   function openEdit(p) { 
-    setForm({ titulo: p.titulo, tipo: p.tipo, url: p.url, descricao: p.descricao || '', thumbnail_url: p.thumbnail_url || '' }); 
+    setForm({ titulo: p.titulo, tipo: p.tipo, url: p.url, descricao: p.descricao || '', thumbnailUrl: p.thumbnailUrl || '' }); 
     setEditId(p.id); 
     setModal(true) 
   }
@@ -50,13 +50,12 @@ export default function AdminMidias() {
     if (ytId && !editId) {
       setAutoFilling(true)
       try {
-        const res = await fetch(`https://noembed.com/embed?url=${encodeURIComponent(url)}`)
-        const data = await res.json()
-        if (data.title) {
+        const data = await getMidiaOembed(url)
+        if (data.titulo) {
           setForm(prev => ({
             ...prev,
-            titulo: prev.titulo || data.title,
-            descricao: prev.descricao || (data.author_name ? `Por ${data.author_name}` : ''),
+            titulo: prev.titulo || data.titulo,
+            descricao: prev.descricao || (data.autor ? `Por ${data.autor}` : ''),
           }))
         }
       } catch (err) {
@@ -70,8 +69,8 @@ export default function AdminMidias() {
     e.preventDefault()
     const plataforma = detectPlatforma(form.url)
     const data = { ...form, plataforma, ordem: editId ? undefined : items.length + 1 }
-    // Don't send empty thumbnail_url
-    if (!data.thumbnail_url) delete data.thumbnail_url
+    // Don't send empty thumbnailUrl
+    if (!data.thumbnailUrl) delete data.thumbnailUrl
     if (data.ordem === undefined) delete data.ordem
     if (editId) await updateMidia(editId, data); else await addMidia(data)
     setModal(false); await refresh()
@@ -104,7 +103,7 @@ export default function AdminMidias() {
             <p className="text-sm text-brand-gray">Nenhuma mídia cadastrada. Clique em "+ Nova Mídia" para começar.</p>
           </div>
         ) : items.map((p, idx) => {
-          const thumbPreview = getPreviewThumb(p.url, p.thumbnail_url)
+          const thumbPreview = getPreviewThumb(p.url, p.thumbnailUrl)
           return (
             <div key={p.id} className="bg-white border border-[#E5E5E5] p-4 flex flex-col md:flex-row gap-4 items-start md:items-center hover:shadow-md transition-shadow">
               {/* Thumbnail preview */}
@@ -158,7 +157,7 @@ export default function AdminMidias() {
 
               {/* Thumbnail preview */}
               {(() => {
-                const previewUrl = getPreviewThumb(form.url, form.thumbnail_url)
+                const previewUrl = getPreviewThumb(form.url, form.thumbnailUrl)
                 return previewUrl ? (
                   <div>
                     <label className="block text-xs uppercase tracking-widest font-bold mb-2">Preview da Thumbnail</label>
@@ -190,7 +189,7 @@ export default function AdminMidias() {
 
               <div>
                 <label className="block text-xs uppercase tracking-widest font-bold mb-2">Thumbnail personalizada <span className="text-brand-gray font-normal">(opcional — URL da imagem)</span></label>
-                <input type="url" value={form.thumbnail_url} onChange={e => setForm({ ...form, thumbnail_url: e.target.value })} placeholder="https://... (deixe vazio para usar thumbnail automática)" className="w-full border border-[#E5E5E5] p-3 text-sm focus:border-brand-red focus:outline-none transition-colors" />
+                <input type="url" value={form.thumbnailUrl} onChange={e => setForm({ ...form, thumbnailUrl: e.target.value })} placeholder="https://... (deixe vazio para usar thumbnail automática)" className="w-full border border-[#E5E5E5] p-3 text-sm focus:border-brand-red focus:outline-none transition-colors" />
                 <p className="text-[11px] text-brand-gray mt-1.5">Se vazio: usa thumbnail do YouTube automaticamente, ou imagem padrão da categoria.</p>
               </div>
               
