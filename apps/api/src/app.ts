@@ -7,6 +7,11 @@ import {
 import { logger } from "./lib/logger.js";
 import { prisma } from "./db/prisma.js";
 import { timelineRoutes } from "./modules/timeline/timeline.routes.js";
+import { publicacoesRoutes } from "./modules/publicacoes/publicacoes.routes.js";
+import { agendaRoutes } from "./modules/agenda/agenda.routes.js";
+import { insightsRoutes } from "./modules/insights/insights.routes.js";
+import { citacoesRoutes } from "./modules/citacoes/citacoes.routes.js";
+import { midiasRoutes } from "./modules/midias/midias.routes.js";
 
 export async function buildApp(): Promise<FastifyInstance> {
   const app = Fastify({ logger: false }).withTypeProvider<ZodTypeProvider>();
@@ -30,6 +35,11 @@ export async function buildApp(): Promise<FastifyInstance> {
 
   app.get("/api/health", async () => ({ status: "ok" }));
   await app.register(timelineRoutes);
+  await app.register(publicacoesRoutes);
+  await app.register(agendaRoutes);
+  await app.register(insightsRoutes);
+  await app.register(citacoesRoutes);
+  await app.register(midiasRoutes);
 
   return app;
 }
