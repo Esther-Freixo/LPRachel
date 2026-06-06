@@ -15,6 +15,8 @@ import { midiasRoutes } from "./modules/midias/midias.routes.js";
 import { authPlugin } from "./plugins/auth.js";
 import { authRoutes } from "./modules/auth/auth.routes.js";
 import { contatosRoutes } from "./modules/contatos/contatos.routes.js";
+import fastifyMultipart from "@fastify/multipart";
+import { uploadsRoutes } from "./modules/uploads/uploads.routes.js";
 
 export async function buildApp(): Promise<FastifyInstance> {
   const app = Fastify({ logger: false }).withTypeProvider<ZodTypeProvider>();
@@ -37,6 +39,7 @@ export async function buildApp(): Promise<FastifyInstance> {
   });
 
   await app.register(authPlugin);
+  await app.register(fastifyMultipart, { limits: { fileSize: 10 * 1024 * 1024 } });
 
   app.get("/api/health", async () => ({ status: "ok" }));
   await app.register(timelineRoutes);
@@ -47,6 +50,7 @@ export async function buildApp(): Promise<FastifyInstance> {
   await app.register(midiasRoutes);
   await app.register(authRoutes);
   await app.register(contatosRoutes);
+  await app.register(uploadsRoutes);
 
   return app;
 }
