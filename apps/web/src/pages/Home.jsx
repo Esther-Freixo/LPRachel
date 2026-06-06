@@ -270,14 +270,13 @@ export default function Home() {
               Professora<br />Esther
             </h1>
             <div className="flex flex-wrap gap-2 mb-6 max-w-lg">
-              <span className="text-[10px] sm:text-xs uppercase tracking-widest bg-brand-dark text-white px-3 py-1 rounded-full">Mãe</span>
               <span className="text-[10px] sm:text-xs uppercase tracking-widest bg-brand-red text-white px-3 py-1 rounded-full">Professora</span>
+              <span className="text-[10px] sm:text-xs uppercase tracking-widest border border-brand-dark/20 text-brand-dark px-3 py-1 rounded-full">Pesquisadora</span>
               <span className="text-[10px] sm:text-xs uppercase tracking-widest border border-brand-dark/20 text-brand-dark px-3 py-1 rounded-full">Palestrante</span>
-              <span className="text-[10px] sm:text-xs uppercase tracking-widest border border-brand-dark/20 text-brand-dark px-3 py-1 rounded-full">Tributarista</span>
-              <span className="text-[10px] sm:text-xs uppercase tracking-widest border border-brand-dark/20 text-brand-dark px-3 py-1 rounded-full">Pesquisadora ESG</span>
+              <span className="text-[10px] sm:text-xs uppercase tracking-widest border border-brand-dark/20 text-brand-dark px-3 py-1 rounded-full">Conselheira CARF</span>
             </div>
             <p className="text-brand-dark text-base md:text-lg max-w-lg leading-relaxed font-medium mb-10">
-              Educadora, pesquisadora e palestrante. Mestre e Doutoranda em Ciências Contábeis e Administração, com forte atuação em <strong>ESG</strong>, <strong>Tributação</strong> e <strong>Governança</strong>.
+              Professora, pesquisadora e palestrante. Dedicada ao estudo e à disseminação do conhecimento em <strong>tributação</strong>, <strong>governança</strong>, competitividade, desenvolvimento regional e <strong>políticas públicas</strong>.
             </p>
           </R>
 
@@ -286,16 +285,16 @@ export default function Home() {
             <R delay="reveal-delay-1" className="flex gap-4 items-start group">
               <div className="w-10 h-10 rounded-full bg-brand-dark text-white flex items-center justify-center text-xs font-bold shadow-lg group-hover:scale-110 transition-transform duration-300 flex-shrink-0">D</div>
               <div>
-                <h3 className="font-bold text-sm md:text-base uppercase tracking-wide">Docência & Formação</h3>
-                <p className="text-xs md:text-sm text-brand-gray mt-1 leading-relaxed">Professora de pós-graduação em Direito Tributário e Contabilidade.</p>
+                <h3 className="font-bold text-sm md:text-base uppercase tracking-wide">Docência & Pesquisa</h3>
+                <p className="text-xs md:text-sm text-brand-gray mt-1 leading-relaxed">Professora de pós-graduação e produção acadêmica em tributação e governança.</p>
               </div>
             </R>
 
             <R delay="reveal-delay-2" className="flex gap-4 items-start group">
               <div className="w-10 h-10 rounded-full bg-white border border-[#E5E5E5] text-brand-dark flex items-center justify-center text-xs font-bold shadow-sm group-hover:border-brand-red transition-colors duration-300 flex-shrink-0">T</div>
               <div>
-                <h3 className="font-bold text-sm md:text-base uppercase tracking-wide group-hover:text-brand-red transition-colors duration-300">Pesquisa Tributária</h3>
-                <p className="text-xs md:text-sm text-brand-gray mt-1 leading-relaxed">Pesquisa acadêmica em planejamento fiscal e políticas tributárias.</p>
+                <h3 className="font-bold text-sm md:text-base uppercase tracking-wide group-hover:text-brand-red transition-colors duration-300">Governança & Instituições</h3>
+                <p className="text-xs md:text-sm text-brand-gray mt-1 leading-relaxed">Estudos sobre capacidade institucional, integridade e qualidade das decisões.</p>
               </div>
             </R>
 
@@ -303,7 +302,7 @@ export default function Home() {
               <div className="w-10 h-10 rounded-full bg-gradient-to-br from-brand-red to-teal-700 text-white flex items-center justify-center text-xs font-bold shadow-lg shadow-brand-red/30 group-hover:scale-110 transition-transform duration-300 flex-shrink-0">E</div>
               <div>
                 <h3 className="font-bold text-sm md:text-base uppercase tracking-wide">Sustentabilidade & ESG</h3>
-                <p className="text-xs md:text-sm text-brand-gray mt-1 leading-relaxed">Desenvolvimento de governança corporativa moderna.</p>
+                <p className="text-xs md:text-sm text-brand-gray mt-1 leading-relaxed">Pesquisa em agenda ESG, transição energética e desenvolvimento sustentável.</p>
               </div>
             </R>
           </div>
@@ -338,60 +337,68 @@ export default function Home() {
             <div>
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-12 h-[1px] bg-brand-red"></div>
-                <span className="text-brand-red uppercase tracking-widest text-sm font-bold">Expertise</span>
+                <span className="text-brand-red uppercase tracking-widest text-sm font-bold">Pesquisa</span>
               </div>
-              <h2 className="font-serif text-4xl md:text-6xl text-brand-dark">Pilares de<br />Atuação Estratégica</h2>
+              <h2 className="font-serif text-4xl md:text-6xl text-brand-dark">Eixos de Pesquisa e<br />Contribuição Acadêmica</h2>
             </div>
-            <p className="text-base md:text-lg text-brand-gray max-w-md leading-relaxed">Soluções multidisciplinares em direito público, contencioso tributário e gestão corporativa, desenhadas exclusivamente para empresas, conselhos e instituições que buscam segurança, inovação e excelência técnica.</p>
+            <p className="text-base md:text-lg text-brand-gray max-w-md leading-relaxed">Estudos e iniciativas voltados à construção de ecossistemas de conhecimento compartilhado capazes de fortalecer instituições, qualificar decisões e ampliar oportunidades de desenvolvimento econômico e social.</p>
           </R>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
 
             <R delay="reveal-delay-1" className="group bg-brand-bg rounded-2xl p-10 hover:shadow-2xl hover:shadow-brand-dark/5 transition-all duration-300 border border-transparent hover:border-[#E5E5E5] flex flex-col h-full hover:-translate-y-2">
               <div className="flex justify-between items-start mb-8">
-                <h3 className="font-serif text-3xl max-w-[250px] group-hover:text-brand-red transition-colors duration-300">Contencioso Administrativo</h3>
+                <h3 className="font-serif text-3xl max-w-[250px] group-hover:text-brand-red transition-colors duration-300">Tributação e Desenvolvimento</h3>
                 <div className="text-4xl font-serif text-brand-gray/30 group-hover:text-brand-red/20 transition-colors">01</div>
               </div>
               <ul className="space-y-4 mb-10 flex-grow">
-                <li className="flex gap-4 items-start text-base md:text-lg text-brand-dark"><RedSquare /> <span>Atuação direta no CARF</span></li>
-                <li className="flex gap-4 items-start text-base md:text-lg text-brand-dark"><RedSquare /> <span>Defesas e recursos fiscais</span></li>
-                <li className="flex gap-4 items-start text-base md:text-lg text-brand-dark"><RedSquare /> <span>Sustentação oral de alto impacto</span></li>
+                <li className="flex gap-4 items-start text-base md:text-lg text-brand-dark"><RedSquare /> <span>Reforma Tributária</span></li>
+                <li className="flex gap-4 items-start text-base md:text-lg text-brand-dark"><RedSquare /> <span>Federalismo Fiscal</span></li>
+                <li className="flex gap-4 items-start text-base md:text-lg text-brand-dark"><RedSquare /> <span>Incentivos Tributários</span></li>
+                <li className="flex gap-4 items-start text-base md:text-lg text-brand-dark"><RedSquare /> <span>Competitividade e Desenvolvimento Regional</span></li>
+                <li className="flex gap-4 items-start text-base md:text-lg text-brand-dark"><RedSquare /> <span>Tributação e Capacidade Institucional</span></li>
               </ul>
             </R>
 
             <R delay="reveal-delay-2" className="group bg-brand-bg rounded-2xl p-10 hover:shadow-2xl hover:shadow-brand-dark/5 transition-all duration-300 border border-transparent hover:border-[#E5E5E5] flex flex-col h-full hover:-translate-y-2">
               <div className="flex justify-between items-start mb-8">
-                <h3 className="font-serif text-3xl max-w-[250px] group-hover:text-brand-red transition-colors duration-300">Planejamento Tributário</h3>
+                <h3 className="font-serif text-3xl max-w-[250px] group-hover:text-brand-red transition-colors duration-300">Governança e Instituições</h3>
                 <div className="text-4xl font-serif text-brand-gray/30 group-hover:text-brand-red/20 transition-colors">02</div>
               </div>
               <ul className="space-y-4 mb-10 flex-grow">
-                <li className="flex gap-4 items-start text-base md:text-lg text-brand-dark"><RedSquare /> <span>Otimização da carga fiscal</span></li>
-                <li className="flex gap-4 items-start text-base md:text-lg text-brand-dark"><RedSquare /> <span>Reorganização societária inteligente</span></li>
-                <li className="flex gap-4 items-start text-base md:text-lg text-brand-dark"><RedSquare /> <span>Compliance fiscal e preventivo</span></li>
+                <li className="flex gap-4 items-start text-base md:text-lg text-brand-dark"><RedSquare /> <span>Governança Pública e Corporativa</span></li>
+                <li className="flex gap-4 items-start text-base md:text-lg text-brand-dark"><RedSquare /> <span>Integridade e Transparência</span></li>
+                <li className="flex gap-4 items-start text-base md:text-lg text-brand-dark"><RedSquare /> <span>Capacidade Institucional</span></li>
+                <li className="flex gap-4 items-start text-base md:text-lg text-brand-dark"><RedSquare /> <span>Ambientes Regulatórios</span></li>
+                <li className="flex gap-4 items-start text-base md:text-lg text-brand-dark"><RedSquare /> <span>Qualidade da Tomada de Decisão</span></li>
               </ul>
             </R>
 
             <R delay="reveal-delay-3" className="group bg-brand-bg rounded-2xl p-10 hover:shadow-2xl hover:shadow-brand-dark/5 transition-all duration-300 border border-transparent hover:border-[#E5E5E5] flex flex-col h-full hover:-translate-y-2">
               <div className="flex justify-between items-start mb-8">
-                <h3 className="font-serif text-3xl max-w-[250px] group-hover:text-brand-red transition-colors duration-300">Políticas ESG & Governança</h3>
+                <h3 className="font-serif text-3xl max-w-[250px] group-hover:text-brand-red transition-colors duration-300">Competitividade e Políticas Públicas</h3>
                 <div className="text-4xl font-serif text-brand-gray/30 group-hover:text-brand-red/20 transition-colors">03</div>
               </div>
               <ul className="space-y-4 mb-10 flex-grow">
-                <li className="flex gap-4 items-start text-base md:text-lg text-brand-dark"><RedSquare /> <span>Implementação de comitês ESG</span></li>
-                <li className="flex gap-4 items-start text-base md:text-lg text-brand-dark"><RedSquare /> <span>Auditoria de práticas sustentáveis</span></li>
-                <li className="flex gap-4 items-start text-base md:text-lg text-brand-dark"><RedSquare /> <span>Conselhos de Administração</span></li>
+                <li className="flex gap-4 items-start text-base md:text-lg text-brand-dark"><RedSquare /> <span>Ambiente de Negócios</span></li>
+                <li className="flex gap-4 items-start text-base md:text-lg text-brand-dark"><RedSquare /> <span>Desenvolvimento Econômico</span></li>
+                <li className="flex gap-4 items-start text-base md:text-lg text-brand-dark"><RedSquare /> <span>Comércio Exterior</span></li>
+                <li className="flex gap-4 items-start text-base md:text-lg text-brand-dark"><RedSquare /> <span>Inovação Pública</span></li>
+                <li className="flex gap-4 items-start text-base md:text-lg text-brand-dark"><RedSquare /> <span>Políticas de Competitividade</span></li>
               </ul>
             </R>
 
             <R delay="reveal-delay-4" className="group bg-brand-bg rounded-2xl p-10 hover:shadow-2xl hover:shadow-brand-dark/5 transition-all duration-300 border border-transparent hover:border-[#E5E5E5] flex flex-col h-full hover:-translate-y-2">
               <div className="flex justify-between items-start mb-8">
-                <h3 className="font-serif text-3xl max-w-[250px] group-hover:text-brand-red transition-colors duration-300">Competitividade Pública</h3>
+                <h3 className="font-serif text-3xl max-w-[250px] group-hover:text-brand-red transition-colors duration-300">Sustentabilidade e Transição Energética</h3>
                 <div className="text-4xl font-serif text-brand-gray/30 group-hover:text-brand-red/20 transition-colors">04</div>
               </div>
               <ul className="space-y-4 mb-10 flex-grow">
-                <li className="flex gap-4 items-start text-base md:text-lg text-brand-dark"><RedSquare /> <span>Melhoria do ambiente de negócios</span></li>
-                <li className="flex gap-4 items-start text-base md:text-lg text-brand-dark"><RedSquare /> <span>Diálogo interinstitucional avançado</span></li>
-                <li className="flex gap-4 items-start text-base md:text-lg text-brand-dark"><RedSquare /> <span>Estruturação de projetos públicos</span></li>
+                <li className="flex gap-4 items-start text-base md:text-lg text-brand-dark"><RedSquare /> <span>Energias Renováveis</span></li>
+                <li className="flex gap-4 items-start text-base md:text-lg text-brand-dark"><RedSquare /> <span>Agenda ESG</span></li>
+                <li className="flex gap-4 items-start text-base md:text-lg text-brand-dark"><RedSquare /> <span>Desenvolvimento Sustentável</span></li>
+                <li className="flex gap-4 items-start text-base md:text-lg text-brand-dark"><RedSquare /> <span>Transição Energética</span></li>
+                <li className="flex gap-4 items-start text-base md:text-lg text-brand-dark"><RedSquare /> <span>Políticas Públicas para Sustentabilidade</span></li>
               </ul>
             </R>
 
@@ -410,10 +417,10 @@ export default function Home() {
           <R className="lg:w-1/3">
             <div className="flex items-center gap-4 mb-6">
               <div className="w-12 h-[1px] bg-brand-red"></div>
-              <span className="text-brand-red uppercase tracking-widest text-sm font-bold">Atuação</span>
+              <span className="text-brand-red uppercase tracking-widest text-sm font-bold">Trajetória</span>
             </div>
             <h2 className="font-serif text-5xl md:text-7xl text-brand-dark leading-tight mb-12">
-              Resultados com segurança.
+              Conhecimento que fortalece instituições.
             </h2>
             <div className="bg-gradient-to-br from-brand-dark to-gray-800 text-white p-10 rounded-2xl shadow-2xl relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-brand-red/20 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2"></div>
@@ -461,7 +468,7 @@ export default function Home() {
                 <div className="w-8 h-[1px] bg-brand-red"></div>
                 <p className="text-brand-red text-xs uppercase tracking-widest font-bold">Minha Missão</p>
               </div>
-              <p className="text-white text-sm md:text-base leading-relaxed font-serif">Elevar o rigor técnico do Direito Tributário e promover uma governança corporativa que gere impacto real na sociedade e no setor produtivo.</p>
+              <p className="text-white text-sm md:text-base leading-relaxed font-serif">Contribuir para a construção de ecossistemas de conhecimento compartilhado que fortaleçam a capacidade institucional, qualifiquem decisões e ampliem oportunidades de desenvolvimento econômico e social.</p>
             </div>
           </R>
 
@@ -469,10 +476,10 @@ export default function Home() {
           <div className="lg:w-2/3 lg:pl-12 mt-20 lg:mt-0 flex items-center">
             <R delay="reveal-delay-1">
               <h2 className="font-serif text-4xl md:text-6xl text-white leading-tight mb-8">
-                "Atuo na intersecção entre o <span className="text-brand-red italic">rigor técnico</span> e a melhoria do ambiente de negócios."
+                "O conhecimento alcança seu maior valor quando é <span className="text-brand-red italic">compartilhado</span>, debatido e transformado em capacidade coletiva."
               </h2>
               <p className="text-[#A0A0A0] max-w-2xl text-lg leading-relaxed">
-                Acredito firmemente que o conhecimento acadêmico deve servir à prática. Minha experiência como gestora pública me ensinou que a segurança jurídica é o pilar de qualquer crescimento sustentável. Defendo uma atuação profissional que vai muito além da simples interpretação fria da lei, buscando entender profundamente a operação do cliente, as dores do mercado e as exigências globais de sustentabilidade corporativa.
+                Minha trajetória reúne pesquisa acadêmica, docência e participação em projetos voltados ao desenvolvimento econômico, à competitividade, à transição energética, ao comércio exterior e à modernização da gestão pública. Atuo especialmente na análise das relações entre tributação, governança, desenvolvimento regional e fortalecimento institucional.
               </p>
             </R>
           </div>

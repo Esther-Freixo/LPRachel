@@ -51,7 +51,7 @@ export default function EspecialidadesPesquisas() {
               <span className="text-sm uppercase tracking-widest font-bold text-brand-red">Conhecimento Aplicado</span>
             </div>
             <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl mb-8 tracking-tight text-brand-dark">Especialidades <br /><span className="text-brand-gray">&</span> Pesquisa</h1>
-            <p className="text-brand-gray text-lg md:text-xl max-w-2xl leading-relaxed font-medium">A intersecção entre o rigor acadêmico, a inteligência estratégica tributária e as demandas de governança do setor produtivo.</p>
+            <p className="text-brand-gray text-lg md:text-xl max-w-2xl leading-relaxed font-medium">A intersecção entre o rigor acadêmico, a pesquisa em tributação e governança, e o fortalecimento das instituições e do desenvolvimento econômico e social.</p>
           </R>
 
           {/* Right Side Composition - Editorial & Elegant */}
@@ -98,13 +98,13 @@ export default function EspecialidadesPesquisas() {
       <section className="px-8 md:px-16 lg:px-24 pb-32 relative">
         <div className="max-w-7xl mx-auto">
           <R className="mb-16">
-            <h2 className="font-serif text-4xl md:text-5xl text-brand-dark">Especialidades</h2>
+            <h2 className="font-serif text-4xl md:text-5xl text-brand-dark">Áreas de Pesquisa e Interesse</h2>
           </R>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-            {[['Direito Tributário & Tax', 'Atuação no CARF, contencioso administrativo fiscal, planejamento tributário e interpretação estratégica de normas e regulações.'],
-            ['Governança & ESG', 'Gestão corporativa focada na integração de conselhos de administração, critérios ESG e metas de sustentabilidade do negócio.'],
-            ['Setor Público', 'Experiência executiva como Subsecretária de Competitividade, com ênfase em parcerias interinstitucionais e desburocratização.'],
-            ['Academia & Docência', 'Professora e pesquisadora de alto nível, unindo pesquisa aplicada, orientação acadêmica e forte atuação no IBET e Fucape.']].map(([title, text], idx) => (
+            {[['Tributação e Desenvolvimento', 'Estudos sobre reforma tributária, federalismo fiscal, incentivos tributários, competitividade, desenvolvimento regional e seus impactos sobre a atividade econômica e a capacidade estatal.'],
+            ['Governança e Instituições', 'Pesquisa sobre governança pública e privada, capacidade institucional, integridade, transparência e aprimoramento dos processos decisórios.'],
+            ['Competitividade e Políticas Públicas', 'Análise de programas, projetos e instrumentos voltados à melhoria do ambiente de negócios, à inovação pública e ao desenvolvimento econômico.'],
+            ['Sustentabilidade e Transição Energética', 'Estudos relacionados à agenda ESG, energias renováveis, sustentabilidade e desenvolvimento de longo prazo.']].map(([title, text], idx) => (
               <R delay={`reveal-delay-${(idx % 4) + 1}`} key={title} className="group relative bg-white p-12 rounded-2xl shadow-sm border border-transparent hover:border-[#E5E5E5] hover:shadow-2xl hover:shadow-brand-dark/5 transition-all duration-500 overflow-hidden z-10">
                 <div className="absolute top-0 right-0 w-40 h-40 bg-brand-red/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-brand-red/15 transition-colors duration-700 -z-10"></div>
                 <div className="text-4xl font-serif text-brand-gray/20 mb-6 group-hover:text-brand-red/30 transition-colors">0{idx + 1}</div>
