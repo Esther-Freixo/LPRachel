@@ -5,12 +5,21 @@ import * as service from "./midias.service.js";
 
 const idParam = z.object({ id: z.coerce.number().int() });
 const okResp = z.object({ ok: z.boolean() });
+const oembedQuery = z.object({ url: z.string().url() });
+const oembedResp = z.object({ titulo: z.string().nullable(), autor: z.string().nullable() });
 
 export const midiasRoutes: FastifyPluginAsyncZod = async (app) => {
   app.get(
     "/api/midias",
     { schema: { response: { 200: z.array(midiaSchema) } } },
     async () => service.listarMidias(),
+  );
+
+  // Público e seguro (o servidor só chama noembed.com): autofill do admin.
+  app.get(
+    "/api/midias/oembed",
+    { schema: { querystring: oembedQuery, response: { 200: oembedResp } } },
+    async (req) => service.buscarOembed(req.query.url),
   );
 
   app.post(
