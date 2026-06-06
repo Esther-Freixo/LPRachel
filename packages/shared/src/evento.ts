@@ -14,3 +14,18 @@ export const eventoSchema = z.object({
 });
 
 export type Evento = z.infer<typeof eventoSchema>;
+
+export const eventoCreateSchema = z.object({
+  titulo: z.string(),
+  dia: z.string().nullish(),
+  mes: z.string().nullish(),
+  ano: z.string().nullish(),
+  tipo: z.string().nullish(),
+  local: z.string().nullish(),
+  descricao: z.string().nullish(),
+  link: z.string().nullish(),
+  status: z.string().nullish(),
+});
+export const eventoUpdateSchema = eventoCreateSchema.partial();
+export type EventoCreate = z.infer<typeof eventoCreateSchema>;
+export type EventoUpdate = z.infer<typeof eventoUpdateSchema>;

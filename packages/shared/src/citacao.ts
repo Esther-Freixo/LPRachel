@@ -10,3 +10,14 @@ export const citacaoSchema = z.object({
 });
 
 export type Citacao = z.infer<typeof citacaoSchema>;
+
+export const citacaoCreateSchema = z.object({
+  texto: z.string(),
+  bg: z.string().nullish(),
+  textCol: z.string().nullish(),
+  border: z.string().nullish(),
+  quoteMark: z.string().nullish(),
+});
+export const citacaoUpdateSchema = citacaoCreateSchema.partial();
+export type CitacaoCreate = z.infer<typeof citacaoCreateSchema>;
+export type CitacaoUpdate = z.infer<typeof citacaoUpdateSchema>;

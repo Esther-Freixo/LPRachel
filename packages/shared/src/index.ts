@@ -4,3 +4,4 @@ export * from "./evento.js";
 export * from "./insight.js";
 export * from "./citacao.js";
 export * from "./midia.js";
+export * from "./contato.js";
