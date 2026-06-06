@@ -29,8 +29,15 @@ Tudo no Railway (serviço único web+api, Postgres, MinIO). Site e API na mesma 
 Domínio em pt-BR, infra em inglês · TypeScript estrito · prepared statements (Prisma) ·
 Conventional Commits · documentação como código.
 
-## Estado da Fundação (Plano 1)
+## Estado da Fundação
 
-Entregue: monorepo, Postgres/MinIO locais, schema das 8 tabelas, seed dos dados recuperados,
-API de pé com a fatia `timeline` (`GET /api/timeline`) testada.
-Próximos planos: 2 (demais CRUDs + auth JWT + upload MinIO + oembed), 3 (frontend em TS), 4 (deploy Railway).
+**Plano 1 (base):** monorepo, Postgres/MinIO locais, schema das 8 tabelas, seed dos dados
+recuperados, API de pé com a fatia `timeline`.
+
+**Plano 2 (leitura + auth):** leitura pública de `timeline`, `publicacoes`, `agenda`,
+`insights`, `citacoes`, `midias` (GET `/api/<entidade>`); autenticação real — `POST
+/api/auth/login` (JWT + argon2), `requireAuth` para rotas admin, e usuário admin no seed
+(substitui o `admrachel/space123` hardcoded).
+
+Próximos: **Plano 3** (escrita/CRUD admin protegido + upload MinIO + oembed),
+**Plano 4** (frontend → TS + camada de serviço + login real), **Plano 5** (deploy Railway).
