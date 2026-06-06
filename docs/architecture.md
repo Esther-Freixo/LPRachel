@@ -43,5 +43,8 @@ recuperados, API de pé com a fatia `timeline`.
 conteúdo, com `preHandler: requireAuth`; módulo de contato (`POST /api/contatos` público +
 `GET`/`DELETE` admin).
 
-Próximos: **Plano 4** (upload MinIO + oembed do YouTube), **Plano 5** (frontend → TS +
-camada de serviço + login real), **Plano 6** (deploy Railway).
+**Plano 4 (storage + oembed):** upload de imagem/PDF para o MinIO (`POST /api/uploads`, admin)
+com URL pública (bucket público, garantido no boot); `GET /api/midias/oembed` (autofill de
+título/autor via noembed). **Backend feature-completo.**
+
+Próximos: **Plano 5** (frontend → TS + camada de serviço + login real), **Plano 6** (deploy Railway).
