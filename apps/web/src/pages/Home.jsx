@@ -273,7 +273,6 @@ export default function Home() {
               <span className="text-[10px] sm:text-xs uppercase tracking-widest bg-brand-red text-white px-3 py-1 rounded-full">Professora</span>
               <span className="text-[10px] sm:text-xs uppercase tracking-widest border border-brand-dark/20 text-brand-dark px-3 py-1 rounded-full">Pesquisadora</span>
               <span className="text-[10px] sm:text-xs uppercase tracking-widest border border-brand-dark/20 text-brand-dark px-3 py-1 rounded-full">Palestrante</span>
-              <span className="text-[10px] sm:text-xs uppercase tracking-widest border border-brand-dark/20 text-brand-dark px-3 py-1 rounded-full">Conselheira CARF</span>
             </div>
             <p className="text-brand-dark text-base md:text-lg max-w-lg leading-relaxed font-medium mb-10">
               Professora, pesquisadora e palestrante. Dedicada ao estudo e à disseminação do conhecimento em <strong>tributação</strong>, <strong>governança</strong>, competitividade, desenvolvimento regional e <strong>políticas públicas</strong>.
@@ -425,7 +424,7 @@ export default function Home() {
             <div className="bg-gradient-to-br from-brand-dark to-gray-800 text-white p-10 rounded-2xl shadow-2xl relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-brand-red/20 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2"></div>
               <div className="text-7xl font-serif mb-4 relative z-10">20+</div>
-              <p className="text-sm text-[#8F8F8F] uppercase tracking-widest font-bold relative z-10">Anos de experiência focada em excelência, docência e julgamentos colegiados.</p>
+              <p className="text-sm text-[#8F8F8F] uppercase tracking-widest font-bold relative z-10">Anos dedicados à pesquisa, à docência e à produção acadêmica.</p>
             </div>
           </R>
 

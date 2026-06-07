@@ -170,7 +170,7 @@ export default function EspecialidadesPesquisas() {
             {[['Tributação & ESG', 'A intersecção entre obrigações tributárias, benefícios ambientais, compliance fiscal e a agenda global de sustentabilidade.'],
             ['Governança Pública', 'Modernização do Estado, desburocratização inteligente e políticas de melhoria contínua do ambiente de negócios e atração de investimentos.'],
             ['Diversidade Estrutural', 'Estudo aprofundado sobre a representatividade, pluralidade e paridade de gênero nos espaços de poder e decisão.'],
-            ['Tributação e Capacidade Institucional', 'Análise de teses tributárias, jurisprudência do CARF, segurança jurídica e qualidade das decisões administrativas.'],].map(([title, text], idx) => (
+            ['Tributação e Capacidade Institucional', 'Análise de teses tributárias, segurança jurídica e qualidade das decisões administrativas.'],].map(([title, text], idx) => (
               <R delay={`reveal-delay-${(idx % 4) + 1}`} key={title} className="group relative bg-white p-12 rounded-2xl shadow-sm border border-transparent hover:border-[#E5E5E5] hover:shadow-2xl hover:shadow-brand-dark/5 transition-all duration-500 overflow-hidden z-10">
                 <div className="absolute bottom-0 left-0 w-40 h-40 bg-brand-dark/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 group-hover:bg-brand-dark/10 transition-colors duration-700 -z-10"></div>
                 <div className="text-4xl font-serif text-brand-gray/20 mb-6 group-hover:text-brand-red/30 transition-colors">0{idx + 1}</div>
