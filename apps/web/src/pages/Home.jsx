@@ -253,13 +253,13 @@ export default function Home() {
     <main className="font-sans text-brand-dark bg-brand-bg w-full overflow-clip">
 
       {/* 1. HERO SECTION */}
-      <section className="relative flex flex-col lg:flex-row min-h-[85vh] lg:min-h-screen overflow-hidden bg-brand-bg">
+      <section className="relative flex flex-col lg:flex-row min-h-[88vh] lg:min-h-0 overflow-hidden bg-brand-bg">
         {/* Background Decorative Elements */}
         <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-brand-red/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 animate-float"></div>
         <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#E5E5E5]/50 rounded-full blur-3xl translate-x-1/3 translate-y-1/3 animate-float-delayed"></div>
 
         {/* Left Content */}
-        <div className="w-full lg:w-1/2 px-6 sm:px-10 py-16 lg:px-16 xl:px-24 flex flex-col justify-center relative z-10 pt-28 lg:pt-32">
+        <div className="w-full lg:w-1/2 px-6 sm:px-10 py-16 lg:py-24 lg:px-16 xl:px-24 flex flex-col justify-center relative z-10">
 
           <R className="mb-10 sm:mb-12">
             <div className="w-12 h-12 border border-brand-dark/20 rounded-full flex items-center justify-center mb-6 bg-white/50 backdrop-blur-sm shadow-sm">
@@ -309,7 +309,7 @@ export default function Home() {
         </div>
 
         {/* Right Image */}
-        <div className="w-full lg:w-1/2 relative h-[55vh] sm:h-[65vh] lg:h-auto lg:min-h-screen ml-auto overflow-hidden">
+        <div className="w-full lg:w-1/2 relative h-[55vh] sm:h-[65vh] lg:h-auto lg:min-h-[600px] ml-auto overflow-hidden">
           <div className="absolute inset-0 bg-brand-dark/10 z-10 mix-blend-multiply"></div>
           <img
             src="/hero.jpg"
