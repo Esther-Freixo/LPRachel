@@ -74,7 +74,7 @@ export default function TimelineEditorial({ items }) {
         ></div>
 
         {/* Header */}
-        <div className="absolute top-9 left-1/2 -translate-x-1/2 text-center z-30">
+        <div className="absolute top-24 lg:top-28 left-1/2 -translate-x-1/2 text-center z-30">
           <div className="flex items-center justify-center gap-3 mb-1.5">
             <div className="w-8 h-px bg-brand-red"></div>
             <span className="text-brand-red uppercase tracking-[0.22em] text-[11px] font-bold">Trajetória e Impacto</span>
@@ -83,7 +83,7 @@ export default function TimelineEditorial({ items }) {
         </div>
 
         {/* Counter */}
-        <div className="absolute top-9 right-6 sm:right-12 z-30 font-serif text-sm tracking-widest">
+        <div className="absolute top-24 lg:top-28 right-6 sm:right-12 z-30 font-serif text-sm tracking-widest">
           <span ref={counterRef} className="text-brand-red text-lg">01</span>
           <span className="text-brand-gray"> / {String(n).padStart(2, '0')}</span>
         </div>

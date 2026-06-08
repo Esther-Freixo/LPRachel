@@ -40,7 +40,9 @@ export default function useScrollProgress(apply, { ease = 0.1 } = {}) {
       window.removeEventListener('resize', onScroll)
       cancelAnimationFrame(raf)
     }
-  }, [ease])
+    // `apply` is in deps so the effect re-attaches when data arrives late
+    // (container mounts only after items load → ref becomes available).
+  }, [ease, apply])
 
   return containerRef
 }
