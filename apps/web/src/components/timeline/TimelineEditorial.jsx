@@ -91,8 +91,6 @@ export default function TimelineEditorial({ items }) {
         {/* Spine (base + progress fill) */}
         <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-brand-dark/10 md:-translate-x-1/2"></div>
         <div ref={fillRef} className="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-brand-red/70 to-brand-red/20 md:-translate-x-1/2 origin-top" style={{ transform: 'scaleY(0)' }}></div>
-        {/* Center focus marker */}
-        <div className="absolute left-8 md:left-1/2 top-1/2 w-8 h-8 -translate-x-1/2 -translate-y-1/2 rounded-full border border-brand-red/25 z-10"></div>
 
         {/* Moving stack */}
         <div ref={movingRef} className="absolute left-0 top-0 w-full will-change-transform z-10">
@@ -125,16 +123,15 @@ export default function TimelineEditorial({ items }) {
                 >
                   <div
                     ref={setRef(i, 'year')}
-                    className="font-serif text-3xl sm:text-4xl md:text-5xl leading-[0.95] tracking-tight mb-2.5"
-                    style={{ color: 'rgba(28,28,28,0.42)' }}
+                    className="font-bold uppercase tracking-[0.18em] text-[11px] md:text-xs mb-2.5"
+                    style={{ color: 'rgba(28,28,28,0.4)' }}
                   >{item.ano}</div>
-                  <div ref={setRef(i, 'rule')} className={`h-px w-10 mb-2.5 ${even ? 'md:ml-auto' : ''}`} style={{ backgroundColor: 'rgba(28,28,28,0.15)' }}></div>
                   <h3
                     ref={setRef(i, 'title')}
-                    className="font-serif text-lg sm:text-xl md:text-2xl mb-2 leading-snug"
+                    className="font-serif text-2xl sm:text-3xl md:text-4xl mb-3 leading-[1.08] tracking-tight"
                     style={{ color: 'rgba(28,28,28,0.5)' }}
                   >{item.titulo}</h3>
-                  <p className={`text-sm md:text-[15px] text-brand-dark/50 leading-relaxed max-w-sm ${even ? 'md:ml-auto' : ''}`}>{item.descricao}</p>
+                  <p className={`text-sm md:text-[15px] text-brand-dark/55 leading-relaxed max-w-sm ${even ? 'md:ml-auto' : ''}`}>{item.descricao}</p>
                 </div>
               </div>
             )
