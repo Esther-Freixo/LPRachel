@@ -1,5 +1,6 @@
 import { useRef, useCallback } from 'react'
 import useScrollProgress from './useScrollProgress'
+import TimelineBackdrop from './TimelineBackdrop'
 
 // Variação — Linha central com CARTÕES coesos.
 // Mesma espinha central, mas cada marco é um cartão consistente; o ativo se
@@ -57,10 +58,8 @@ export default function TimelineSpineCard({ items }) {
 
   return (
     <div ref={containerRef} style={{ height: `${Math.max(200, n * 22)}vh` }} className="relative w-full">
-      <div
-        className="sticky top-0 h-screen w-full overflow-hidden flex items-center"
-        style={{ background: 'radial-gradient(ellipse 75% 60% at 50% 42%, rgba(0,180,166,0.05) 0%, transparent 62%), #F5F0EB' }}
-      >
+      <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center bg-[#F4EFE8]">
+        <TimelineBackdrop />
         {/* Header */}
         <div className="absolute top-9 left-1/2 -translate-x-1/2 text-center z-30">
           <div className="flex items-center justify-center gap-3">
