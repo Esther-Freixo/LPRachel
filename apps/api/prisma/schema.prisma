@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Timeline {
+  id        Int    @id @default(autoincrement())
+  ano       String
+  titulo    String
+  descricao String
+
+  @@map("timeline")
+}
+
+model Publicacao {
+  id     Int     @id @default(autoincrement())
+  tipo   String
+  titulo String
+  meta   String?
+  resumo String?
+  link   String?
+
+  @@map("publicacoes")
+}
+
+model Evento {
+  id        Int     @id @default(autoincrement())
+  dia       String?
+  mes       String?
+  ano       String?
+  tipo      String?
+  titulo    String
+  local     String?
+  descricao String?
+  link      String?
+  status    String?
+
+  @@map("agenda")
+}
+
+model Insight {
+  id           Int     @id @default(autoincrement())
+  data         String?
+  titulo       String
+  texto        String
+  linkOriginal String? @map("link_original")
+  mediaUrl     String? @map("media_url")
+
+  @@map("insights")
+}
+
+model Citacao {
+  id        Int     @id @default(autoincrement())
+  texto     String
+  bg        String?
+  textCol   String? @map("text_col")
+  border    String?
+  quoteMark String? @map("quote_mark")
+
+  @@map("citacoes")
+}
+
+model Midia {
+  id           Int     @id @default(autoincrement())
+  titulo       String
+  tipo         String
+  url          String
+  descricao    String?
+  thumbnailUrl String? @map("thumbnail_url")
+  plataforma   String?
+  ordem        Int?
+
+  @@map("midias")
+}
+
+model Contato {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  email     String
+  assunto   String?
+  mensagem  String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("contatos")
+}
+
+model Usuario {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  senhaHash String   @map("senha_hash")
+  papel     String   @default("admin")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("usuarios")
+}

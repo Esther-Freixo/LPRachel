@@ -1,16 +1,59 @@
-# React + Vite
+# Site Rachel Freixo — Monorepo
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Monorepo pnpm com três pacotes:
 
-Currently, two official plugins are available:
+- **`apps/web`** — site institucional (React + Vite). Páginas em JSX; a camada de dados (`store/data.ts`) e os contratos (`@rf/shared`) são TypeScript.
+- **`apps/api`** — API REST (Fastify + Prisma + PostgreSQL).
+- **`packages/shared`** — contratos/DTOs (zod) compartilhados entre `web` e `api`.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Rodar local
 
-## React Compiler
+Pré-requisitos: Node 20+, pnpm 9+, Docker Desktop.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+# 1. Sobe Postgres + MinIO
+docker compose -p rf -f infra/docker-compose.yml up -d
 
-## Expanding the ESLint configuration
+# 2. Instala dependências
+pnpm install
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+# 3. Configura ambiente da API
+cp apps/api/.env.example apps/api/.env
+
+# 4. Aplica o schema e popula os dados recuperados
+pnpm --filter @rf/api prisma:migrate
+pnpm --filter @rf/api prisma:seed
+
+# 5. Sobe a API (http://localhost:3333)
+pnpm dev:api
+
+# 6. Em outro terminal: sobe o site (http://localhost:5174, proxy /api -> 3333)
+pnpm dev:web
+```
+
+Smoke test: `curl http://localhost:3333/api/timeline` deve retornar 14 itens.
+
+> Portas locais: Postgres `5433`, MinIO `9100` (API) / `9101` (console), API `3333`.
+
+## Scripts
+
+- `pnpm dev:api` — sobe a API em watch
+- `pnpm dev:web` — sobe o site em watch (porta 5174 ou 5173)
+- `pnpm typecheck` — checagem de tipos de todos os pacotes
+- `pnpm test` — testes unitários/integração (API + web)
+- `pnpm build` — build de shared + api + web
+
+## Testes
+
+- `pnpm test` — unidade/integração: API (vitest, banco `rachel_test` isolado) + web (vitest).
+- `pnpm --filter web test:e2e` — end-to-end (Playwright): smoke das páginas públicas, autenticação e CRUD do admin. Requer Postgres+MinIO, API e web no ar.
+
+> Os testes da API usam o banco `rachel_test`. Crie-o e migre antes da primeira execução:
+> `createdb` via container + `pnpm --filter @rf/api prisma migrate deploy` apontando `DATABASE_URL` para `rachel_test`.
+
+## Lab
+
+- `/lab/timeline` — página (não linkada) que compara variações de design da timeline da home. Útil como referência; pode ser removida antes de produção.
+
+Arquitetura: [`docs/architecture.md`](docs/architecture.md).
+Decisão de design: [`docs/superpowers/specs/2026-06-05-refatoracao-arquitetura-fundacao-design.md`](docs/superpowers/specs/2026-06-05-refatoracao-arquitetura-fundacao-design.md).
