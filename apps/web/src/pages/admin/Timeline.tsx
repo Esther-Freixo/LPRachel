@@ -1,9 +1,9 @@
-﻿import { useState, useEffect } from 'react'
+﻿import { useState, useEffect, type FormEvent } from 'react'
 import { getTimeline, addTimeline, updateTimeline, deleteTimeline } from '../../store/data'
 
 export default function AdminTimeline() {
-  const [timeline, setTimeline] = useState([])
-  const [edit, setEdit] = useState(null)
+  const [timeline, setTimeline] = useState<any[]>([])
+  const [edit, setEdit] = useState<any>(null)
   const [loading, setLoading] = useState(true)
 
   const carregar = async () => {
@@ -15,12 +15,12 @@ export default function AdminTimeline() {
 
   useEffect(() => { carregar() }, [])
 
-  const handleSave = async (e) => {
+  const handleSave = async (e: FormEvent) => {
     e.preventDefault()
     const data = {
-      ano: e.target.ano.value,
-      titulo: e.target.titulo.value,
-      descricao: e.target.descricao.value
+      ano: (e.target as any).ano.value,
+      titulo: (e.target as any).titulo.value,
+      descricao: (e.target as any).descricao.value
     }
     if (edit?.id) {
       await updateTimeline(edit.id, data)
@@ -31,7 +31,7 @@ export default function AdminTimeline() {
     setEdit(null)
   }
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: number) => {
     if (window.confirm('Excluir este marco?')) {
       await deleteTimeline(id)
       await carregar()

@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
 
-export default function useData(getterFunc) {
-  const [data, setData] = useState([])
+// Busca uma coleção via `getterFunc` e expõe { data, loading, setData }.
+// Mantém o array vazio como estado inicial para os consumidores usarem direto.
+export default function useData<T>(getterFunc: () => Promise<T[]>) {
+  const [data, setData] = useState<T[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {

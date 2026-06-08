@@ -1,4 +1,4 @@
-﻿import { useEffect } from 'react'
+import { useEffect, lazy, Suspense, type ReactNode } from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Layout from './components/Layout'
 import Home from './pages/Home'
@@ -16,7 +16,10 @@ import AdminInsights from './pages/admin/Insights'
 import AdminCitacoes from './pages/admin/Citacoes'
 import Midia from './pages/Midia'
 import AdminMidias from './pages/admin/Midias'
-import TimelineLab from './pages/TimelineLab'
+
+// Lab de comparação da timeline: só existe em desenvolvimento (lazy import,
+// fica fora do bundle de produção).
+const TimelineLab = import.meta.env.DEV ? lazy(() => import('./pages/TimelineLab')) : null
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -24,8 +27,8 @@ function ScrollToTop() {
   return null
 }
 
-function PrivateRoute({ children }) {
-  return sessionStorage.getItem('rf_auth') ? children : <Navigate to="/login" replace />
+function PrivateRoute({ children }: { children: ReactNode }) {
+  return sessionStorage.getItem('rf_auth') ? <>{children}</> : <Navigate to="/login" replace />
 }
 
 export default function App() {
@@ -46,8 +49,10 @@ export default function App() {
       {/* Login */}
       <Route path="/login" element={<Login />} />
 
-      {/* Lab — comparação de variações da timeline (não linkado no site) */}
-      <Route path="/lab/timeline" element={<TimelineLab />} />
+      {/* Lab — comparação de variações da timeline (apenas em dev, não linkado) */}
+      {import.meta.env.DEV && TimelineLab && (
+        <Route path="/lab/timeline" element={<Suspense fallback={null}><TimelineLab /></Suspense>} />
+      )}
 
       {/* Admin */}
       <Route path="/admin" element={<PrivateRoute><AdminLayout /></PrivateRoute>}>

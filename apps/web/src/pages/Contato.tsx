@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useState, type ReactNode, type FormEvent } from 'react'
 import useScrollReveal from '../hooks/useScrollReveal'
 import { sendContato } from '../store/data'
 
-function R({ children, className }) {
+function R({ children, className }: { children?: ReactNode; className?: string }) {
   const ref = useScrollReveal()
   return <div ref={ref} className={`reveal${className ? ' '+className : ''}`}>{children}</div>
 }
@@ -10,21 +10,22 @@ function R({ children, className }) {
 export default function Contato() {
   const [sent, setSent] = useState(false)
   const [sending, setSending] = useState(false)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState<string | null>(null)
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setSending(true)
     setError(null)
+    const form = e.target as any // formulário não-controlado: acesso por name
     try {
       await sendContato({
-        nome: e.target.nome.value,
-        email: e.target.email.value,
-        assunto: e.target.assunto.value,
-        mensagem: e.target.msg.value
+        nome: form.nome.value,
+        email: form.email.value,
+        assunto: form.assunto.value,
+        mensagem: form.msg.value
       })
       setSent(true)
-      e.target.reset()
+      form.reset()
     } catch (err) {
       setError('Erro ao enviar mensagem. Tente novamente.')
     } finally {

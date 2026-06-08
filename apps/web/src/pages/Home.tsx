@@ -1,12 +1,13 @@
+import { type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
-import { getPublicacoes, getAgenda, getTimeline } from '../store/data'
+import { getAgenda, getTimeline } from '../store/data'
 import useData from '../hooks/useData'
 import useScrollReveal from '../hooks/useScrollReveal'
 import TimelineEditorial from '../components/timeline/TimelineEditorial'
 import { getEventStatus } from '../lib/agenda'
 
 // Reveal Wrapper Component
-function R({ children, className, delay = '' }) {
+function R({ children, className, delay = '' }: { children?: ReactNode; className?: string; delay?: string }) {
   const ref = useScrollReveal()
   return <div ref={ref} className={`reveal ${delay} ${className || ''}`}>{children}</div>
 }

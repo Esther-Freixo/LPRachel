@@ -1,4 +1,4 @@
-﻿import { useState } from 'react'
+﻿import { useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { login } from '../store/data'
 
@@ -7,12 +7,13 @@ export default function Login() {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setError('')
     setLoading(true)
-    const email = e.target.email.value
-    const pass = e.target.pass.value
+    const form = e.target as any // formulário não-controlado
+    const email = form.email.value
+    const pass = form.pass.value
 
     const ok = await login(email, pass)
     setLoading(false)

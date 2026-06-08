@@ -7,6 +7,7 @@
     "moduleResolution": "Bundler",
     "allowJs": true,
     "checkJs": false,
+    "noUncheckedIndexedAccess": false,
     "noEmit": true,
     "declaration": false,
     "sourceMap": false

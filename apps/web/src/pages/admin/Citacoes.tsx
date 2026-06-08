@@ -1,13 +1,13 @@
-﻿import { useState, useEffect } from 'react'
+﻿import { useState, useEffect, type FormEvent } from 'react'
 import { getCitacoes, addCitacao, updateCitacao, deleteCitacao } from '../../store/data'
 
 const EMPTY = { texto: '' }
 
 export default function AdminCitacoes() {
-  const [items, setItems] = useState([])
+  const [items, setItems] = useState<any[]>([])
   const [modal, setModal] = useState(false)
   const [form, setForm] = useState(EMPTY)
-  const [editId, setEditId] = useState(null)
+  const [editId, setEditId] = useState<any>(null)
   const [loading, setLoading] = useState(true)
 
   async function refresh() {
@@ -20,10 +20,10 @@ export default function AdminCitacoes() {
   useEffect(() => { refresh() }, [])
 
   function openNew() { setForm(EMPTY); setEditId(null); setModal(true) }
-  function openEdit(p) { setForm({ texto: p.texto }); setEditId(p.id); setModal(true) }
-  async function del(id) { if (window.confirm('Excluir esta citação?')) { await deleteCitacao(id); await refresh() } }
+  function openEdit(p: any) { setForm({ texto: p.texto }); setEditId(p.id); setModal(true) }
+  async function del(id: number) { if (window.confirm('Excluir esta citação?')) { await deleteCitacao(id); await refresh() } }
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault()
     if (editId) await updateCitacao(editId, { texto: form.texto }); else await addCitacao({ texto: form.texto })
     setModal(false); await refresh()

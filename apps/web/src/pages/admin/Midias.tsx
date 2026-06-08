@@ -1,9 +1,9 @@
-﻿import { useState, useEffect } from 'react'
+﻿import { useState, useEffect, type FormEvent } from 'react'
 import { getMidias, addMidia, updateMidia, deleteMidia, getMidiaOembed } from '../../store/data'
 
 const EMPTY = { titulo: '', tipo: 'podcast', url: '', descricao: '', thumbnailUrl: '' }
 
-function detectPlatforma(url) {
+function detectPlatforma(url: string) {
   if (!url) return ''
   if (url.includes('spotify.com')) return 'spotify'
   if (url.includes('youtube.com') || url.includes('youtu.be')) return 'youtube'
@@ -11,17 +11,17 @@ function detectPlatforma(url) {
 }
 
 // Extract YouTube video ID for thumbnail preview
-function getYoutubeId(url) {
+function getYoutubeId(url: string) {
   if (!url) return null
   const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/)
   return match ? match[1] : null
 }
 
 export default function AdminMidias() {
-  const [items, setItems] = useState([])
+  const [items, setItems] = useState<any[]>([])
   const [modal, setModal] = useState(false)
   const [form, setForm] = useState(EMPTY)
-  const [editId, setEditId] = useState(null)
+  const [editId, setEditId] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [autoFilling, setAutoFilling] = useState(false)
 
@@ -35,15 +35,15 @@ export default function AdminMidias() {
   useEffect(() => { refresh() }, [])
 
   function openNew() { setForm(EMPTY); setEditId(null); setModal(true) }
-  function openEdit(p) { 
+  function openEdit(p: any) { 
     setForm({ titulo: p.titulo, tipo: p.tipo, url: p.url, descricao: p.descricao || '', thumbnailUrl: p.thumbnailUrl || '' }); 
     setEditId(p.id); 
     setModal(true) 
   }
-  async function del(id) { if (window.confirm('Excluir esta mídia?')) { await deleteMidia(id); await refresh() } }
+  async function del(id: number) { if (window.confirm('Excluir esta mídia?')) { await deleteMidia(id); await refresh() } }
 
   // YouTube auto-fill: uses noembed.com to fetch title/description
-  async function handleUrlChange(url) {
+  async function handleUrlChange(url: string) {
     setForm(prev => ({ ...prev, url }))
     
     const ytId = getYoutubeId(url)
@@ -54,7 +54,7 @@ export default function AdminMidias() {
         if (data.titulo) {
           setForm(prev => ({
             ...prev,
-            titulo: prev.titulo || data.titulo,
+            titulo: prev.titulo || data.titulo || '',
             descricao: prev.descricao || (data.autor ? `Por ${data.autor}` : ''),
           }))
         }
@@ -65,10 +65,10 @@ export default function AdminMidias() {
     }
   }
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault()
     const plataforma = detectPlatforma(form.url)
-    const data = { ...form, plataforma, ordem: editId ? undefined : items.length + 1 }
+    const data: any = { ...form, plataforma, ordem: editId ? undefined : items.length + 1 }
     // Don't send empty thumbnailUrl
     if (!data.thumbnailUrl) delete data.thumbnailUrl
     if (data.ordem === undefined) delete data.ordem
@@ -76,11 +76,11 @@ export default function AdminMidias() {
     setModal(false); await refresh()
   }
 
-  const tipoLabel = { podcast: '🎙️ Podcast', video: '🎥 Vídeo', entrevista: '💬 Entrevista' }
-  const platLabel = { spotify: 'Spotify', youtube: 'YouTube', outro: 'Outro' }
+  const tipoLabel: Record<string, string> = { podcast: '🎙️ Podcast', video: '🎥 Vídeo', entrevista: '💬 Entrevista' }
+  const platLabel: Record<string, string> = { spotify: 'Spotify', youtube: 'YouTube', outro: 'Outro' }
 
   // Preview thumbnail
-  function getPreviewThumb(url, customThumb) {
+  function getPreviewThumb(url: string, customThumb?: string) {
     if (customThumb) return customThumb
     const ytId = getYoutubeId(url)
     if (ytId) return `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`

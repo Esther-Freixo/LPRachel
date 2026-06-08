@@ -2,7 +2,7 @@
 
 Monorepo pnpm com três pacotes:
 
-- **`apps/web`** — site institucional (React + Vite). Páginas em JSX; a camada de dados (`store/data.ts`) e os contratos (`@rf/shared`) são TypeScript.
+- **`apps/web`** — site institucional (React + Vite + TypeScript). Páginas, componentes, hooks e camada de dados em TS. _(Exceção: as variações experimentais da timeline em `/lab/timeline` seguem em `.jsx`, pois só existem em dev.)_
 - **`apps/api`** — API REST (Fastify + Prisma + PostgreSQL).
 - **`packages/shared`** — contratos/DTOs (zod) compartilhados entre `web` e `api`.
 
@@ -53,7 +53,7 @@ Smoke test: `curl http://localhost:3333/api/timeline` deve retornar 14 itens.
 
 ## Lab
 
-- `/lab/timeline` — página (não linkada) que compara variações de design da timeline da home. Útil como referência; pode ser removida antes de produção.
+- `/lab/timeline` — página (não linkada) que compara variações de design da timeline da home. **Só existe em desenvolvimento** (`import.meta.env.DEV`, lazy import) — fica fora do bundle de produção automaticamente.
 
 Arquitetura: [`docs/architecture.md`](docs/architecture.md).
 Decisão de design: [`docs/superpowers/specs/2026-06-05-refatoracao-arquitetura-fundacao-design.md`](docs/superpowers/specs/2026-06-05-refatoracao-arquitetura-fundacao-design.md).

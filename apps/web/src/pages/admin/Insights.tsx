@@ -1,9 +1,9 @@
-﻿import { useState, useEffect } from 'react'
+﻿import { useState, useEffect, type FormEvent } from 'react'
 import { getInsights, addInsight, updateInsight, deleteInsight } from '../../store/data'
 
 export default function AdminInsights() {
-  const [insights, setInsights] = useState([])
-  const [edit, setEdit] = useState(null)
+  const [insights, setInsights] = useState<any[]>([])
+  const [edit, setEdit] = useState<any>(null)
   const [loading, setLoading] = useState(true)
 
   const carregar = async () => {
@@ -15,14 +15,14 @@ export default function AdminInsights() {
 
   useEffect(() => { carregar() }, [])
 
-  const handleSave = async (e) => {
+  const handleSave = async (e: FormEvent) => {
     e.preventDefault()
     const data = {
-      data: e.target.data.value,
-      titulo: e.target.titulo.value,
-      texto: e.target.texto.value,
-      linkOriginal: e.target.linkOriginal.value,
-      mediaUrl: e.target.mediaUrl.value
+      data: (e.target as any).data.value,
+      titulo: (e.target as any).titulo.value,
+      texto: (e.target as any).texto.value,
+      linkOriginal: (e.target as any).linkOriginal.value,
+      mediaUrl: (e.target as any).mediaUrl.value
     }
     if (edit?.id) {
       await updateInsight(edit.id, data)
@@ -33,7 +33,7 @@ export default function AdminInsights() {
     setEdit(null)
   }
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: number) => {
     if (window.confirm('Excluir este insight?')) {
       await deleteInsight(id)
       await carregar()

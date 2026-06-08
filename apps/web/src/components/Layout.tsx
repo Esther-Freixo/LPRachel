@@ -1,18 +1,22 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Link, NavLink, Outlet } from 'react-router-dom'
 
+// Google Translate injeta uma API global não tipada; declaramos o mínimo.
+type GoogleTranslateWindow = Window & {
+  google?: { translate?: { TranslateElement?: new (opts: unknown, el: string) => void } }
+  googleTranslateElementInit?: () => void
+}
+
 // ── Google Translate – cookie switch ──
 function LangToggle() {
   const [isEn, setIsEn] = useState(() => document.cookie.includes('googtrans=/pt/en'))
 
   useEffect(() => {
     if (document.getElementById('gtranslate-script')) return
-    window.googleTranslateElementInit = () => {
-      new window.google.translate.TranslateElement({
-        pageLanguage: 'pt',
-        includedLanguages: 'en,pt',
-        autoDisplay: false
-      }, 'google_translate_element')
+    const w = window as GoogleTranslateWindow
+    w.googleTranslateElementInit = () => {
+      const TE = w.google?.translate?.TranslateElement
+      if (TE) new TE({ pageLanguage: 'pt', includedLanguages: 'en,pt', autoDisplay: false }, 'google_translate_element')
     }
     const script = document.createElement('script')
     script.id = 'gtranslate-script'
@@ -53,7 +57,6 @@ function LangToggle() {
   )
 }
 
-
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -61,7 +64,7 @@ function Navbar() {
     { to: '/', label: 'Início' },
     { to: '/especialidades', label: 'Especialidades' },
     { to: '/midia', label: 'Mídia' },
-    { to: '/agenda', label: 'Agenda' }
+    { to: '/agenda', label: 'Agenda' },
   ]
 
   useEffect(() => {
@@ -81,12 +84,12 @@ function Navbar() {
       <header style={{ zIndex: 100 }} className="fixed top-0 left-0 w-full bg-brand-bg/90 backdrop-blur-sm border-b border-[#E5E5E5]">
         <nav className="max-w-7xl mx-auto px-6 lg:px-24 h-20 flex items-center justify-between">
           <Link to="/" className="font-serif italic text-xl tracking-wider notranslate" onClick={() => { setMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }) }}>Esther</Link>
-          
+
           {/* Desktop Menu */}
           <ul className="hidden md:flex items-center gap-8 text-xs uppercase tracking-widest font-bold">
             {links.map(l => (
               <li key={l.to}>
-                <NavLink to={l.to} end={l.to === '/'} onClick={() => { if (l.to === '/') window.scrollTo({ top: 0, behavior: 'smooth' }) }} className={({isActive}) => isActive ? "text-brand-red border-b border-brand-red pb-1" : "hover:text-brand-red transition-colors"}>
+                <NavLink to={l.to} end={l.to === '/'} onClick={() => { if (l.to === '/') window.scrollTo({ top: 0, behavior: 'smooth' }) }} className={({ isActive }) => isActive ? 'text-brand-red border-b border-brand-red pb-1' : 'hover:text-brand-red transition-colors'}>
                   {l.label}
                 </NavLink>
               </li>
@@ -101,8 +104,8 @@ function Navbar() {
 
           <div className="flex md:hidden items-center gap-3">
             <LangToggle />
-            <button 
-              className="relative w-10 h-10 flex flex-col items-center justify-center gap-1.5"
+            <button
+              className="relative w-10 h-10 flex flex-col items-center justify-center gap-1.5 cursor-pointer"
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label="Menu"
             >
@@ -115,24 +118,24 @@ function Navbar() {
       </header>
 
       {menuOpen && (
-        <div 
+        <div
           style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 99, backgroundColor: '#F5F2ED' }}
           className="md:hidden flex flex-col items-center justify-center gap-10"
         >
           {links.map(l => (
-            <NavLink 
-              key={l.to} 
-              to={l.to} 
-              end={l.to === '/'} 
+            <NavLink
+              key={l.to}
+              to={l.to}
+              end={l.to === '/'}
               onClick={() => { setMenuOpen(false); if (l.to === '/') window.scrollTo({ top: 0, behavior: 'smooth' }) }}
-              className={({isActive}) => `font-serif text-4xl tracking-wide ${isActive ? 'text-brand-red' : 'text-brand-dark'}`}
+              className={({ isActive }) => `font-serif text-4xl tracking-wide ${isActive ? 'text-brand-red' : 'text-brand-dark'}`}
             >
               {l.label}
             </NavLink>
           ))}
           <div className="w-12 h-[1px] bg-brand-dark/20"></div>
-          <NavLink 
-            to="/contato" 
+          <NavLink
+            to="/contato"
             onClick={() => setMenuOpen(false)}
             className="bg-brand-dark text-white text-xs uppercase tracking-widest font-bold px-10 py-4"
           >

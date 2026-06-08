@@ -5,6 +5,7 @@ Mudanças notáveis do site da Professora Esther.
 ## [Não lançado] — refino visual, responsividade e testes
 
 ### Adicionado
+- **TypeScript no front** — páginas, componentes, hooks e utilitários do `apps/web` convertidos de `.jsx` para `.tsx`/`.ts` (typecheck estrito limpo). O lab (`/lab/timeline`) e suas variações experimentais seguem em `.jsx`, restritos a desenvolvimento (`import.meta.env.DEV`, lazy import — fora do bundle de produção).
 - **Webfonts** (Cormorant Garamond + Inter) carregadas no `index.html`. Antes não eram incluídas e os títulos serifados caíam em Times New Roman para qualquer visitante.
 - **Acessibilidade**: `prefers-reduced-motion` (desliga reveal/float/scroll suave), `:focus-visible`, `text-wrap: balance/pretty` nos títulos/parágrafos e cor de seleção.
 - **Timeline da home** redesenhada (`TimelineEditorial`): linha central, marcos alternando os lados, título em destaque e data como sobrelinha, nó ativo com glow, conector e progresso na linha. Versão anterior preservada em `StickyTimelineClassic`.

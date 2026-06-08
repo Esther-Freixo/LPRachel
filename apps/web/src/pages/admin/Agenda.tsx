@@ -1,14 +1,14 @@
-﻿import { useState, useEffect } from 'react'
+﻿import { useState, useEffect, type FormEvent } from 'react'
 import { getAgenda, addEvento, updateEvento, deleteEvento } from '../../store/data'
 
 const TIPOS = ['Palestra','Painel','Curso','Banca','Outro']
 const EMPTY = { dia: '', mes: '', ano: '', tipo: 'Palestra', titulo: '', local: '', descricao: '', link: '', status: 'proximo' }
 
 export default function AdminAgenda() {
-  const [eventos, setEventos] = useState([])
+  const [eventos, setEventos] = useState<any[]>([])
   const [modal, setModal] = useState(false)
   const [form, setForm] = useState(EMPTY)
-  const [editId, setEditId] = useState(null)
+  const [editId, setEditId] = useState<any>(null)
   const [loading, setLoading] = useState(true)
 
   async function refresh() {
@@ -21,10 +21,10 @@ export default function AdminAgenda() {
   useEffect(() => { refresh() }, [])
 
   function openNew() { setForm(EMPTY); setEditId(null); setModal(true) }
-  function openEdit(e) { setForm({ dia: e.dia, mes: e.mes, ano: e.ano, tipo: e.tipo, titulo: e.titulo, local: e.local||'', descricao: e.descricao||'', link: e.link||'', status: e.status }); setEditId(e.id); setModal(true) }
-  async function del(id) { if (window.confirm('Excluir este evento?')) { await deleteEvento(id); await refresh() } }
+  function openEdit(e: any) { setForm({ dia: e.dia, mes: e.mes, ano: e.ano, tipo: e.tipo, titulo: e.titulo, local: e.local||'', descricao: e.descricao||'', link: e.link||'', status: e.status }); setEditId(e.id); setModal(true) }
+  async function del(id: number) { if (window.confirm('Excluir este evento?')) { await deleteEvento(id); await refresh() } }
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault()
     if (editId) await updateEvento(editId, form); else await addEvento({ ...form })
     setModal(false); await refresh()

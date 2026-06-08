@@ -1,10 +1,10 @@
-﻿import { useState, useEffect } from 'react'
+﻿import { useState, useEffect, type ReactNode, type CSSProperties } from 'react'
 import { Link } from 'react-router-dom'
 import { getPublicacoes, getCitacoes } from '../store/data'
 import useData from '../hooks/useData'
 import useScrollReveal from '../hooks/useScrollReveal'
 
-const LABELS = { livro: 'Livro', artigo: 'Artigo Acadêmico', opiniao: 'Coluna', imprensa: 'Imprensa' }
+const LABELS: Record<string, string> = { livro: 'Livro', artigo: 'Artigo Acadêmico', opiniao: 'Coluna', imprensa: 'Imprensa' }
 
 // Auto-generated styles that cycle through for each citation
 const CARD_STYLES = [
@@ -14,7 +14,7 @@ const CARD_STYLES = [
   { bg: 'bg-[#EFECE8]/90', textCol: 'text-brand-dark', border: 'border-brand-dark', quoteMark: 'text-brand-dark/10', lineCol: 'bg-brand-dark/20', nameCol: 'text-brand-dark/60' },
 ]
 
-function R({ children, className, style, delay = '' }) {
+function R({ children, className, style, delay = '' }: { children?: ReactNode; className?: string; style?: CSSProperties; delay?: string }) {
   const ref = useScrollReveal()
   return <div ref={ref} className={`reveal ${delay} ${className ? ' ' + className : ''}`} style={style}>{children}</div>
 }

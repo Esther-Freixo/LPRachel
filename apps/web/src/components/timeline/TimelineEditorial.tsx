@@ -1,20 +1,22 @@
 import { useRef, useCallback } from 'react'
 import useScrollProgress from './useScrollProgress'
 import TimelineBackdrop from './TimelineBackdrop'
+import type { TimelineItem } from './types'
 
 // Variação — Editorial "linha central, sem caixa".
 // Spine central elegante; cada marco é tipografia pura pendurada no spine por um
 // conector, alternando lados. Coeso: ativo ganha cor/escala, vizinhos suavizam
 // mas continuam legíveis. Mobile: coluna única à esquerda.
-export default function TimelineEditorial({ items }) {
+export default function TimelineEditorial({ items }: { items?: TimelineItem[] }) {
   const list = items || []
   const n = list.length
-  const movingRef = useRef(null)
-  const fillRef = useRef(null)
-  const counterRef = useRef(null)
-  const refs = useRef([])
+  const movingRef = useRef<HTMLDivElement | null>(null)
+  const fillRef = useRef<HTMLDivElement | null>(null)
+  const counterRef = useRef<HTMLSpanElement | null>(null)
+  // mapa de refs de DOM por marco/elemento — dinâmico, tipado como any de propósito
+  const refs = useRef<any[]>([])
 
-  const apply = useCallback((p) => {
+  const apply = useCallback((p: number) => {
     if (n === 0) return
     const H = window.innerHeight
     const spacing = H * 0.25
@@ -50,7 +52,7 @@ export default function TimelineEditorial({ items }) {
   const containerRef = useScrollProgress(apply)
   if (n === 0) return null
 
-  const setRef = (i, key) => (el) => {
+  const setRef = (i: number, key: string) => (el: any) => {
     if (!refs.current[i]) refs.current[i] = {}
     refs.current[i][key] = el
   }
@@ -81,7 +83,7 @@ export default function TimelineEditorial({ items }) {
 
         {/* Moving stack */}
         <div ref={movingRef} className="absolute left-0 top-0 w-full will-change-transform z-10">
-          {list.map((item, i) => {
+          {list.map((item: TimelineItem, i: number) => {
             const even = i % 2 === 0
             return (
               <div

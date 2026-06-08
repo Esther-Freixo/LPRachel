@@ -1,9 +1,9 @@
-﻿import { useState } from 'react'
+﻿import { useState, type ReactNode } from 'react'
 import { getMidias } from '../store/data'
 import useData from '../hooks/useData'
 import useScrollReveal from '../hooks/useScrollReveal'
 
-function R({ children, className, delay = '' }) {
+function R({ children, className, delay = '' }: { children?: ReactNode; className?: string; delay?: string }) {
   const ref = useScrollReveal()
   return <div ref={ref} className={`reveal ${delay} ${className || ''}`}>{children}</div>
 }
@@ -16,21 +16,21 @@ const TIPOS = [
 ]
 
 // Default thumbnails per category
-const DEFAULT_THUMBNAILS = {
+const DEFAULT_THUMBNAILS: Record<string, string> = {
   podcast: 'https://images.unsplash.com/photo-1589903308904-1010c2294adc?w=600&h=400&fit=crop&q=80',
   video: 'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=600&h=400&fit=crop&q=80',
   entrevista: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=600&h=400&fit=crop&q=80',
 }
 
 // Extract YouTube video ID
-function getYoutubeId(url) {
+function getYoutubeId(url: string) {
   if (!url) return null
   const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/)
   return match ? match[1] : null
 }
 
 // Get thumbnail: admin-uploaded > YouTube auto > category default
-function getThumbnail(item) {
+function getThumbnail(item: any) {
   if (item.thumbnail_url) return item.thumbnail_url
   const ytId = getYoutubeId(item.url)
   if (ytId) return `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`
@@ -38,7 +38,7 @@ function getThumbnail(item) {
 }
 
 // Auto-detect platform from URL
-function detectPlatforma(url) {
+function detectPlatforma(url: string) {
   if (!url) return 'outro'
   if (url.includes('spotify.com')) return 'spotify'
   if (url.includes('youtube.com') || url.includes('youtu.be')) return 'youtube'
@@ -79,7 +79,7 @@ const PLATFORM_BADGE = {
   },
 }
 
-const TIPO_LABEL = {
+const TIPO_LABEL: Record<string, string> = {
   podcast: 'Podcast',
   video: 'Vídeo',
   entrevista: 'Entrevista',
@@ -166,7 +166,7 @@ export default function Midia() {
                           src={thumbnail} 
                           alt={item.titulo}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                          onError={(e) => { e.target.src = DEFAULT_THUMBNAILS[item.tipo] || DEFAULT_THUMBNAILS.video }}
+                          onError={(e) => { (e.target as HTMLImageElement).src = DEFAULT_THUMBNAILS[item.tipo] || DEFAULT_THUMBNAILS.video }}
                         />
                         
                         {/* Overlay Gradient */}

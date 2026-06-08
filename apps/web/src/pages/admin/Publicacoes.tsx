@@ -1,16 +1,16 @@
-﻿import { useState, useEffect } from 'react'
+﻿import { useState, useEffect, type FormEvent } from 'react'
 import { getPublicacoes, addPublicacao, updatePublicacao, deletePublicacao } from '../../store/data'
 
 const TIPOS = ['livro','artigo','opiniao','imprensa']
-const LABELS = { livro:'Livro', artigo:'Artigo', opiniao:'Coluna', imprensa:'Imprensa' }
+const LABELS: Record<string, string> = { livro:'Livro', artigo:'Artigo', opiniao:'Coluna', imprensa:'Imprensa' }
 
 const EMPTY = { tipo: 'livro', titulo: '', meta: '', resumo: '', link: '' }
 
 export default function AdminPublicacoes() {
-  const [pubs, setPubs] = useState([])
+  const [pubs, setPubs] = useState<any[]>([])
   const [modal, setModal] = useState(false)
   const [form, setForm] = useState(EMPTY)
-  const [editId, setEditId] = useState(null)
+  const [editId, setEditId] = useState<number | null>(null)
   const [loading, setLoading] = useState(true)
 
   async function refresh() {
@@ -23,10 +23,10 @@ export default function AdminPublicacoes() {
   useEffect(() => { refresh() }, [])
 
   function openNew() { setForm(EMPTY); setEditId(null); setModal(true) }
-  function openEdit(p) { setForm({ tipo: p.tipo, titulo: p.titulo, meta: p.meta || '', resumo: p.resumo || '', link: p.link || '' }); setEditId(p.id); setModal(true) }
-  async function del(id) { if (window.confirm('Excluir esta publicação?')) { await deletePublicacao(id); await refresh() } }
+  function openEdit(p: any) { setForm({ tipo: p.tipo, titulo: p.titulo, meta: p.meta || '', resumo: p.resumo || '', link: p.link || '' }); setEditId(p.id); setModal(true) }
+  async function del(id: number) { if (window.confirm('Excluir esta publicação?')) { await deletePublicacao(id); await refresh() } }
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault()
     if (editId) await updatePublicacao(editId, form); else await addPublicacao({ ...form })
     setModal(false); await refresh()

@@ -12,7 +12,7 @@ export default function InsightPost() {
     </div>
   )
 
-  const post = (insights || []).find(i => i.id == id)
+  const post = (insights || []).find(i => String(i.id) === id)
 
   if (!post) {
     return (
@@ -23,7 +23,7 @@ export default function InsightPost() {
     )
   }
 
-  const media = post.mediaUrl || post.imagemUrl
+  const media = post.mediaUrl || (post as { imagemUrl?: string }).imagemUrl
   const renderMedia = () => {
     if (!media) return null
     if (media.includes('youtube.com') || media.includes('youtu.be')) {
@@ -70,7 +70,7 @@ export default function InsightPost() {
           </div>
 
           <div className="pt-8 border-t border-[#E5E5E5] flex flex-col sm:flex-row gap-4">
-            <a href={post.linkOriginal} target="_blank" rel="noopener noreferrer" className="bg-brand-red text-white text-xs uppercase tracking-widest font-bold px-8 py-4 text-center hover:bg-teal-700 transition-colors">
+            <a href={post.linkOriginal || undefined} target="_blank" rel="noopener noreferrer" className="bg-brand-red text-white text-xs uppercase tracking-widest font-bold px-8 py-4 text-center hover:bg-teal-700 transition-colors">
               Ver post original no LinkedIn ↗
             </a>
             <Link to="/agenda" className="border border-[#E5E5E5] bg-white text-brand-dark text-xs uppercase tracking-widest font-bold px-8 py-4 text-center hover:border-brand-red transition-colors">
