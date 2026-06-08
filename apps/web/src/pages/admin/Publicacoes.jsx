@@ -42,9 +42,9 @@ export default function AdminPublicacoes() {
         <button className="bg-brand-red text-white text-xs uppercase tracking-widest font-bold px-6 py-3 hover:bg-teal-700 transition-colors" onClick={openNew}>+ Nova publicação</button>
       </div>
 
-      <div className="bg-white border border-[#E5E5E5] overflow-x-auto">
-        <table className="w-full text-left border-collapse">
-          <thead>
+      <div className="bg-white border border-[#E5E5E5] md:overflow-x-auto">
+        <table className="w-full text-left border-collapse block md:table">
+          <thead className="hidden md:table-header-group">
             <tr className="bg-brand-dark text-white border-b border-brand-dark">
               <th className="p-4 text-xs uppercase tracking-widest font-bold">Tipo</th>
               <th className="p-4 text-xs uppercase tracking-widest font-bold">Título</th>
@@ -52,30 +52,30 @@ export default function AdminPublicacoes() {
               <th className="p-4 text-xs uppercase tracking-widest font-bold text-right">Ações</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="block md:table-row-group">
             {pubs.length === 0 && !loading ? (
-              <tr><td colSpan={4} className="p-8 text-center text-sm text-brand-gray">Nenhuma publicação cadastrada.</td></tr>
+              <tr className="block md:table-row"><td colSpan={4} className="block md:table-cell p-8 text-center text-sm text-brand-gray">Nenhuma publicação cadastrada.</td></tr>
             ) : pubs.map(p => (
-              <tr key={p.id} className="border-b border-[#E5E5E5] hover:bg-[#EFECE8]/30 transition-colors group">
-                <td className="p-4 align-top">
+              <tr key={p.id} className="block md:table-row border-b border-[#E5E5E5] p-4 md:p-0 hover:bg-[#EFECE8]/30 transition-colors group">
+                <td className="block md:table-cell md:p-4 md:align-top">
                   <span className="text-[10px] uppercase tracking-widest bg-[#EFECE8] text-brand-dark px-3 py-1 font-bold inline-block whitespace-nowrap">
                     {LABELS[p.tipo]||p.tipo}
                   </span>
                 </td>
-                <td className="p-4 align-top">
-                  <span className="font-bold text-brand-dark text-sm leading-relaxed block max-w-sm">{p.titulo}</span>
+                <td className="block md:table-cell mt-2 md:mt-0 md:p-4 md:align-top">
+                  <span className="font-bold text-brand-dark text-sm leading-relaxed block md:max-w-sm">{p.titulo}</span>
                   <span className="text-xs text-brand-gray mt-1 block md:hidden">{p.meta}</span>
                 </td>
-                <td className="p-4 align-top hidden md:table-cell">
+                <td className="hidden md:table-cell p-4 align-top">
                   <span className="text-xs text-brand-gray">{p.meta}</span>
                 </td>
-                <td className="p-4 align-top text-right whitespace-nowrap">
-                  <button onClick={() => openEdit(p)} className="text-[10px] uppercase tracking-widest font-bold border border-[#E5E5E5] text-brand-dark px-3 py-1.5 hover:border-brand-dark transition-colors mr-2">Editar</button>
-                  <button onClick={() => del(p.id)} className="text-[10px] uppercase tracking-widest font-bold border border-red-200 text-brand-red px-3 py-1.5 hover:bg-red-50 transition-colors">Excluir</button>
+                <td className="block md:table-cell mt-3 md:mt-0 md:p-4 md:align-top md:text-right whitespace-nowrap">
+                  <button onClick={() => openEdit(p)} className="text-[10px] uppercase tracking-widest font-bold border border-[#E5E5E5] text-brand-dark px-3 py-1.5 hover:border-brand-dark transition-colors mr-2 cursor-pointer">Editar</button>
+                  <button onClick={() => del(p.id)} className="text-[10px] uppercase tracking-widest font-bold border border-red-200 text-brand-red px-3 py-1.5 hover:bg-red-50 transition-colors cursor-pointer">Excluir</button>
                 </td>
               </tr>
             ))}
-            {loading && <tr><td colSpan={4} className="p-8 text-center text-sm text-brand-gray">Carregando...</td></tr>}
+            {loading && <tr className="block md:table-row"><td colSpan={4} className="block md:table-cell p-8 text-center text-sm text-brand-gray">Carregando...</td></tr>}
           </tbody>
         </table>
       </div>
