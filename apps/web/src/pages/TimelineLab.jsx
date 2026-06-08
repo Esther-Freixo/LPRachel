@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { getTimeline } from '../store/data'
 import useData from '../hooks/useData'
+import TimelineTrail from '../components/timeline/TimelineTrail'
 import TimelineFocus from '../components/timeline/TimelineFocus'
 import TimelineEditorial from '../components/timeline/TimelineEditorial'
 import TimelineSpineCard from '../components/timeline/TimelineSpineCard'
@@ -9,6 +10,7 @@ import TimelineHorizontal from '../components/timeline/TimelineHorizontal'
 import StickyTimelineClassic from '../components/StickyTimelineClassic'
 
 const VARIANTS = [
+  { key: 'trilha', label: 'Trilha', Comp: TimelineTrail },
   { key: 'linha', label: 'Linha', Comp: TimelineEditorial },
   { key: 'cartao', label: 'Cartão', Comp: TimelineSpineCard },
   { key: 'foco', label: 'Foco', Comp: TimelineFocus },
@@ -18,7 +20,7 @@ const VARIANTS = [
 
 export default function TimelineLab() {
   const { data: timeline } = useData(getTimeline)
-  const [active, setActive] = useState('linha')
+  const [active, setActive] = useState('trilha')
 
   useEffect(() => { window.scrollTo(0, 0) }, [active])
 
