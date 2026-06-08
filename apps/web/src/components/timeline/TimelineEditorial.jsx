@@ -123,7 +123,7 @@ export default function TimelineEditorial({ items }) {
                 >
                   <div
                     ref={setRef(i, 'year')}
-                    className="font-bold uppercase tracking-[0.18em] text-[11px] md:text-xs mb-2.5"
+                    className="font-serif italic text-lg md:text-xl tracking-wide mb-1.5"
                     style={{ color: 'rgba(28,28,28,0.4)' }}
                   >{item.ano}</div>
                   <h3
