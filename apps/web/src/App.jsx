@@ -16,6 +16,7 @@ import AdminInsights from './pages/admin/Insights'
 import AdminCitacoes from './pages/admin/Citacoes'
 import Midia from './pages/Midia'
 import AdminMidias from './pages/admin/Midias'
+import TimelineLab from './pages/TimelineLab'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -44,6 +45,9 @@ export default function App() {
 
       {/* Login */}
       <Route path="/login" element={<Login />} />
+
+      {/* Lab — comparação de variações da timeline (não linkado no site) */}
+      <Route path="/lab/timeline" element={<TimelineLab />} />
 
       {/* Admin */}
       <Route path="/admin" element={<PrivateRoute><AdminLayout /></PrivateRoute>}>
