@@ -12,7 +12,6 @@ export default function TimelineEditorial({ items }) {
   const movingRef = useRef(null)
   const fillRef = useRef(null)
   const counterRef = useRef(null)
-  const bigYearRef = useRef(null)
   const refs = useRef([])
 
   const apply = useCallback((p) => {
@@ -27,10 +26,6 @@ export default function TimelineEditorial({ items }) {
     if (fillRef.current) fillRef.current.style.transform = `scaleY(${p})`
     const ai = Math.min(n - 1, Math.max(0, Math.round(activeF)))
     if (counterRef.current) counterRef.current.textContent = String(ai + 1).padStart(2, '0')
-    if (bigYearRef.current && list[ai]) {
-      const y = (String(list[ai].ano).match(/\d{4}/) || [''])[0]
-      if (bigYearRef.current.textContent !== y) bigYearRef.current.textContent = y
-    }
 
     for (let i = 0; i < n; i++) {
       const r = refs.current[i]
@@ -64,14 +59,6 @@ export default function TimelineEditorial({ items }) {
     <div ref={containerRef} style={{ height: `${Math.max(200, n * 22)}vh` }} className="relative w-full">
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center bg-[#F4EFE8]">
         <TimelineBackdrop />
-
-        {/* Ano "fantasma" — contorno sutil, muda conforme o scroll */}
-        <div
-          ref={bigYearRef}
-          aria-hidden
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[1] font-serif leading-none pointer-events-none select-none"
-          style={{ fontSize: 'clamp(7rem, 20vw, 16rem)', color: 'transparent', WebkitTextStroke: '1px rgba(28,28,28,0.05)' }}
-        ></div>
 
         {/* Header */}
         <div className="absolute top-24 lg:top-28 left-1/2 -translate-x-1/2 text-center z-30">

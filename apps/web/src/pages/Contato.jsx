@@ -107,8 +107,8 @@ export default function Contato() {
                 
                 <div>
                   <label htmlFor="assunto" className="block text-xs uppercase tracking-widest font-bold mb-3 text-brand-dark">Assunto de interesse</label>
-                  <select id="assunto" name="assunto" required className="w-full bg-[#F7F6F3]/50 border border-[#E5E5E5] rounded-xl p-4 text-base focus:bg-white focus:border-brand-red focus:ring-4 focus:ring-brand-red/10 outline-none transition-all appearance-none cursor-pointer">
-                    <option value="" disabled selected>Selecione a área de interesse</option>
+                  <select id="assunto" name="assunto" required defaultValue="" className="w-full bg-[#F7F6F3]/50 border border-[#E5E5E5] rounded-xl p-4 text-base focus:bg-white focus:border-brand-red focus:ring-4 focus:ring-brand-red/10 outline-none transition-all appearance-none cursor-pointer">
+                    <option value="" disabled>Selecione a área de interesse</option>
                     <option value="palestra">Palestra / Evento</option>
                     <option value="curso">Curso / Formação</option>
                     <option value="imprensa">Imprensa / Mídia</option>
