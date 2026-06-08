@@ -253,20 +253,20 @@ export default function Home() {
     <main className="font-sans text-brand-dark bg-brand-bg w-full overflow-clip">
 
       {/* 1. HERO SECTION */}
-      <section className="relative flex flex-col md:flex-row min-h-[75vh] overflow-hidden bg-brand-bg">
+      <section className="relative flex flex-col lg:flex-row min-h-[85vh] lg:min-h-screen overflow-hidden bg-brand-bg">
         {/* Background Decorative Elements */}
         <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-brand-red/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 animate-float"></div>
         <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#E5E5E5]/50 rounded-full blur-3xl translate-x-1/3 translate-y-1/3 animate-float-delayed"></div>
 
         {/* Left Content */}
-        <div className="w-full md:w-1/2 px-8 py-16 md:px-16 lg:px-24 flex flex-col justify-center relative z-10 pt-24 md:pt-32">
+        <div className="w-full lg:w-1/2 px-6 sm:px-10 py-16 lg:px-16 xl:px-24 flex flex-col justify-center relative z-10 pt-28 lg:pt-32">
 
-          <R className="mb-12">
+          <R className="mb-10 sm:mb-12">
             <div className="w-12 h-12 border border-brand-dark/20 rounded-full flex items-center justify-center mb-6 bg-white/50 backdrop-blur-sm shadow-sm">
               <span className="font-serif italic text-lg">E</span>
             </div>
 
-            <h1 className="font-serif text-5xl md:text-7xl tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-brand-dark to-gray-600">
+            <h1 className="font-serif text-5xl sm:text-6xl xl:text-7xl tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-brand-dark to-gray-600 leading-[1.05]">
               Professora<br />Esther
             </h1>
             <div className="flex flex-wrap gap-2 mb-6 max-w-lg">
@@ -309,7 +309,7 @@ export default function Home() {
         </div>
 
         {/* Right Image */}
-        <div className="w-full md:w-5/12 relative h-[50vh] md:h-auto ml-auto overflow-hidden">
+        <div className="w-full lg:w-1/2 relative h-[55vh] sm:h-[65vh] lg:h-auto lg:min-h-screen ml-auto overflow-hidden">
           <div className="absolute inset-0 bg-brand-dark/10 z-10 mix-blend-multiply"></div>
           <img
             src="/hero.jpg"
@@ -320,7 +320,7 @@ export default function Home() {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-transparent to-transparent z-10"></div>
 
-          <div className="absolute bottom-8 left-8 right-8 z-20 flex flex-col sm:flex-row gap-4">
+          <div className="absolute bottom-6 left-6 right-6 sm:bottom-8 sm:left-8 sm:right-8 z-20 flex flex-col sm:flex-row gap-3 sm:gap-4">
             <Link to="/especialidades" className="flex-1 text-center bg-white/10 backdrop-blur-md border border-white/20 text-white uppercase text-xs tracking-widest font-bold py-4 hover:bg-white/20 transition-all duration-300">Conheça o Perfil</Link>
             <Link to="/agenda" className="flex-1 text-center bg-brand-red border border-brand-red text-white uppercase text-xs tracking-widest font-bold py-4 hover:bg-teal-700 shadow-[0_0_20px_rgba(0,180,166,0.4)] transition-all duration-300">Eventos e Palestras</Link>
           </div>

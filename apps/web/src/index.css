@@ -23,6 +23,30 @@ body {
   color: var(--color-brand-dark);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Editorial typography polish */
+h1, h2, h3, h4 {
+  text-wrap: balance;
+}
+p {
+  text-wrap: pretty;
+}
+.font-serif {
+  font-optical-sizing: auto;
+  letter-spacing: -0.01em;
+}
+
+::selection {
+  background-color: color-mix(in srgb, var(--color-brand-red) 22%, transparent);
+  color: var(--color-brand-dark);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-brand-red);
+  outline-offset: 2px;
 }
 
 /* Animations */
@@ -67,6 +91,23 @@ body {
 }
 .reveal.visible .timeline-line {
   animation: drawLine 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ── Accessibility: respect reduced-motion ── */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .animate-float,
+  .animate-float-delayed { animation: none !important; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }
 
 /* ── Hide Google Translate UI artifacts ── */
