@@ -3,6 +3,7 @@ import { getPublicacoes, getAgenda, getTimeline } from '../store/data'
 import useData from '../hooks/useData'
 import useScrollReveal from '../hooks/useScrollReveal'
 import TimelineEditorial from '../components/timeline/TimelineEditorial'
+import { getEventStatus } from '../lib/agenda'
 
 // Reveal Wrapper Component
 function R({ children, className, delay = '' }) {
@@ -18,22 +19,6 @@ const SmallRedIcon = () => (
     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z" /><path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" /></svg>
   </div>
 )
-
-function getEventStatus(evt) {
-  if (!evt.dia || !evt.mes) return evt.status || 'proximo';
-
-  const meses = { JAN: 0, FEV: 1, MAR: 2, ABR: 3, MAI: 4, JUN: 5, JUL: 6, AGO: 7, SET: 8, OUT: 9, NOV: 10, DEZ: 11 };
-  const evtMonth = meses[evt.mes.substring(0, 3).toUpperCase()] ?? -1;
-  if (evtMonth === -1) return evt.status || 'proximo';
-
-  const evtDay = parseInt(evt.dia, 10) || 1;
-  const nowSP = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Sao_Paulo" }));
-  const currentYear = nowSP.getFullYear();
-  const evtYear = evt.ano ? parseInt(evt.ano, 10) : currentYear;
-
-  const evtDate = new Date(evtYear, evtMonth, evtDay, 23, 59, 59);
-  return evtDate < nowSP ? 'realizado' : 'proximo';
-}
 
 export default function Home() {
   const { data: timeline } = useData(getTimeline)
