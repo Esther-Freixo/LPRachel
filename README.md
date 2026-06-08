@@ -2,7 +2,7 @@
 
 Monorepo pnpm com três pacotes:
 
-- **`apps/web`** — site institucional (React + Vite). _Convertido para TypeScript no Plano 3._
+- **`apps/web`** — site institucional (React + Vite). Páginas em JSX; a camada de dados (`store/data.ts`) e os contratos (`@rf/shared`) são TypeScript.
 - **`apps/api`** — API REST (Fastify + Prisma + PostgreSQL).
 - **`packages/shared`** — contratos/DTOs (zod) compartilhados entre `web` e `api`.
 
@@ -38,9 +38,22 @@ Smoke test: `curl http://localhost:3333/api/timeline` deve retornar 14 itens.
 ## Scripts
 
 - `pnpm dev:api` — sobe a API em watch
+- `pnpm dev:web` — sobe o site em watch (porta 5174 ou 5173)
 - `pnpm typecheck` — checagem de tipos de todos os pacotes
-- `pnpm test` — testes de todos os pacotes
+- `pnpm test` — testes unitários/integração (API + web)
 - `pnpm build` — build de shared + api + web
+
+## Testes
+
+- `pnpm test` — unidade/integração: API (vitest, banco `rachel_test` isolado) + web (vitest).
+- `pnpm --filter web test:e2e` — end-to-end (Playwright): smoke das páginas públicas, autenticação e CRUD do admin. Requer Postgres+MinIO, API e web no ar.
+
+> Os testes da API usam o banco `rachel_test`. Crie-o e migre antes da primeira execução:
+> `createdb` via container + `pnpm --filter @rf/api prisma migrate deploy` apontando `DATABASE_URL` para `rachel_test`.
+
+## Lab
+
+- `/lab/timeline` — página (não linkada) que compara variações de design da timeline da home. Útil como referência; pode ser removida antes de produção.
 
 Arquitetura: [`docs/architecture.md`](docs/architecture.md).
 Decisão de design: [`docs/superpowers/specs/2026-06-05-refatoracao-arquitetura-fundacao-design.md`](docs/superpowers/specs/2026-06-05-refatoracao-arquitetura-fundacao-design.md).
