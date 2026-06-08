@@ -4,19 +4,21 @@ import { getTimeline } from '../store/data'
 import useData from '../hooks/useData'
 import TimelineFocus from '../components/timeline/TimelineFocus'
 import TimelineEditorial from '../components/timeline/TimelineEditorial'
+import TimelineSpineCard from '../components/timeline/TimelineSpineCard'
 import TimelineHorizontal from '../components/timeline/TimelineHorizontal'
 import StickyTimelineClassic from '../components/StickyTimelineClassic'
 
 const VARIANTS = [
+  { key: 'linha', label: 'Linha', Comp: TimelineEditorial },
+  { key: 'cartao', label: 'Cartão', Comp: TimelineSpineCard },
   { key: 'foco', label: 'Foco', Comp: TimelineFocus },
-  { key: 'editorial', label: 'Editorial', Comp: TimelineEditorial },
   { key: 'horizontal', label: 'Horizontal', Comp: TimelineHorizontal },
   { key: 'atual', label: 'Atual (v1)', Comp: StickyTimelineClassic },
 ]
 
 export default function TimelineLab() {
   const { data: timeline } = useData(getTimeline)
-  const [active, setActive] = useState('foco')
+  const [active, setActive] = useState('linha')
 
   useEffect(() => { window.scrollTo(0, 0) }, [active])
 
