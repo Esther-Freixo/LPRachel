@@ -67,12 +67,12 @@ export default function TimelineSpineCard({ items }) {
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center bg-[#F4EFE8]">
         <TimelineBackdrop />
 
-        {/* Ano gigante "fantasma" — muda conforme o scroll */}
+        {/* Ano "fantasma" — contorno sutil, muda conforme o scroll */}
         <div
           ref={bigYearRef}
           aria-hidden
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[1] font-serif leading-none text-brand-dark/[0.06] pointer-events-none select-none"
-          style={{ fontSize: 'clamp(10rem, 30vw, 26rem)' }}
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[1] font-serif leading-none pointer-events-none select-none"
+          style={{ fontSize: 'clamp(7rem, 20vw, 16rem)', color: 'transparent', WebkitTextStroke: '1px rgba(28,28,28,0.05)' }}
         ></div>
 
         {/* Header */}
