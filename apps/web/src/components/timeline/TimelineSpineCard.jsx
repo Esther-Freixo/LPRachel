@@ -15,7 +15,7 @@ export default function TimelineSpineCard({ items }) {
   const apply = useCallback((p) => {
     if (n === 0) return
     const H = window.innerHeight
-    const spacing = H * 0.36
+    const spacing = H * 0.25
     const activeF = p * (n - 1)
     const centerOffset = H * 0.5 - spacing * 0.5
     if (movingRef.current) movingRef.current.style.transform = `translateY(${centerOffset - activeF * spacing}px)`
@@ -27,8 +27,8 @@ export default function TimelineSpineCard({ items }) {
       if (!r || !r.root) continue
       const d = Math.abs(i - activeF)
       const active = d < 0.5
-      r.root.style.opacity = String(Math.max(0.4, 1 - d * 0.4))
-      r.root.style.transform = `scale(${active ? 1 : Math.max(0.9, 1 - d * 0.07)})`
+      r.root.style.opacity = String(Math.max(0.58, 1 - d * 0.24))
+      r.root.style.transform = `scale(${active ? 1 : Math.max(0.95, 1 - d * 0.04)})`
       if (r.card) {
         r.card.style.backgroundColor = active ? '#FFFFFF' : 'rgba(255,255,255,0.5)'
         r.card.style.borderColor = active ? 'rgba(0,180,166,0.35)' : 'rgba(28,28,28,0.07)'
@@ -56,7 +56,7 @@ export default function TimelineSpineCard({ items }) {
   }
 
   return (
-    <div ref={containerRef} style={{ height: `${Math.max(240, n * 28)}vh` }} className="relative w-full">
+    <div ref={containerRef} style={{ height: `${Math.max(200, n * 22)}vh` }} className="relative w-full">
       <div
         className="sticky top-0 h-screen w-full overflow-hidden flex items-center"
         style={{ background: 'radial-gradient(ellipse 75% 60% at 50% 42%, rgba(0,180,166,0.05) 0%, transparent 62%), #F5F0EB' }}
@@ -88,7 +88,7 @@ export default function TimelineSpineCard({ items }) {
                 key={item.id || i}
                 ref={setRef(i, 'root')}
                 className="absolute left-0 w-full flex items-center will-change-transform"
-                style={{ top: `${i * 36}vh`, height: '36vh', opacity: 0 }}
+                style={{ top: `${i * 25}vh`, height: '25vh', opacity: 0 }}
               >
                 <div ref={setRef(i, 'node')} className="absolute left-8 md:left-1/2 top-1/2 w-3.5 h-3.5 rounded-full border-2 z-20" style={{ backgroundColor: '#F5F0EB', borderColor: 'rgba(28,28,28,0.25)', transform: 'translate(-50%, -50%)' }}></div>
                 <div ref={setRef(i, 'conn')} className={`absolute top-1/2 h-px z-10 -translate-y-1/2 w-6 left-8 md:w-8 ${even ? 'md:left-auto md:right-1/2' : 'md:left-1/2'}`} style={{ backgroundColor: 'rgba(28,28,28,0.12)' }}></div>

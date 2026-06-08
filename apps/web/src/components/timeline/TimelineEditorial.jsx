@@ -16,7 +16,7 @@ export default function TimelineEditorial({ items }) {
   const apply = useCallback((p) => {
     if (n === 0) return
     const H = window.innerHeight
-    const spacing = H * 0.36
+    const spacing = H * 0.25
     const activeF = p * (n - 1)
     const centerOffset = H * 0.5 - spacing * 0.5
     if (movingRef.current) {
@@ -30,8 +30,8 @@ export default function TimelineEditorial({ items }) {
       if (!r || !r.root) continue
       const d = Math.abs(i - activeF)
       const active = d < 0.5
-      r.root.style.opacity = String(Math.max(0.22, 1 - d * 0.42))
-      r.root.style.transform = `scale(${Math.max(0.9, 1 - d * 0.06)})`
+      r.root.style.opacity = String(Math.max(0.5, 1 - d * 0.26))
+      r.root.style.transform = `scale(${Math.max(0.95, 1 - d * 0.04)})`
       if (r.year) r.year.style.color = active ? '#00B4A6' : 'rgba(28,28,28,0.42)'
       if (r.title) r.title.style.color = active ? '#1C1C1C' : 'rgba(28,28,28,0.5)'
       if (r.rule) r.rule.style.backgroundColor = active ? '#00B4A6' : 'rgba(28,28,28,0.15)'
@@ -54,7 +54,7 @@ export default function TimelineEditorial({ items }) {
   }
 
   return (
-    <div ref={containerRef} style={{ height: `${Math.max(240, n * 28)}vh` }} className="relative w-full">
+    <div ref={containerRef} style={{ height: `${Math.max(200, n * 22)}vh` }} className="relative w-full">
       <div
         className="sticky top-0 h-screen w-full overflow-hidden flex items-center"
         style={{ background: 'radial-gradient(ellipse 75% 60% at 50% 42%, rgba(0,180,166,0.05) 0%, transparent 62%), #F5F0EB' }}
@@ -89,7 +89,7 @@ export default function TimelineEditorial({ items }) {
                 key={item.id || i}
                 ref={setRef(i, 'root')}
                 className="absolute left-0 w-full flex items-center will-change-transform"
-                style={{ top: `${i * 36}vh`, height: '36vh', opacity: 0 }}
+                style={{ top: `${i * 25}vh`, height: '25vh', opacity: 0 }}
               >
                 {/* Node on spine */}
                 <div
