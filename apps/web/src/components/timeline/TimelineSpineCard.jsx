@@ -11,6 +11,7 @@ export default function TimelineSpineCard({ items }) {
   const movingRef = useRef(null)
   const fillRef = useRef(null)
   const counterRef = useRef(null)
+  const bigYearRef = useRef(null)
   const refs = useRef([])
 
   const apply = useCallback((p) => {
@@ -21,7 +22,12 @@ export default function TimelineSpineCard({ items }) {
     const centerOffset = H * 0.5 - spacing * 0.5
     if (movingRef.current) movingRef.current.style.transform = `translateY(${centerOffset - activeF * spacing}px)`
     if (fillRef.current) fillRef.current.style.transform = `scaleY(${p})`
-    if (counterRef.current) counterRef.current.textContent = String(Math.min(n, Math.round(activeF) + 1)).padStart(2, '0')
+    const ai = Math.min(n - 1, Math.max(0, Math.round(activeF)))
+    if (counterRef.current) counterRef.current.textContent = String(ai + 1).padStart(2, '0')
+    if (bigYearRef.current && list[ai]) {
+      const y = (String(list[ai].ano).match(/\d{4}/) || [''])[0]
+      if (bigYearRef.current.textContent !== y) bigYearRef.current.textContent = y
+    }
 
     for (let i = 0; i < n; i++) {
       const r = refs.current[i]
@@ -60,6 +66,15 @@ export default function TimelineSpineCard({ items }) {
     <div ref={containerRef} style={{ height: `${Math.max(200, n * 22)}vh` }} className="relative w-full">
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center bg-[#F4EFE8]">
         <TimelineBackdrop />
+
+        {/* Ano gigante "fantasma" — muda conforme o scroll */}
+        <div
+          ref={bigYearRef}
+          aria-hidden
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[1] font-serif leading-none text-brand-dark/[0.06] pointer-events-none select-none"
+          style={{ fontSize: 'clamp(10rem, 30vw, 26rem)' }}
+        ></div>
+
         {/* Header */}
         <div className="absolute top-9 left-1/2 -translate-x-1/2 text-center z-30">
           <div className="flex items-center justify-center gap-3">
@@ -79,7 +94,7 @@ export default function TimelineSpineCard({ items }) {
         <div className="absolute left-8 md:left-1/2 top-1/2 w-8 h-8 -translate-x-1/2 -translate-y-1/2 rounded-full border border-brand-red/25 z-10"></div>
 
         {/* Moving stack */}
-        <div ref={movingRef} className="absolute left-0 top-0 w-full will-change-transform">
+        <div ref={movingRef} className="absolute left-0 top-0 w-full will-change-transform z-10">
           {list.map((item, i) => {
             const even = i % 2 === 0
             return (
