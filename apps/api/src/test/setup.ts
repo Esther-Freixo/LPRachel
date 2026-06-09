@@ -9,3 +9,6 @@ if (!process.env.DATABASE_URL_TEST) {
 
 process.env.DATABASE_URL = process.env.DATABASE_URL_TEST;
 process.env.NODE_ENV = "test";
+
+// Sem Resend nos testes — o envio vira no-op (apenas log).
+delete process.env.RESEND_API_KEY;
