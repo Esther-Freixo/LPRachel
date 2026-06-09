@@ -15,6 +15,7 @@ Mudanças notáveis do site da Professora Esther.
   - E2E (web, Playwright): smoke das páginas públicas (sem erro JS / sem overflow), mobile, health da API, autenticação e CRUD completo do admin.
 
 ### Corrigido
+- **Vite fixado na 7.3.5** (era 8.x): a 8 usa o bundler nativo Rolldown, que crashava de forma intermitente no Windows/Node 24 (`0xC0000409`). A 7 usa esbuild/Rollup e é estável. `@vitejs/plugin-react` ajustado para `^5.2.0` (compatível com Vite 7).
 - **Hero da home**: o split de 2 colunas passou de `md` para `lg` (tablet/meia-tela ganha layout empilhado, fim do aperto) e a altura passou a seguir o conteúdo (fim do vazio em telas altas).
 - **Admin**: tabelas de Publicações e Agenda viram cards empilhados no mobile (ações antes ficavam cortadas).
 - **Contato**: `<select>` usa `defaultValue` em vez de `selected` no `<option>` (remove warning do React).
