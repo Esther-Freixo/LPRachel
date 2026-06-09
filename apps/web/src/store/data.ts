@@ -76,6 +76,12 @@ export const getMidiaOembed = (url: string): Promise<{ titulo: string | null; au
 // Contato (público)
 export const sendContato = (obj: unknown): Promise<unknown> => post("/contatos", obj);
 
+// Recuperação de senha (público)
+export const esqueciSenha = (email: string): Promise<{ ok: boolean }> =>
+  post<{ ok: boolean }>("/auth/esqueci-senha", { email });
+export const redefinirSenha = (token: string, senha: string): Promise<{ ok: boolean }> =>
+  post<{ ok: boolean }>("/auth/redefinir-senha", { token, senha });
+
 // Auth
 export async function login(email: string, senha: string): Promise<boolean> {
   try {

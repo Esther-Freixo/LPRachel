@@ -1,5 +1,5 @@
 ﻿import { useState, type FormEvent } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { login } from '../store/data'
 
 export default function Login() {
@@ -60,8 +60,14 @@ export default function Login() {
             </button>
           </div>
         </form>
-        
-        <div className="mt-10 text-center">
+
+        <div className="mt-6 text-center">
+          <Link to="/esqueci-senha" className="text-xs uppercase tracking-widest font-bold text-brand-red hover:text-brand-dark transition-colors">
+            Esqueci minha senha
+          </Link>
+        </div>
+
+        <div className="mt-8 text-center">
           <a href="/" className="text-sm uppercase tracking-widest font-bold text-brand-gray border-b-2 border-transparent hover:border-brand-gray hover:text-brand-dark pb-1 transition-all">
             ← Voltar ao site
           </a>

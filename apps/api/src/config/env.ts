@@ -8,6 +8,10 @@ const envSchema = z.object({
   CORS_ORIGIN: z.string().default("http://localhost:5174"),
   ADMIN_EMAIL: z.string().email().default("rachel@exemplo.com"),
   ADMIN_SENHA: z.string().min(6).default("trocar-no-deploy"),
+  // E-mail (Resend) para recuperação de senha. Sem a key, o link é apenas logado (dev).
+  RESEND_API_KEY: z.string().optional(),
+  RESEND_FROM: z.string().default("Professora Esther <onboarding@resend.dev>"),
+  APP_URL: z.string().url().default("http://localhost:5173"),
 });
 
 export type Env = z.infer<typeof envSchema>;

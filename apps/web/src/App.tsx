@@ -7,6 +7,8 @@ import Agenda from './pages/Agenda'
 import Contato from './pages/Contato'
 import InsightPost from './pages/InsightPost'
 import Login from './pages/Login'
+import EsqueciSenha from './pages/EsqueciSenha'
+import RedefinirSenha from './pages/RedefinirSenha'
 import AdminLayout from './components/AdminLayout'
 import Dashboard from './pages/admin/Dashboard'
 import AdminPublicacoes from './pages/admin/Publicacoes'
@@ -46,8 +48,10 @@ export default function App() {
         <Route path="/insight/:id" element={<InsightPost />} />
       </Route>
 
-      {/* Login */}
+      {/* Login + recuperação de senha */}
       <Route path="/login" element={<Login />} />
+      <Route path="/esqueci-senha" element={<EsqueciSenha />} />
+      <Route path="/redefinir-senha" element={<RedefinirSenha />} />
 
       {/* Lab — comparação de variações da timeline (apenas em dev, não linkado) */}
       {import.meta.env.DEV && TimelineLab && (
