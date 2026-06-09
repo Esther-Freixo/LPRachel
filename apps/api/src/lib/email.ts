@@ -42,7 +42,7 @@ function templateResetSenha(linkReset: string): string {
 
 export async function enviarEmailResetSenha(para: string, linkReset: string): Promise<void> {
   const key = process.env.RESEND_API_KEY;
-  const from = process.env.RESEND_FROM || "Professora Esther <onboarding@resend.dev>";
+  const from = process.env.RESEND_FROM || "Professora Esther <nao-responder@rachelfreixo.com.br>";
   const html = templateResetSenha(linkReset);
 
   if (!key) {

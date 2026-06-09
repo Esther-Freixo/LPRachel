@@ -10,7 +10,7 @@ const envSchema = z.object({
   ADMIN_SENHA: z.string().min(6).default("trocar-no-deploy"),
   // E-mail (Resend) para recuperação de senha. Sem a key, o link é apenas logado (dev).
   RESEND_API_KEY: z.string().optional(),
-  RESEND_FROM: z.string().default("Professora Esther <onboarding@resend.dev>"),
+  RESEND_FROM: z.string().default("Professora Esther <nao-responder@rachelfreixo.com.br>"),
   APP_URL: z.string().url().default("http://localhost:5173"),
 });
 
